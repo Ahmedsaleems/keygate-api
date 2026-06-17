@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: keygate-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: keygate_user
+      POSTGRES_PASSWORD: keygate_password
+      POSTGRES_DB: keygate_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - keygate_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  keygate_postgres_data:

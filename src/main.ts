@@ -1,8 +1,17 @@
 import { NestFactory } from '@nestjs/core';
+import { AppConfig } from './app.config';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await app.listen(process.env.PORT ?? 3000);
+
+  const Config = app.get(AppConfig);
+
+  app.setGlobalPrefix(Config.globalPrefix);
+
+  await app.listen(Config.port);
+
+  console.log(`Service ${Config.name} is running in ${Config.environment} mode on port ${Config.port}`);
 }
-bootstrap();
+
+void bootstrap();

@@ -1,0 +1,28 @@
+app:
+  name: keygate-api
+  port: 3000
+  globalPrefix: api
+  environment: development
+
+database:
+  url: postgresql://keygate_user:keygate_password@localhost:5432/keygate_db?schema=public
+
+auth:
+  jwtSecret: change_me_to_a_long_random_secret_at_least_32_chars
+  jwtExpiresIn: 15m
+  passwordHash:
+    memoryCost: 65536
+    timeCost: 3
+    parallelism: 1
+
+apiKeys:
+  prefix: dk_live
+  hmacSecret: change_me_to_a_long_random_hmac_secret_at_least_32_chars
+  randomBytesLength: 32
+
+rateLimit:
+  defaultLimitPerHour: 100
+
+logger:
+  level: debug
+  pretty: true
