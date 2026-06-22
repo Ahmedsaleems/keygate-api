@@ -11,9 +11,13 @@ import {
 import { PrismaProjectEndpointRepository } from './infrastructure/persistence/prisma-project-endpoint.repository';
 import { PrismaProjectRepository } from './infrastructure/persistence/prisma-project.repository';
 import { ProjectsService } from './application/projects.service';
+import { ProjectEndpointsController } from './presentation/http/project-endpoint.controller';
+import { ProjectsController } from './presentation/http/project.controller';
+import { JwtAuthModule } from 'src/lib/auth/auth.module';
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, JwtAuthModule],
+  controllers: [ProjectsController, ProjectEndpointsController],
   providers: [
     {
       provide: PROJECT_REPOSITORY_PORT,
