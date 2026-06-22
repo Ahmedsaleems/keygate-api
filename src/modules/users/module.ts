@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { PasswordHashingModule } from 'src/common/application/security/module';
+import { PasswordHashingModule } from 'src/lib/security/module';
 import { RegisterUserService } from "./application/register-user.service";
 import { LoginUserService } from "./application/login-user.service";
 import { GetUserService } from "./application/get-user.service";
@@ -10,11 +10,11 @@ import {
 import {
     PASSWORD_HASHER_PORT,
     PasswordHasherPort,
-} from '../../common/application/security/password-hasher.port';
+} from '../../lib/security/password-hasher.port';
 import { PrismaUserRepository } from './infrastructure/persistence/prisma-user.repository';
-import { DatabaseModule } from 'src/common/infrastructure/database/module';
+import { DatabaseModule } from 'src/lib/database/module';
 import { AuthController } from './presentation/http/auth.controller';
-import { JwtAuthModule } from 'src/common/presentation/auth/auth.module';
+import { JwtAuthModule } from 'src/lib/auth/auth.module';
 
 
 @Module({

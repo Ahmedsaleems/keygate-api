@@ -1,4 +1,4 @@
-import { User as PrismaUser } from '../../../../common/infrastructure/prisma/generated';
+import { User as PrismaUser } from '../../../../lib/prisma/generated';
 import { User } from '../../domain/user.entity';
 import { Email } from '../../domain/email.vo';
 import { PasswordHash } from '../../domain/password-hash.vo';

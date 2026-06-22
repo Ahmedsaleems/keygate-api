@@ -6,7 +6,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { ApplicationError } from 'src/common/application/errors/application.error';
+import { ApplicationError } from 'src/lib/errors/application.error';
 import { ApplicationErrorStatusMapper } from './application-error-status.mapper';
 import { HttpErrorResponse } from './http-error-response';
 

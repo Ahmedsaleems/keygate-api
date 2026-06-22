@@ -127,7 +127,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "D:\\Work\\keygate-api\\src\\common\\infrastructure\\prisma\\generated",
+      "value": "D:\\Work\\keygate-api\\src\\lib\\prisma\\generated",
       "fromEnvVar": null
     },
     "config": {
@@ -141,7 +141,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "D:\\Work\\keygate-api\\src\\common\\infrastructure\\prisma\\schema.prisma",
+    "sourceFilePath": "D:\\Work\\keygate-api\\src\\lib\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -154,7 +154,6 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -173,8 +172,8 @@ const fs = require('fs')
 config.dirname = __dirname
 if (!fs.existsSync(path.join(__dirname, 'schema.prisma'))) {
   const alternativePaths = [
-    "src/common/infrastructure/prisma/generated",
-    "common/infrastructure/prisma/generated",
+    "src/lib/prisma/generated",
+    "lib/prisma/generated",
   ]
   
   const alternativePath = alternativePaths.find((altPath) => {
@@ -204,7 +203,7 @@ Object.assign(exports, Prisma)
 
 // file annotations for bundling tools to include these files
 path.join(__dirname, "query_engine-windows.dll.node");
-path.join(process.cwd(), "src/common/infrastructure/prisma/generated/query_engine-windows.dll.node")
+path.join(process.cwd(), "src/lib/prisma/generated/query_engine-windows.dll.node")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
-path.join(process.cwd(), "src/common/infrastructure/prisma/generated/schema.prisma")
+path.join(process.cwd(), "src/lib/prisma/generated/schema.prisma")

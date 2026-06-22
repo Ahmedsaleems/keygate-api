@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { z } from 'zod';
-import { ConfigValidationError } from './common/infrastructure/config/error';
-import { Config } from './common/infrastructure/config/config';
+import { ConfigValidationError } from './lib/config/error';
+import { Config } from './lib/config/config';
 
 const appConfigSchema = z.object({
   name: z.string().min(1),

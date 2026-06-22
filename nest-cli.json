@@ -6,7 +6,7 @@
     "deleteOutDir": true,
     "assets": [
       {
-        "include": "common/infrastructure/prisma/generated/**/*",
+        "include": "lib/prisma/generated/**/*",
         "watchAssets": true
       }
     ]

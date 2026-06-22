@@ -1,4 +1,4 @@
-import { PasswordHasherPort } from 'src/common/application/security/password-hasher.port';
+import { PasswordHasherPort } from 'src/lib/security/password-hasher.port';
 import { User } from '../domain/user.entity';
 import { Email } from '../domain/email.vo';
 import { PasswordHash } from '../domain/password-hash.vo';

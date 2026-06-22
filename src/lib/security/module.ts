@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { PASSWORD_HASHER_PORT } from '../../application/security/password-hasher.port';
+import { PASSWORD_HASHER_PORT } from '../security/password-hasher.port';
 import { Argon2PasswordHasherService } from './argon2-password-hasher.service';
 import { PasswordHashingConfig } from './password-hashing.config';
 

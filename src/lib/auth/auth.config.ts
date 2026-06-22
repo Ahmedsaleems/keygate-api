@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { z } from 'zod';
-import { ConfigValidationError } from 'src/common/infrastructure/config/error';
-import { Config } from 'src/common/infrastructure/config/config';
+import { ConfigValidationError } from 'src/lib/config/error';
+import { Config } from 'src/lib/config/config';
 
 const AuthConfigSchema = z.object({
   jwtSecret: z.string().min(32),

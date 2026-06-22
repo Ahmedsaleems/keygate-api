@@ -1,4 +1,4 @@
-import { ApplicationError } from '../../application/errors/application.error';
+import { ApplicationError } from '../errors/application.error';
 
 export abstract class DatabaseError extends ApplicationError {}
 
