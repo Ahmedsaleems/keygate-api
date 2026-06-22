@@ -28,6 +28,16 @@ export type Project = $Result.DefaultSelection<Prisma.$ProjectPayload>
  * 
  */
 export type ProjectEndpoint = $Result.DefaultSelection<Prisma.$ProjectEndpointPayload>
+/**
+ * Model ApiKey
+ * 
+ */
+export type ApiKey = $Result.DefaultSelection<Prisma.$ApiKeyPayload>
+/**
+ * Model ApiKeyEndpointPermission
+ * 
+ */
+export type ApiKeyEndpointPermission = $Result.DefaultSelection<Prisma.$ApiKeyEndpointPermissionPayload>
 
 /**
  * Enums
@@ -51,6 +61,14 @@ export const EndpointStatus: {
 
 export type EndpointStatus = (typeof EndpointStatus)[keyof typeof EndpointStatus]
 
+
+export const ApiKeyStatus: {
+  ACTIVE: 'ACTIVE',
+  REVOKED: 'REVOKED'
+};
+
+export type ApiKeyStatus = (typeof ApiKeyStatus)[keyof typeof ApiKeyStatus]
+
 }
 
 export type EndpointMethod = $Enums.EndpointMethod
@@ -60,6 +78,10 @@ export const EndpointMethod: typeof $Enums.EndpointMethod
 export type EndpointStatus = $Enums.EndpointStatus
 
 export const EndpointStatus: typeof $Enums.EndpointStatus
+
+export type ApiKeyStatus = $Enums.ApiKeyStatus
+
+export const ApiKeyStatus: typeof $Enums.ApiKeyStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -208,6 +230,26 @@ export class PrismaClient<
     * ```
     */
   get projectEndpoint(): Prisma.ProjectEndpointDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.apiKey`: Exposes CRUD operations for the **ApiKey** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ApiKeys
+    * const apiKeys = await prisma.apiKey.findMany()
+    * ```
+    */
+  get apiKey(): Prisma.ApiKeyDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.apiKeyEndpointPermission`: Exposes CRUD operations for the **ApiKeyEndpointPermission** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ApiKeyEndpointPermissions
+    * const apiKeyEndpointPermissions = await prisma.apiKeyEndpointPermission.findMany()
+    * ```
+    */
+  get apiKeyEndpointPermission(): Prisma.ApiKeyEndpointPermissionDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -651,7 +693,9 @@ export namespace Prisma {
   export const ModelName: {
     User: 'User',
     Project: 'Project',
-    ProjectEndpoint: 'ProjectEndpoint'
+    ProjectEndpoint: 'ProjectEndpoint',
+    ApiKey: 'ApiKey',
+    ApiKeyEndpointPermission: 'ApiKeyEndpointPermission'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -670,7 +714,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "project" | "projectEndpoint"
+      modelProps: "user" | "project" | "projectEndpoint" | "apiKey" | "apiKeyEndpointPermission"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -896,6 +940,154 @@ export namespace Prisma {
           }
         }
       }
+      ApiKey: {
+        payload: Prisma.$ApiKeyPayload<ExtArgs>
+        fields: Prisma.ApiKeyFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ApiKeyFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ApiKeyFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyPayload>
+          }
+          findFirst: {
+            args: Prisma.ApiKeyFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ApiKeyFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyPayload>
+          }
+          findMany: {
+            args: Prisma.ApiKeyFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyPayload>[]
+          }
+          create: {
+            args: Prisma.ApiKeyCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyPayload>
+          }
+          createMany: {
+            args: Prisma.ApiKeyCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ApiKeyCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyPayload>[]
+          }
+          delete: {
+            args: Prisma.ApiKeyDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyPayload>
+          }
+          update: {
+            args: Prisma.ApiKeyUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyPayload>
+          }
+          deleteMany: {
+            args: Prisma.ApiKeyDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ApiKeyUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ApiKeyUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyPayload>[]
+          }
+          upsert: {
+            args: Prisma.ApiKeyUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyPayload>
+          }
+          aggregate: {
+            args: Prisma.ApiKeyAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateApiKey>
+          }
+          groupBy: {
+            args: Prisma.ApiKeyGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ApiKeyGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ApiKeyCountArgs<ExtArgs>
+            result: $Utils.Optional<ApiKeyCountAggregateOutputType> | number
+          }
+        }
+      }
+      ApiKeyEndpointPermission: {
+        payload: Prisma.$ApiKeyEndpointPermissionPayload<ExtArgs>
+        fields: Prisma.ApiKeyEndpointPermissionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ApiKeyEndpointPermissionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyEndpointPermissionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ApiKeyEndpointPermissionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyEndpointPermissionPayload>
+          }
+          findFirst: {
+            args: Prisma.ApiKeyEndpointPermissionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyEndpointPermissionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ApiKeyEndpointPermissionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyEndpointPermissionPayload>
+          }
+          findMany: {
+            args: Prisma.ApiKeyEndpointPermissionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyEndpointPermissionPayload>[]
+          }
+          create: {
+            args: Prisma.ApiKeyEndpointPermissionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyEndpointPermissionPayload>
+          }
+          createMany: {
+            args: Prisma.ApiKeyEndpointPermissionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ApiKeyEndpointPermissionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyEndpointPermissionPayload>[]
+          }
+          delete: {
+            args: Prisma.ApiKeyEndpointPermissionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyEndpointPermissionPayload>
+          }
+          update: {
+            args: Prisma.ApiKeyEndpointPermissionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyEndpointPermissionPayload>
+          }
+          deleteMany: {
+            args: Prisma.ApiKeyEndpointPermissionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ApiKeyEndpointPermissionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ApiKeyEndpointPermissionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyEndpointPermissionPayload>[]
+          }
+          upsert: {
+            args: Prisma.ApiKeyEndpointPermissionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyEndpointPermissionPayload>
+          }
+          aggregate: {
+            args: Prisma.ApiKeyEndpointPermissionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateApiKeyEndpointPermission>
+          }
+          groupBy: {
+            args: Prisma.ApiKeyEndpointPermissionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ApiKeyEndpointPermissionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ApiKeyEndpointPermissionCountArgs<ExtArgs>
+            result: $Utils.Optional<ApiKeyEndpointPermissionCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -995,6 +1187,8 @@ export namespace Prisma {
     user?: UserOmit
     project?: ProjectOmit
     projectEndpoint?: ProjectEndpointOmit
+    apiKey?: ApiKeyOmit
+    apiKeyEndpointPermission?: ApiKeyEndpointPermissionOmit
   }
 
   /* Types for Logging */
@@ -1107,10 +1301,14 @@ export namespace Prisma {
 
   export type ProjectCountOutputType = {
     endpoints: number
+    apiKeys: number
+    apiKeyEndpointPermissions: number
   }
 
   export type ProjectCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     endpoints?: boolean | ProjectCountOutputTypeCountEndpointsArgs
+    apiKeys?: boolean | ProjectCountOutputTypeCountApiKeysArgs
+    apiKeyEndpointPermissions?: boolean | ProjectCountOutputTypeCountApiKeyEndpointPermissionsArgs
   }
 
   // Custom InputTypes
@@ -1129,6 +1327,82 @@ export namespace Prisma {
    */
   export type ProjectCountOutputTypeCountEndpointsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ProjectEndpointWhereInput
+  }
+
+  /**
+   * ProjectCountOutputType without action
+   */
+  export type ProjectCountOutputTypeCountApiKeysArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ApiKeyWhereInput
+  }
+
+  /**
+   * ProjectCountOutputType without action
+   */
+  export type ProjectCountOutputTypeCountApiKeyEndpointPermissionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ApiKeyEndpointPermissionWhereInput
+  }
+
+
+  /**
+   * Count Type ProjectEndpointCountOutputType
+   */
+
+  export type ProjectEndpointCountOutputType = {
+    apiKeyPermissions: number
+  }
+
+  export type ProjectEndpointCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    apiKeyPermissions?: boolean | ProjectEndpointCountOutputTypeCountApiKeyPermissionsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ProjectEndpointCountOutputType without action
+   */
+  export type ProjectEndpointCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectEndpointCountOutputType
+     */
+    select?: ProjectEndpointCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ProjectEndpointCountOutputType without action
+   */
+  export type ProjectEndpointCountOutputTypeCountApiKeyPermissionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ApiKeyEndpointPermissionWhereInput
+  }
+
+
+  /**
+   * Count Type ApiKeyCountOutputType
+   */
+
+  export type ApiKeyCountOutputType = {
+    permissions: number
+  }
+
+  export type ApiKeyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    permissions?: boolean | ApiKeyCountOutputTypeCountPermissionsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ApiKeyCountOutputType without action
+   */
+  export type ApiKeyCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKeyCountOutputType
+     */
+    select?: ApiKeyCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ApiKeyCountOutputType without action
+   */
+  export type ApiKeyCountOutputTypeCountPermissionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ApiKeyEndpointPermissionWhereInput
   }
 
 
@@ -2380,6 +2654,8 @@ export namespace Prisma {
     updatedAt?: boolean
     owner?: boolean | UserDefaultArgs<ExtArgs>
     endpoints?: boolean | Project$endpointsArgs<ExtArgs>
+    apiKeys?: boolean | Project$apiKeysArgs<ExtArgs>
+    apiKeyEndpointPermissions?: boolean | Project$apiKeyEndpointPermissionsArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["project"]>
 
@@ -2416,6 +2692,8 @@ export namespace Prisma {
   export type ProjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     owner?: boolean | UserDefaultArgs<ExtArgs>
     endpoints?: boolean | Project$endpointsArgs<ExtArgs>
+    apiKeys?: boolean | Project$apiKeysArgs<ExtArgs>
+    apiKeyEndpointPermissions?: boolean | Project$apiKeyEndpointPermissionsArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2430,6 +2708,8 @@ export namespace Prisma {
     objects: {
       owner: Prisma.$UserPayload<ExtArgs>
       endpoints: Prisma.$ProjectEndpointPayload<ExtArgs>[]
+      apiKeys: Prisma.$ApiKeyPayload<ExtArgs>[]
+      apiKeyEndpointPermissions: Prisma.$ApiKeyEndpointPermissionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2834,6 +3114,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     owner<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     endpoints<T extends Project$endpointsArgs<ExtArgs> = {}>(args?: Subset<T, Project$endpointsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectEndpointPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    apiKeys<T extends Project$apiKeysArgs<ExtArgs> = {}>(args?: Subset<T, Project$apiKeysArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    apiKeyEndpointPermissions<T extends Project$apiKeyEndpointPermissionsArgs<ExtArgs> = {}>(args?: Subset<T, Project$apiKeyEndpointPermissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApiKeyEndpointPermissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3289,6 +3571,54 @@ export namespace Prisma {
   }
 
   /**
+   * Project.apiKeys
+   */
+  export type Project$apiKeysArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKey
+     */
+    select?: ApiKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKey
+     */
+    omit?: ApiKeyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApiKeyInclude<ExtArgs> | null
+    where?: ApiKeyWhereInput
+    orderBy?: ApiKeyOrderByWithRelationInput | ApiKeyOrderByWithRelationInput[]
+    cursor?: ApiKeyWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ApiKeyScalarFieldEnum | ApiKeyScalarFieldEnum[]
+  }
+
+  /**
+   * Project.apiKeyEndpointPermissions
+   */
+  export type Project$apiKeyEndpointPermissionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKeyEndpointPermission
+     */
+    select?: ApiKeyEndpointPermissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKeyEndpointPermission
+     */
+    omit?: ApiKeyEndpointPermissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApiKeyEndpointPermissionInclude<ExtArgs> | null
+    where?: ApiKeyEndpointPermissionWhereInput
+    orderBy?: ApiKeyEndpointPermissionOrderByWithRelationInput | ApiKeyEndpointPermissionOrderByWithRelationInput[]
+    cursor?: ApiKeyEndpointPermissionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ApiKeyEndpointPermissionScalarFieldEnum | ApiKeyEndpointPermissionScalarFieldEnum[]
+  }
+
+  /**
    * Project without action
    */
   export type ProjectDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3496,6 +3826,8 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     project?: boolean | ProjectDefaultArgs<ExtArgs>
+    apiKeyPermissions?: boolean | ProjectEndpoint$apiKeyPermissionsArgs<ExtArgs>
+    _count?: boolean | ProjectEndpointCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["projectEndpoint"]>
 
   export type ProjectEndpointSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3536,6 +3868,8 @@ export namespace Prisma {
   export type ProjectEndpointOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "projectId" | "method" | "path" | "upstreamUrl" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["projectEndpoint"]>
   export type ProjectEndpointInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     project?: boolean | ProjectDefaultArgs<ExtArgs>
+    apiKeyPermissions?: boolean | ProjectEndpoint$apiKeyPermissionsArgs<ExtArgs>
+    _count?: boolean | ProjectEndpointCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProjectEndpointIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     project?: boolean | ProjectDefaultArgs<ExtArgs>
@@ -3548,6 +3882,7 @@ export namespace Prisma {
     name: "ProjectEndpoint"
     objects: {
       project: Prisma.$ProjectPayload<ExtArgs>
+      apiKeyPermissions: Prisma.$ApiKeyEndpointPermissionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3953,6 +4288,7 @@ export namespace Prisma {
   export interface Prisma__ProjectEndpointClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     project<T extends ProjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProjectDefaultArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    apiKeyPermissions<T extends ProjectEndpoint$apiKeyPermissionsArgs<ExtArgs> = {}>(args?: Subset<T, ProjectEndpoint$apiKeyPermissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApiKeyEndpointPermissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4386,6 +4722,30 @@ export namespace Prisma {
   }
 
   /**
+   * ProjectEndpoint.apiKeyPermissions
+   */
+  export type ProjectEndpoint$apiKeyPermissionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKeyEndpointPermission
+     */
+    select?: ApiKeyEndpointPermissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKeyEndpointPermission
+     */
+    omit?: ApiKeyEndpointPermissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApiKeyEndpointPermissionInclude<ExtArgs> | null
+    where?: ApiKeyEndpointPermissionWhereInput
+    orderBy?: ApiKeyEndpointPermissionOrderByWithRelationInput | ApiKeyEndpointPermissionOrderByWithRelationInput[]
+    cursor?: ApiKeyEndpointPermissionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ApiKeyEndpointPermissionScalarFieldEnum | ApiKeyEndpointPermissionScalarFieldEnum[]
+  }
+
+  /**
    * ProjectEndpoint without action
    */
   export type ProjectEndpointDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4401,6 +4761,2220 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ProjectEndpointInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ApiKey
+   */
+
+  export type AggregateApiKey = {
+    _count: ApiKeyCountAggregateOutputType | null
+    _min: ApiKeyMinAggregateOutputType | null
+    _max: ApiKeyMaxAggregateOutputType | null
+  }
+
+  export type ApiKeyMinAggregateOutputType = {
+    id: string | null
+    projectId: string | null
+    name: string | null
+    prefix: string | null
+    keyHash: string | null
+    status: $Enums.ApiKeyStatus | null
+    revokedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ApiKeyMaxAggregateOutputType = {
+    id: string | null
+    projectId: string | null
+    name: string | null
+    prefix: string | null
+    keyHash: string | null
+    status: $Enums.ApiKeyStatus | null
+    revokedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ApiKeyCountAggregateOutputType = {
+    id: number
+    projectId: number
+    name: number
+    prefix: number
+    keyHash: number
+    status: number
+    revokedAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ApiKeyMinAggregateInputType = {
+    id?: true
+    projectId?: true
+    name?: true
+    prefix?: true
+    keyHash?: true
+    status?: true
+    revokedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ApiKeyMaxAggregateInputType = {
+    id?: true
+    projectId?: true
+    name?: true
+    prefix?: true
+    keyHash?: true
+    status?: true
+    revokedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ApiKeyCountAggregateInputType = {
+    id?: true
+    projectId?: true
+    name?: true
+    prefix?: true
+    keyHash?: true
+    status?: true
+    revokedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ApiKeyAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ApiKey to aggregate.
+     */
+    where?: ApiKeyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApiKeys to fetch.
+     */
+    orderBy?: ApiKeyOrderByWithRelationInput | ApiKeyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ApiKeyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApiKeys from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApiKeys.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ApiKeys
+    **/
+    _count?: true | ApiKeyCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ApiKeyMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ApiKeyMaxAggregateInputType
+  }
+
+  export type GetApiKeyAggregateType<T extends ApiKeyAggregateArgs> = {
+        [P in keyof T & keyof AggregateApiKey]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateApiKey[P]>
+      : GetScalarType<T[P], AggregateApiKey[P]>
+  }
+
+
+
+
+  export type ApiKeyGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ApiKeyWhereInput
+    orderBy?: ApiKeyOrderByWithAggregationInput | ApiKeyOrderByWithAggregationInput[]
+    by: ApiKeyScalarFieldEnum[] | ApiKeyScalarFieldEnum
+    having?: ApiKeyScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ApiKeyCountAggregateInputType | true
+    _min?: ApiKeyMinAggregateInputType
+    _max?: ApiKeyMaxAggregateInputType
+  }
+
+  export type ApiKeyGroupByOutputType = {
+    id: string
+    projectId: string
+    name: string
+    prefix: string
+    keyHash: string
+    status: $Enums.ApiKeyStatus
+    revokedAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: ApiKeyCountAggregateOutputType | null
+    _min: ApiKeyMinAggregateOutputType | null
+    _max: ApiKeyMaxAggregateOutputType | null
+  }
+
+  type GetApiKeyGroupByPayload<T extends ApiKeyGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ApiKeyGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ApiKeyGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ApiKeyGroupByOutputType[P]>
+            : GetScalarType<T[P], ApiKeyGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ApiKeySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    projectId?: boolean
+    name?: boolean
+    prefix?: boolean
+    keyHash?: boolean
+    status?: boolean
+    revokedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    permissions?: boolean | ApiKey$permissionsArgs<ExtArgs>
+    _count?: boolean | ApiKeyCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["apiKey"]>
+
+  export type ApiKeySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    projectId?: boolean
+    name?: boolean
+    prefix?: boolean
+    keyHash?: boolean
+    status?: boolean
+    revokedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["apiKey"]>
+
+  export type ApiKeySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    projectId?: boolean
+    name?: boolean
+    prefix?: boolean
+    keyHash?: boolean
+    status?: boolean
+    revokedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["apiKey"]>
+
+  export type ApiKeySelectScalar = {
+    id?: boolean
+    projectId?: boolean
+    name?: boolean
+    prefix?: boolean
+    keyHash?: boolean
+    status?: boolean
+    revokedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ApiKeyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "projectId" | "name" | "prefix" | "keyHash" | "status" | "revokedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["apiKey"]>
+  export type ApiKeyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    permissions?: boolean | ApiKey$permissionsArgs<ExtArgs>
+    _count?: boolean | ApiKeyCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ApiKeyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }
+  export type ApiKeyIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }
+
+  export type $ApiKeyPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ApiKey"
+    objects: {
+      project: Prisma.$ProjectPayload<ExtArgs>
+      permissions: Prisma.$ApiKeyEndpointPermissionPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      projectId: string
+      name: string
+      prefix: string
+      keyHash: string
+      status: $Enums.ApiKeyStatus
+      revokedAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["apiKey"]>
+    composites: {}
+  }
+
+  type ApiKeyGetPayload<S extends boolean | null | undefined | ApiKeyDefaultArgs> = $Result.GetResult<Prisma.$ApiKeyPayload, S>
+
+  type ApiKeyCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ApiKeyFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ApiKeyCountAggregateInputType | true
+    }
+
+  export interface ApiKeyDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ApiKey'], meta: { name: 'ApiKey' } }
+    /**
+     * Find zero or one ApiKey that matches the filter.
+     * @param {ApiKeyFindUniqueArgs} args - Arguments to find a ApiKey
+     * @example
+     * // Get one ApiKey
+     * const apiKey = await prisma.apiKey.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ApiKeyFindUniqueArgs>(args: SelectSubset<T, ApiKeyFindUniqueArgs<ExtArgs>>): Prisma__ApiKeyClient<$Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ApiKey that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ApiKeyFindUniqueOrThrowArgs} args - Arguments to find a ApiKey
+     * @example
+     * // Get one ApiKey
+     * const apiKey = await prisma.apiKey.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ApiKeyFindUniqueOrThrowArgs>(args: SelectSubset<T, ApiKeyFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ApiKeyClient<$Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ApiKey that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApiKeyFindFirstArgs} args - Arguments to find a ApiKey
+     * @example
+     * // Get one ApiKey
+     * const apiKey = await prisma.apiKey.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ApiKeyFindFirstArgs>(args?: SelectSubset<T, ApiKeyFindFirstArgs<ExtArgs>>): Prisma__ApiKeyClient<$Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ApiKey that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApiKeyFindFirstOrThrowArgs} args - Arguments to find a ApiKey
+     * @example
+     * // Get one ApiKey
+     * const apiKey = await prisma.apiKey.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ApiKeyFindFirstOrThrowArgs>(args?: SelectSubset<T, ApiKeyFindFirstOrThrowArgs<ExtArgs>>): Prisma__ApiKeyClient<$Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ApiKeys that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApiKeyFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ApiKeys
+     * const apiKeys = await prisma.apiKey.findMany()
+     * 
+     * // Get first 10 ApiKeys
+     * const apiKeys = await prisma.apiKey.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const apiKeyWithIdOnly = await prisma.apiKey.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ApiKeyFindManyArgs>(args?: SelectSubset<T, ApiKeyFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ApiKey.
+     * @param {ApiKeyCreateArgs} args - Arguments to create a ApiKey.
+     * @example
+     * // Create one ApiKey
+     * const ApiKey = await prisma.apiKey.create({
+     *   data: {
+     *     // ... data to create a ApiKey
+     *   }
+     * })
+     * 
+     */
+    create<T extends ApiKeyCreateArgs>(args: SelectSubset<T, ApiKeyCreateArgs<ExtArgs>>): Prisma__ApiKeyClient<$Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ApiKeys.
+     * @param {ApiKeyCreateManyArgs} args - Arguments to create many ApiKeys.
+     * @example
+     * // Create many ApiKeys
+     * const apiKey = await prisma.apiKey.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ApiKeyCreateManyArgs>(args?: SelectSubset<T, ApiKeyCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ApiKeys and returns the data saved in the database.
+     * @param {ApiKeyCreateManyAndReturnArgs} args - Arguments to create many ApiKeys.
+     * @example
+     * // Create many ApiKeys
+     * const apiKey = await prisma.apiKey.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ApiKeys and only return the `id`
+     * const apiKeyWithIdOnly = await prisma.apiKey.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ApiKeyCreateManyAndReturnArgs>(args?: SelectSubset<T, ApiKeyCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ApiKey.
+     * @param {ApiKeyDeleteArgs} args - Arguments to delete one ApiKey.
+     * @example
+     * // Delete one ApiKey
+     * const ApiKey = await prisma.apiKey.delete({
+     *   where: {
+     *     // ... filter to delete one ApiKey
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ApiKeyDeleteArgs>(args: SelectSubset<T, ApiKeyDeleteArgs<ExtArgs>>): Prisma__ApiKeyClient<$Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ApiKey.
+     * @param {ApiKeyUpdateArgs} args - Arguments to update one ApiKey.
+     * @example
+     * // Update one ApiKey
+     * const apiKey = await prisma.apiKey.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ApiKeyUpdateArgs>(args: SelectSubset<T, ApiKeyUpdateArgs<ExtArgs>>): Prisma__ApiKeyClient<$Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ApiKeys.
+     * @param {ApiKeyDeleteManyArgs} args - Arguments to filter ApiKeys to delete.
+     * @example
+     * // Delete a few ApiKeys
+     * const { count } = await prisma.apiKey.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ApiKeyDeleteManyArgs>(args?: SelectSubset<T, ApiKeyDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ApiKeys.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApiKeyUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ApiKeys
+     * const apiKey = await prisma.apiKey.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ApiKeyUpdateManyArgs>(args: SelectSubset<T, ApiKeyUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ApiKeys and returns the data updated in the database.
+     * @param {ApiKeyUpdateManyAndReturnArgs} args - Arguments to update many ApiKeys.
+     * @example
+     * // Update many ApiKeys
+     * const apiKey = await prisma.apiKey.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ApiKeys and only return the `id`
+     * const apiKeyWithIdOnly = await prisma.apiKey.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ApiKeyUpdateManyAndReturnArgs>(args: SelectSubset<T, ApiKeyUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ApiKey.
+     * @param {ApiKeyUpsertArgs} args - Arguments to update or create a ApiKey.
+     * @example
+     * // Update or create a ApiKey
+     * const apiKey = await prisma.apiKey.upsert({
+     *   create: {
+     *     // ... data to create a ApiKey
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ApiKey we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ApiKeyUpsertArgs>(args: SelectSubset<T, ApiKeyUpsertArgs<ExtArgs>>): Prisma__ApiKeyClient<$Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ApiKeys.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApiKeyCountArgs} args - Arguments to filter ApiKeys to count.
+     * @example
+     * // Count the number of ApiKeys
+     * const count = await prisma.apiKey.count({
+     *   where: {
+     *     // ... the filter for the ApiKeys we want to count
+     *   }
+     * })
+    **/
+    count<T extends ApiKeyCountArgs>(
+      args?: Subset<T, ApiKeyCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ApiKeyCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ApiKey.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApiKeyAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ApiKeyAggregateArgs>(args: Subset<T, ApiKeyAggregateArgs>): Prisma.PrismaPromise<GetApiKeyAggregateType<T>>
+
+    /**
+     * Group by ApiKey.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApiKeyGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ApiKeyGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ApiKeyGroupByArgs['orderBy'] }
+        : { orderBy?: ApiKeyGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ApiKeyGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetApiKeyGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ApiKey model
+   */
+  readonly fields: ApiKeyFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ApiKey.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ApiKeyClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    project<T extends ProjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProjectDefaultArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    permissions<T extends ApiKey$permissionsArgs<ExtArgs> = {}>(args?: Subset<T, ApiKey$permissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApiKeyEndpointPermissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ApiKey model
+   */
+  interface ApiKeyFieldRefs {
+    readonly id: FieldRef<"ApiKey", 'String'>
+    readonly projectId: FieldRef<"ApiKey", 'String'>
+    readonly name: FieldRef<"ApiKey", 'String'>
+    readonly prefix: FieldRef<"ApiKey", 'String'>
+    readonly keyHash: FieldRef<"ApiKey", 'String'>
+    readonly status: FieldRef<"ApiKey", 'ApiKeyStatus'>
+    readonly revokedAt: FieldRef<"ApiKey", 'DateTime'>
+    readonly createdAt: FieldRef<"ApiKey", 'DateTime'>
+    readonly updatedAt: FieldRef<"ApiKey", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ApiKey findUnique
+   */
+  export type ApiKeyFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKey
+     */
+    select?: ApiKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKey
+     */
+    omit?: ApiKeyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApiKeyInclude<ExtArgs> | null
+    /**
+     * Filter, which ApiKey to fetch.
+     */
+    where: ApiKeyWhereUniqueInput
+  }
+
+  /**
+   * ApiKey findUniqueOrThrow
+   */
+  export type ApiKeyFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKey
+     */
+    select?: ApiKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKey
+     */
+    omit?: ApiKeyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApiKeyInclude<ExtArgs> | null
+    /**
+     * Filter, which ApiKey to fetch.
+     */
+    where: ApiKeyWhereUniqueInput
+  }
+
+  /**
+   * ApiKey findFirst
+   */
+  export type ApiKeyFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKey
+     */
+    select?: ApiKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKey
+     */
+    omit?: ApiKeyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApiKeyInclude<ExtArgs> | null
+    /**
+     * Filter, which ApiKey to fetch.
+     */
+    where?: ApiKeyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApiKeys to fetch.
+     */
+    orderBy?: ApiKeyOrderByWithRelationInput | ApiKeyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ApiKeys.
+     */
+    cursor?: ApiKeyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApiKeys from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApiKeys.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ApiKeys.
+     */
+    distinct?: ApiKeyScalarFieldEnum | ApiKeyScalarFieldEnum[]
+  }
+
+  /**
+   * ApiKey findFirstOrThrow
+   */
+  export type ApiKeyFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKey
+     */
+    select?: ApiKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKey
+     */
+    omit?: ApiKeyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApiKeyInclude<ExtArgs> | null
+    /**
+     * Filter, which ApiKey to fetch.
+     */
+    where?: ApiKeyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApiKeys to fetch.
+     */
+    orderBy?: ApiKeyOrderByWithRelationInput | ApiKeyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ApiKeys.
+     */
+    cursor?: ApiKeyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApiKeys from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApiKeys.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ApiKeys.
+     */
+    distinct?: ApiKeyScalarFieldEnum | ApiKeyScalarFieldEnum[]
+  }
+
+  /**
+   * ApiKey findMany
+   */
+  export type ApiKeyFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKey
+     */
+    select?: ApiKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKey
+     */
+    omit?: ApiKeyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApiKeyInclude<ExtArgs> | null
+    /**
+     * Filter, which ApiKeys to fetch.
+     */
+    where?: ApiKeyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApiKeys to fetch.
+     */
+    orderBy?: ApiKeyOrderByWithRelationInput | ApiKeyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ApiKeys.
+     */
+    cursor?: ApiKeyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApiKeys from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApiKeys.
+     */
+    skip?: number
+    distinct?: ApiKeyScalarFieldEnum | ApiKeyScalarFieldEnum[]
+  }
+
+  /**
+   * ApiKey create
+   */
+  export type ApiKeyCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKey
+     */
+    select?: ApiKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKey
+     */
+    omit?: ApiKeyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApiKeyInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ApiKey.
+     */
+    data: XOR<ApiKeyCreateInput, ApiKeyUncheckedCreateInput>
+  }
+
+  /**
+   * ApiKey createMany
+   */
+  export type ApiKeyCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ApiKeys.
+     */
+    data: ApiKeyCreateManyInput | ApiKeyCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ApiKey createManyAndReturn
+   */
+  export type ApiKeyCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKey
+     */
+    select?: ApiKeySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKey
+     */
+    omit?: ApiKeyOmit<ExtArgs> | null
+    /**
+     * The data used to create many ApiKeys.
+     */
+    data: ApiKeyCreateManyInput | ApiKeyCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApiKeyIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ApiKey update
+   */
+  export type ApiKeyUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKey
+     */
+    select?: ApiKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKey
+     */
+    omit?: ApiKeyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApiKeyInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ApiKey.
+     */
+    data: XOR<ApiKeyUpdateInput, ApiKeyUncheckedUpdateInput>
+    /**
+     * Choose, which ApiKey to update.
+     */
+    where: ApiKeyWhereUniqueInput
+  }
+
+  /**
+   * ApiKey updateMany
+   */
+  export type ApiKeyUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ApiKeys.
+     */
+    data: XOR<ApiKeyUpdateManyMutationInput, ApiKeyUncheckedUpdateManyInput>
+    /**
+     * Filter which ApiKeys to update
+     */
+    where?: ApiKeyWhereInput
+    /**
+     * Limit how many ApiKeys to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ApiKey updateManyAndReturn
+   */
+  export type ApiKeyUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKey
+     */
+    select?: ApiKeySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKey
+     */
+    omit?: ApiKeyOmit<ExtArgs> | null
+    /**
+     * The data used to update ApiKeys.
+     */
+    data: XOR<ApiKeyUpdateManyMutationInput, ApiKeyUncheckedUpdateManyInput>
+    /**
+     * Filter which ApiKeys to update
+     */
+    where?: ApiKeyWhereInput
+    /**
+     * Limit how many ApiKeys to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApiKeyIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ApiKey upsert
+   */
+  export type ApiKeyUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKey
+     */
+    select?: ApiKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKey
+     */
+    omit?: ApiKeyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApiKeyInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ApiKey to update in case it exists.
+     */
+    where: ApiKeyWhereUniqueInput
+    /**
+     * In case the ApiKey found by the `where` argument doesn't exist, create a new ApiKey with this data.
+     */
+    create: XOR<ApiKeyCreateInput, ApiKeyUncheckedCreateInput>
+    /**
+     * In case the ApiKey was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ApiKeyUpdateInput, ApiKeyUncheckedUpdateInput>
+  }
+
+  /**
+   * ApiKey delete
+   */
+  export type ApiKeyDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKey
+     */
+    select?: ApiKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKey
+     */
+    omit?: ApiKeyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApiKeyInclude<ExtArgs> | null
+    /**
+     * Filter which ApiKey to delete.
+     */
+    where: ApiKeyWhereUniqueInput
+  }
+
+  /**
+   * ApiKey deleteMany
+   */
+  export type ApiKeyDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ApiKeys to delete
+     */
+    where?: ApiKeyWhereInput
+    /**
+     * Limit how many ApiKeys to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ApiKey.permissions
+   */
+  export type ApiKey$permissionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKeyEndpointPermission
+     */
+    select?: ApiKeyEndpointPermissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKeyEndpointPermission
+     */
+    omit?: ApiKeyEndpointPermissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApiKeyEndpointPermissionInclude<ExtArgs> | null
+    where?: ApiKeyEndpointPermissionWhereInput
+    orderBy?: ApiKeyEndpointPermissionOrderByWithRelationInput | ApiKeyEndpointPermissionOrderByWithRelationInput[]
+    cursor?: ApiKeyEndpointPermissionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ApiKeyEndpointPermissionScalarFieldEnum | ApiKeyEndpointPermissionScalarFieldEnum[]
+  }
+
+  /**
+   * ApiKey without action
+   */
+  export type ApiKeyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKey
+     */
+    select?: ApiKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKey
+     */
+    omit?: ApiKeyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApiKeyInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ApiKeyEndpointPermission
+   */
+
+  export type AggregateApiKeyEndpointPermission = {
+    _count: ApiKeyEndpointPermissionCountAggregateOutputType | null
+    _min: ApiKeyEndpointPermissionMinAggregateOutputType | null
+    _max: ApiKeyEndpointPermissionMaxAggregateOutputType | null
+  }
+
+  export type ApiKeyEndpointPermissionMinAggregateOutputType = {
+    id: string | null
+    apiKeyId: string | null
+    projectId: string | null
+    endpointId: string | null
+    createdAt: Date | null
+  }
+
+  export type ApiKeyEndpointPermissionMaxAggregateOutputType = {
+    id: string | null
+    apiKeyId: string | null
+    projectId: string | null
+    endpointId: string | null
+    createdAt: Date | null
+  }
+
+  export type ApiKeyEndpointPermissionCountAggregateOutputType = {
+    id: number
+    apiKeyId: number
+    projectId: number
+    endpointId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ApiKeyEndpointPermissionMinAggregateInputType = {
+    id?: true
+    apiKeyId?: true
+    projectId?: true
+    endpointId?: true
+    createdAt?: true
+  }
+
+  export type ApiKeyEndpointPermissionMaxAggregateInputType = {
+    id?: true
+    apiKeyId?: true
+    projectId?: true
+    endpointId?: true
+    createdAt?: true
+  }
+
+  export type ApiKeyEndpointPermissionCountAggregateInputType = {
+    id?: true
+    apiKeyId?: true
+    projectId?: true
+    endpointId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ApiKeyEndpointPermissionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ApiKeyEndpointPermission to aggregate.
+     */
+    where?: ApiKeyEndpointPermissionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApiKeyEndpointPermissions to fetch.
+     */
+    orderBy?: ApiKeyEndpointPermissionOrderByWithRelationInput | ApiKeyEndpointPermissionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ApiKeyEndpointPermissionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApiKeyEndpointPermissions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApiKeyEndpointPermissions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ApiKeyEndpointPermissions
+    **/
+    _count?: true | ApiKeyEndpointPermissionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ApiKeyEndpointPermissionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ApiKeyEndpointPermissionMaxAggregateInputType
+  }
+
+  export type GetApiKeyEndpointPermissionAggregateType<T extends ApiKeyEndpointPermissionAggregateArgs> = {
+        [P in keyof T & keyof AggregateApiKeyEndpointPermission]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateApiKeyEndpointPermission[P]>
+      : GetScalarType<T[P], AggregateApiKeyEndpointPermission[P]>
+  }
+
+
+
+
+  export type ApiKeyEndpointPermissionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ApiKeyEndpointPermissionWhereInput
+    orderBy?: ApiKeyEndpointPermissionOrderByWithAggregationInput | ApiKeyEndpointPermissionOrderByWithAggregationInput[]
+    by: ApiKeyEndpointPermissionScalarFieldEnum[] | ApiKeyEndpointPermissionScalarFieldEnum
+    having?: ApiKeyEndpointPermissionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ApiKeyEndpointPermissionCountAggregateInputType | true
+    _min?: ApiKeyEndpointPermissionMinAggregateInputType
+    _max?: ApiKeyEndpointPermissionMaxAggregateInputType
+  }
+
+  export type ApiKeyEndpointPermissionGroupByOutputType = {
+    id: string
+    apiKeyId: string
+    projectId: string
+    endpointId: string
+    createdAt: Date
+    _count: ApiKeyEndpointPermissionCountAggregateOutputType | null
+    _min: ApiKeyEndpointPermissionMinAggregateOutputType | null
+    _max: ApiKeyEndpointPermissionMaxAggregateOutputType | null
+  }
+
+  type GetApiKeyEndpointPermissionGroupByPayload<T extends ApiKeyEndpointPermissionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ApiKeyEndpointPermissionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ApiKeyEndpointPermissionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ApiKeyEndpointPermissionGroupByOutputType[P]>
+            : GetScalarType<T[P], ApiKeyEndpointPermissionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ApiKeyEndpointPermissionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    apiKeyId?: boolean
+    projectId?: boolean
+    endpointId?: boolean
+    createdAt?: boolean
+    apiKey?: boolean | ApiKeyDefaultArgs<ExtArgs>
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    endpoint?: boolean | ProjectEndpointDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["apiKeyEndpointPermission"]>
+
+  export type ApiKeyEndpointPermissionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    apiKeyId?: boolean
+    projectId?: boolean
+    endpointId?: boolean
+    createdAt?: boolean
+    apiKey?: boolean | ApiKeyDefaultArgs<ExtArgs>
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    endpoint?: boolean | ProjectEndpointDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["apiKeyEndpointPermission"]>
+
+  export type ApiKeyEndpointPermissionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    apiKeyId?: boolean
+    projectId?: boolean
+    endpointId?: boolean
+    createdAt?: boolean
+    apiKey?: boolean | ApiKeyDefaultArgs<ExtArgs>
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    endpoint?: boolean | ProjectEndpointDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["apiKeyEndpointPermission"]>
+
+  export type ApiKeyEndpointPermissionSelectScalar = {
+    id?: boolean
+    apiKeyId?: boolean
+    projectId?: boolean
+    endpointId?: boolean
+    createdAt?: boolean
+  }
+
+  export type ApiKeyEndpointPermissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "apiKeyId" | "projectId" | "endpointId" | "createdAt", ExtArgs["result"]["apiKeyEndpointPermission"]>
+  export type ApiKeyEndpointPermissionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    apiKey?: boolean | ApiKeyDefaultArgs<ExtArgs>
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    endpoint?: boolean | ProjectEndpointDefaultArgs<ExtArgs>
+  }
+  export type ApiKeyEndpointPermissionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    apiKey?: boolean | ApiKeyDefaultArgs<ExtArgs>
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    endpoint?: boolean | ProjectEndpointDefaultArgs<ExtArgs>
+  }
+  export type ApiKeyEndpointPermissionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    apiKey?: boolean | ApiKeyDefaultArgs<ExtArgs>
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    endpoint?: boolean | ProjectEndpointDefaultArgs<ExtArgs>
+  }
+
+  export type $ApiKeyEndpointPermissionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ApiKeyEndpointPermission"
+    objects: {
+      apiKey: Prisma.$ApiKeyPayload<ExtArgs>
+      project: Prisma.$ProjectPayload<ExtArgs>
+      endpoint: Prisma.$ProjectEndpointPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      apiKeyId: string
+      projectId: string
+      endpointId: string
+      createdAt: Date
+    }, ExtArgs["result"]["apiKeyEndpointPermission"]>
+    composites: {}
+  }
+
+  type ApiKeyEndpointPermissionGetPayload<S extends boolean | null | undefined | ApiKeyEndpointPermissionDefaultArgs> = $Result.GetResult<Prisma.$ApiKeyEndpointPermissionPayload, S>
+
+  type ApiKeyEndpointPermissionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ApiKeyEndpointPermissionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ApiKeyEndpointPermissionCountAggregateInputType | true
+    }
+
+  export interface ApiKeyEndpointPermissionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ApiKeyEndpointPermission'], meta: { name: 'ApiKeyEndpointPermission' } }
+    /**
+     * Find zero or one ApiKeyEndpointPermission that matches the filter.
+     * @param {ApiKeyEndpointPermissionFindUniqueArgs} args - Arguments to find a ApiKeyEndpointPermission
+     * @example
+     * // Get one ApiKeyEndpointPermission
+     * const apiKeyEndpointPermission = await prisma.apiKeyEndpointPermission.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ApiKeyEndpointPermissionFindUniqueArgs>(args: SelectSubset<T, ApiKeyEndpointPermissionFindUniqueArgs<ExtArgs>>): Prisma__ApiKeyEndpointPermissionClient<$Result.GetResult<Prisma.$ApiKeyEndpointPermissionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ApiKeyEndpointPermission that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ApiKeyEndpointPermissionFindUniqueOrThrowArgs} args - Arguments to find a ApiKeyEndpointPermission
+     * @example
+     * // Get one ApiKeyEndpointPermission
+     * const apiKeyEndpointPermission = await prisma.apiKeyEndpointPermission.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ApiKeyEndpointPermissionFindUniqueOrThrowArgs>(args: SelectSubset<T, ApiKeyEndpointPermissionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ApiKeyEndpointPermissionClient<$Result.GetResult<Prisma.$ApiKeyEndpointPermissionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ApiKeyEndpointPermission that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApiKeyEndpointPermissionFindFirstArgs} args - Arguments to find a ApiKeyEndpointPermission
+     * @example
+     * // Get one ApiKeyEndpointPermission
+     * const apiKeyEndpointPermission = await prisma.apiKeyEndpointPermission.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ApiKeyEndpointPermissionFindFirstArgs>(args?: SelectSubset<T, ApiKeyEndpointPermissionFindFirstArgs<ExtArgs>>): Prisma__ApiKeyEndpointPermissionClient<$Result.GetResult<Prisma.$ApiKeyEndpointPermissionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ApiKeyEndpointPermission that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApiKeyEndpointPermissionFindFirstOrThrowArgs} args - Arguments to find a ApiKeyEndpointPermission
+     * @example
+     * // Get one ApiKeyEndpointPermission
+     * const apiKeyEndpointPermission = await prisma.apiKeyEndpointPermission.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ApiKeyEndpointPermissionFindFirstOrThrowArgs>(args?: SelectSubset<T, ApiKeyEndpointPermissionFindFirstOrThrowArgs<ExtArgs>>): Prisma__ApiKeyEndpointPermissionClient<$Result.GetResult<Prisma.$ApiKeyEndpointPermissionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ApiKeyEndpointPermissions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApiKeyEndpointPermissionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ApiKeyEndpointPermissions
+     * const apiKeyEndpointPermissions = await prisma.apiKeyEndpointPermission.findMany()
+     * 
+     * // Get first 10 ApiKeyEndpointPermissions
+     * const apiKeyEndpointPermissions = await prisma.apiKeyEndpointPermission.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const apiKeyEndpointPermissionWithIdOnly = await prisma.apiKeyEndpointPermission.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ApiKeyEndpointPermissionFindManyArgs>(args?: SelectSubset<T, ApiKeyEndpointPermissionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApiKeyEndpointPermissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ApiKeyEndpointPermission.
+     * @param {ApiKeyEndpointPermissionCreateArgs} args - Arguments to create a ApiKeyEndpointPermission.
+     * @example
+     * // Create one ApiKeyEndpointPermission
+     * const ApiKeyEndpointPermission = await prisma.apiKeyEndpointPermission.create({
+     *   data: {
+     *     // ... data to create a ApiKeyEndpointPermission
+     *   }
+     * })
+     * 
+     */
+    create<T extends ApiKeyEndpointPermissionCreateArgs>(args: SelectSubset<T, ApiKeyEndpointPermissionCreateArgs<ExtArgs>>): Prisma__ApiKeyEndpointPermissionClient<$Result.GetResult<Prisma.$ApiKeyEndpointPermissionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ApiKeyEndpointPermissions.
+     * @param {ApiKeyEndpointPermissionCreateManyArgs} args - Arguments to create many ApiKeyEndpointPermissions.
+     * @example
+     * // Create many ApiKeyEndpointPermissions
+     * const apiKeyEndpointPermission = await prisma.apiKeyEndpointPermission.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ApiKeyEndpointPermissionCreateManyArgs>(args?: SelectSubset<T, ApiKeyEndpointPermissionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ApiKeyEndpointPermissions and returns the data saved in the database.
+     * @param {ApiKeyEndpointPermissionCreateManyAndReturnArgs} args - Arguments to create many ApiKeyEndpointPermissions.
+     * @example
+     * // Create many ApiKeyEndpointPermissions
+     * const apiKeyEndpointPermission = await prisma.apiKeyEndpointPermission.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ApiKeyEndpointPermissions and only return the `id`
+     * const apiKeyEndpointPermissionWithIdOnly = await prisma.apiKeyEndpointPermission.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ApiKeyEndpointPermissionCreateManyAndReturnArgs>(args?: SelectSubset<T, ApiKeyEndpointPermissionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApiKeyEndpointPermissionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ApiKeyEndpointPermission.
+     * @param {ApiKeyEndpointPermissionDeleteArgs} args - Arguments to delete one ApiKeyEndpointPermission.
+     * @example
+     * // Delete one ApiKeyEndpointPermission
+     * const ApiKeyEndpointPermission = await prisma.apiKeyEndpointPermission.delete({
+     *   where: {
+     *     // ... filter to delete one ApiKeyEndpointPermission
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ApiKeyEndpointPermissionDeleteArgs>(args: SelectSubset<T, ApiKeyEndpointPermissionDeleteArgs<ExtArgs>>): Prisma__ApiKeyEndpointPermissionClient<$Result.GetResult<Prisma.$ApiKeyEndpointPermissionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ApiKeyEndpointPermission.
+     * @param {ApiKeyEndpointPermissionUpdateArgs} args - Arguments to update one ApiKeyEndpointPermission.
+     * @example
+     * // Update one ApiKeyEndpointPermission
+     * const apiKeyEndpointPermission = await prisma.apiKeyEndpointPermission.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ApiKeyEndpointPermissionUpdateArgs>(args: SelectSubset<T, ApiKeyEndpointPermissionUpdateArgs<ExtArgs>>): Prisma__ApiKeyEndpointPermissionClient<$Result.GetResult<Prisma.$ApiKeyEndpointPermissionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ApiKeyEndpointPermissions.
+     * @param {ApiKeyEndpointPermissionDeleteManyArgs} args - Arguments to filter ApiKeyEndpointPermissions to delete.
+     * @example
+     * // Delete a few ApiKeyEndpointPermissions
+     * const { count } = await prisma.apiKeyEndpointPermission.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ApiKeyEndpointPermissionDeleteManyArgs>(args?: SelectSubset<T, ApiKeyEndpointPermissionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ApiKeyEndpointPermissions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApiKeyEndpointPermissionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ApiKeyEndpointPermissions
+     * const apiKeyEndpointPermission = await prisma.apiKeyEndpointPermission.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ApiKeyEndpointPermissionUpdateManyArgs>(args: SelectSubset<T, ApiKeyEndpointPermissionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ApiKeyEndpointPermissions and returns the data updated in the database.
+     * @param {ApiKeyEndpointPermissionUpdateManyAndReturnArgs} args - Arguments to update many ApiKeyEndpointPermissions.
+     * @example
+     * // Update many ApiKeyEndpointPermissions
+     * const apiKeyEndpointPermission = await prisma.apiKeyEndpointPermission.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ApiKeyEndpointPermissions and only return the `id`
+     * const apiKeyEndpointPermissionWithIdOnly = await prisma.apiKeyEndpointPermission.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ApiKeyEndpointPermissionUpdateManyAndReturnArgs>(args: SelectSubset<T, ApiKeyEndpointPermissionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApiKeyEndpointPermissionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ApiKeyEndpointPermission.
+     * @param {ApiKeyEndpointPermissionUpsertArgs} args - Arguments to update or create a ApiKeyEndpointPermission.
+     * @example
+     * // Update or create a ApiKeyEndpointPermission
+     * const apiKeyEndpointPermission = await prisma.apiKeyEndpointPermission.upsert({
+     *   create: {
+     *     // ... data to create a ApiKeyEndpointPermission
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ApiKeyEndpointPermission we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ApiKeyEndpointPermissionUpsertArgs>(args: SelectSubset<T, ApiKeyEndpointPermissionUpsertArgs<ExtArgs>>): Prisma__ApiKeyEndpointPermissionClient<$Result.GetResult<Prisma.$ApiKeyEndpointPermissionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ApiKeyEndpointPermissions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApiKeyEndpointPermissionCountArgs} args - Arguments to filter ApiKeyEndpointPermissions to count.
+     * @example
+     * // Count the number of ApiKeyEndpointPermissions
+     * const count = await prisma.apiKeyEndpointPermission.count({
+     *   where: {
+     *     // ... the filter for the ApiKeyEndpointPermissions we want to count
+     *   }
+     * })
+    **/
+    count<T extends ApiKeyEndpointPermissionCountArgs>(
+      args?: Subset<T, ApiKeyEndpointPermissionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ApiKeyEndpointPermissionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ApiKeyEndpointPermission.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApiKeyEndpointPermissionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ApiKeyEndpointPermissionAggregateArgs>(args: Subset<T, ApiKeyEndpointPermissionAggregateArgs>): Prisma.PrismaPromise<GetApiKeyEndpointPermissionAggregateType<T>>
+
+    /**
+     * Group by ApiKeyEndpointPermission.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApiKeyEndpointPermissionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ApiKeyEndpointPermissionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ApiKeyEndpointPermissionGroupByArgs['orderBy'] }
+        : { orderBy?: ApiKeyEndpointPermissionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ApiKeyEndpointPermissionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetApiKeyEndpointPermissionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ApiKeyEndpointPermission model
+   */
+  readonly fields: ApiKeyEndpointPermissionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ApiKeyEndpointPermission.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ApiKeyEndpointPermissionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    apiKey<T extends ApiKeyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ApiKeyDefaultArgs<ExtArgs>>): Prisma__ApiKeyClient<$Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    project<T extends ProjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProjectDefaultArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    endpoint<T extends ProjectEndpointDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProjectEndpointDefaultArgs<ExtArgs>>): Prisma__ProjectEndpointClient<$Result.GetResult<Prisma.$ProjectEndpointPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ApiKeyEndpointPermission model
+   */
+  interface ApiKeyEndpointPermissionFieldRefs {
+    readonly id: FieldRef<"ApiKeyEndpointPermission", 'String'>
+    readonly apiKeyId: FieldRef<"ApiKeyEndpointPermission", 'String'>
+    readonly projectId: FieldRef<"ApiKeyEndpointPermission", 'String'>
+    readonly endpointId: FieldRef<"ApiKeyEndpointPermission", 'String'>
+    readonly createdAt: FieldRef<"ApiKeyEndpointPermission", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ApiKeyEndpointPermission findUnique
+   */
+  export type ApiKeyEndpointPermissionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKeyEndpointPermission
+     */
+    select?: ApiKeyEndpointPermissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKeyEndpointPermission
+     */
+    omit?: ApiKeyEndpointPermissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApiKeyEndpointPermissionInclude<ExtArgs> | null
+    /**
+     * Filter, which ApiKeyEndpointPermission to fetch.
+     */
+    where: ApiKeyEndpointPermissionWhereUniqueInput
+  }
+
+  /**
+   * ApiKeyEndpointPermission findUniqueOrThrow
+   */
+  export type ApiKeyEndpointPermissionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKeyEndpointPermission
+     */
+    select?: ApiKeyEndpointPermissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKeyEndpointPermission
+     */
+    omit?: ApiKeyEndpointPermissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApiKeyEndpointPermissionInclude<ExtArgs> | null
+    /**
+     * Filter, which ApiKeyEndpointPermission to fetch.
+     */
+    where: ApiKeyEndpointPermissionWhereUniqueInput
+  }
+
+  /**
+   * ApiKeyEndpointPermission findFirst
+   */
+  export type ApiKeyEndpointPermissionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKeyEndpointPermission
+     */
+    select?: ApiKeyEndpointPermissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKeyEndpointPermission
+     */
+    omit?: ApiKeyEndpointPermissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApiKeyEndpointPermissionInclude<ExtArgs> | null
+    /**
+     * Filter, which ApiKeyEndpointPermission to fetch.
+     */
+    where?: ApiKeyEndpointPermissionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApiKeyEndpointPermissions to fetch.
+     */
+    orderBy?: ApiKeyEndpointPermissionOrderByWithRelationInput | ApiKeyEndpointPermissionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ApiKeyEndpointPermissions.
+     */
+    cursor?: ApiKeyEndpointPermissionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApiKeyEndpointPermissions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApiKeyEndpointPermissions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ApiKeyEndpointPermissions.
+     */
+    distinct?: ApiKeyEndpointPermissionScalarFieldEnum | ApiKeyEndpointPermissionScalarFieldEnum[]
+  }
+
+  /**
+   * ApiKeyEndpointPermission findFirstOrThrow
+   */
+  export type ApiKeyEndpointPermissionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKeyEndpointPermission
+     */
+    select?: ApiKeyEndpointPermissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKeyEndpointPermission
+     */
+    omit?: ApiKeyEndpointPermissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApiKeyEndpointPermissionInclude<ExtArgs> | null
+    /**
+     * Filter, which ApiKeyEndpointPermission to fetch.
+     */
+    where?: ApiKeyEndpointPermissionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApiKeyEndpointPermissions to fetch.
+     */
+    orderBy?: ApiKeyEndpointPermissionOrderByWithRelationInput | ApiKeyEndpointPermissionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ApiKeyEndpointPermissions.
+     */
+    cursor?: ApiKeyEndpointPermissionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApiKeyEndpointPermissions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApiKeyEndpointPermissions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ApiKeyEndpointPermissions.
+     */
+    distinct?: ApiKeyEndpointPermissionScalarFieldEnum | ApiKeyEndpointPermissionScalarFieldEnum[]
+  }
+
+  /**
+   * ApiKeyEndpointPermission findMany
+   */
+  export type ApiKeyEndpointPermissionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKeyEndpointPermission
+     */
+    select?: ApiKeyEndpointPermissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKeyEndpointPermission
+     */
+    omit?: ApiKeyEndpointPermissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApiKeyEndpointPermissionInclude<ExtArgs> | null
+    /**
+     * Filter, which ApiKeyEndpointPermissions to fetch.
+     */
+    where?: ApiKeyEndpointPermissionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApiKeyEndpointPermissions to fetch.
+     */
+    orderBy?: ApiKeyEndpointPermissionOrderByWithRelationInput | ApiKeyEndpointPermissionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ApiKeyEndpointPermissions.
+     */
+    cursor?: ApiKeyEndpointPermissionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApiKeyEndpointPermissions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApiKeyEndpointPermissions.
+     */
+    skip?: number
+    distinct?: ApiKeyEndpointPermissionScalarFieldEnum | ApiKeyEndpointPermissionScalarFieldEnum[]
+  }
+
+  /**
+   * ApiKeyEndpointPermission create
+   */
+  export type ApiKeyEndpointPermissionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKeyEndpointPermission
+     */
+    select?: ApiKeyEndpointPermissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKeyEndpointPermission
+     */
+    omit?: ApiKeyEndpointPermissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApiKeyEndpointPermissionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ApiKeyEndpointPermission.
+     */
+    data: XOR<ApiKeyEndpointPermissionCreateInput, ApiKeyEndpointPermissionUncheckedCreateInput>
+  }
+
+  /**
+   * ApiKeyEndpointPermission createMany
+   */
+  export type ApiKeyEndpointPermissionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ApiKeyEndpointPermissions.
+     */
+    data: ApiKeyEndpointPermissionCreateManyInput | ApiKeyEndpointPermissionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ApiKeyEndpointPermission createManyAndReturn
+   */
+  export type ApiKeyEndpointPermissionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKeyEndpointPermission
+     */
+    select?: ApiKeyEndpointPermissionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKeyEndpointPermission
+     */
+    omit?: ApiKeyEndpointPermissionOmit<ExtArgs> | null
+    /**
+     * The data used to create many ApiKeyEndpointPermissions.
+     */
+    data: ApiKeyEndpointPermissionCreateManyInput | ApiKeyEndpointPermissionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApiKeyEndpointPermissionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ApiKeyEndpointPermission update
+   */
+  export type ApiKeyEndpointPermissionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKeyEndpointPermission
+     */
+    select?: ApiKeyEndpointPermissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKeyEndpointPermission
+     */
+    omit?: ApiKeyEndpointPermissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApiKeyEndpointPermissionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ApiKeyEndpointPermission.
+     */
+    data: XOR<ApiKeyEndpointPermissionUpdateInput, ApiKeyEndpointPermissionUncheckedUpdateInput>
+    /**
+     * Choose, which ApiKeyEndpointPermission to update.
+     */
+    where: ApiKeyEndpointPermissionWhereUniqueInput
+  }
+
+  /**
+   * ApiKeyEndpointPermission updateMany
+   */
+  export type ApiKeyEndpointPermissionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ApiKeyEndpointPermissions.
+     */
+    data: XOR<ApiKeyEndpointPermissionUpdateManyMutationInput, ApiKeyEndpointPermissionUncheckedUpdateManyInput>
+    /**
+     * Filter which ApiKeyEndpointPermissions to update
+     */
+    where?: ApiKeyEndpointPermissionWhereInput
+    /**
+     * Limit how many ApiKeyEndpointPermissions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ApiKeyEndpointPermission updateManyAndReturn
+   */
+  export type ApiKeyEndpointPermissionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKeyEndpointPermission
+     */
+    select?: ApiKeyEndpointPermissionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKeyEndpointPermission
+     */
+    omit?: ApiKeyEndpointPermissionOmit<ExtArgs> | null
+    /**
+     * The data used to update ApiKeyEndpointPermissions.
+     */
+    data: XOR<ApiKeyEndpointPermissionUpdateManyMutationInput, ApiKeyEndpointPermissionUncheckedUpdateManyInput>
+    /**
+     * Filter which ApiKeyEndpointPermissions to update
+     */
+    where?: ApiKeyEndpointPermissionWhereInput
+    /**
+     * Limit how many ApiKeyEndpointPermissions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApiKeyEndpointPermissionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ApiKeyEndpointPermission upsert
+   */
+  export type ApiKeyEndpointPermissionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKeyEndpointPermission
+     */
+    select?: ApiKeyEndpointPermissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKeyEndpointPermission
+     */
+    omit?: ApiKeyEndpointPermissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApiKeyEndpointPermissionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ApiKeyEndpointPermission to update in case it exists.
+     */
+    where: ApiKeyEndpointPermissionWhereUniqueInput
+    /**
+     * In case the ApiKeyEndpointPermission found by the `where` argument doesn't exist, create a new ApiKeyEndpointPermission with this data.
+     */
+    create: XOR<ApiKeyEndpointPermissionCreateInput, ApiKeyEndpointPermissionUncheckedCreateInput>
+    /**
+     * In case the ApiKeyEndpointPermission was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ApiKeyEndpointPermissionUpdateInput, ApiKeyEndpointPermissionUncheckedUpdateInput>
+  }
+
+  /**
+   * ApiKeyEndpointPermission delete
+   */
+  export type ApiKeyEndpointPermissionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKeyEndpointPermission
+     */
+    select?: ApiKeyEndpointPermissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKeyEndpointPermission
+     */
+    omit?: ApiKeyEndpointPermissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApiKeyEndpointPermissionInclude<ExtArgs> | null
+    /**
+     * Filter which ApiKeyEndpointPermission to delete.
+     */
+    where: ApiKeyEndpointPermissionWhereUniqueInput
+  }
+
+  /**
+   * ApiKeyEndpointPermission deleteMany
+   */
+  export type ApiKeyEndpointPermissionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ApiKeyEndpointPermissions to delete
+     */
+    where?: ApiKeyEndpointPermissionWhereInput
+    /**
+     * Limit how many ApiKeyEndpointPermissions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ApiKeyEndpointPermission without action
+   */
+  export type ApiKeyEndpointPermissionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKeyEndpointPermission
+     */
+    select?: ApiKeyEndpointPermissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKeyEndpointPermission
+     */
+    omit?: ApiKeyEndpointPermissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApiKeyEndpointPermissionInclude<ExtArgs> | null
   }
 
 
@@ -4453,6 +7027,32 @@ export namespace Prisma {
   };
 
   export type ProjectEndpointScalarFieldEnum = (typeof ProjectEndpointScalarFieldEnum)[keyof typeof ProjectEndpointScalarFieldEnum]
+
+
+  export const ApiKeyScalarFieldEnum: {
+    id: 'id',
+    projectId: 'projectId',
+    name: 'name',
+    prefix: 'prefix',
+    keyHash: 'keyHash',
+    status: 'status',
+    revokedAt: 'revokedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ApiKeyScalarFieldEnum = (typeof ApiKeyScalarFieldEnum)[keyof typeof ApiKeyScalarFieldEnum]
+
+
+  export const ApiKeyEndpointPermissionScalarFieldEnum: {
+    id: 'id',
+    apiKeyId: 'apiKeyId',
+    projectId: 'projectId',
+    endpointId: 'endpointId',
+    createdAt: 'createdAt'
+  };
+
+  export type ApiKeyEndpointPermissionScalarFieldEnum = (typeof ApiKeyEndpointPermissionScalarFieldEnum)[keyof typeof ApiKeyEndpointPermissionScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -4541,6 +7141,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'ApiKeyStatus'
+   */
+  export type EnumApiKeyStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ApiKeyStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'ApiKeyStatus[]'
+   */
+  export type ListEnumApiKeyStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ApiKeyStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -4624,6 +7238,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Project"> | Date | string
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
     endpoints?: ProjectEndpointListRelationFilter
+    apiKeys?: ApiKeyListRelationFilter
+    apiKeyEndpointPermissions?: ApiKeyEndpointPermissionListRelationFilter
   }
 
   export type ProjectOrderByWithRelationInput = {
@@ -4635,6 +7251,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     owner?: UserOrderByWithRelationInput
     endpoints?: ProjectEndpointOrderByRelationAggregateInput
+    apiKeys?: ApiKeyOrderByRelationAggregateInput
+    apiKeyEndpointPermissions?: ApiKeyEndpointPermissionOrderByRelationAggregateInput
   }
 
   export type ProjectWhereUniqueInput = Prisma.AtLeast<{
@@ -4650,6 +7268,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Project"> | Date | string
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
     endpoints?: ProjectEndpointListRelationFilter
+    apiKeys?: ApiKeyListRelationFilter
+    apiKeyEndpointPermissions?: ApiKeyEndpointPermissionListRelationFilter
   }, "id" | "ownerId_name">
 
   export type ProjectOrderByWithAggregationInput = {
@@ -4689,6 +7309,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"ProjectEndpoint"> | Date | string
     updatedAt?: DateTimeFilter<"ProjectEndpoint"> | Date | string
     project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
+    apiKeyPermissions?: ApiKeyEndpointPermissionListRelationFilter
   }
 
   export type ProjectEndpointOrderByWithRelationInput = {
@@ -4701,6 +7322,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     project?: ProjectOrderByWithRelationInput
+    apiKeyPermissions?: ApiKeyEndpointPermissionOrderByRelationAggregateInput
   }
 
   export type ProjectEndpointWhereUniqueInput = Prisma.AtLeast<{
@@ -4717,6 +7339,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"ProjectEndpoint"> | Date | string
     updatedAt?: DateTimeFilter<"ProjectEndpoint"> | Date | string
     project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
+    apiKeyPermissions?: ApiKeyEndpointPermissionListRelationFilter
   }, "id" | "projectId_method_path">
 
   export type ProjectEndpointOrderByWithAggregationInput = {
@@ -4745,6 +7368,147 @@ export namespace Prisma {
     status?: EnumEndpointStatusWithAggregatesFilter<"ProjectEndpoint"> | $Enums.EndpointStatus
     createdAt?: DateTimeWithAggregatesFilter<"ProjectEndpoint"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ProjectEndpoint"> | Date | string
+  }
+
+  export type ApiKeyWhereInput = {
+    AND?: ApiKeyWhereInput | ApiKeyWhereInput[]
+    OR?: ApiKeyWhereInput[]
+    NOT?: ApiKeyWhereInput | ApiKeyWhereInput[]
+    id?: StringFilter<"ApiKey"> | string
+    projectId?: StringFilter<"ApiKey"> | string
+    name?: StringFilter<"ApiKey"> | string
+    prefix?: StringFilter<"ApiKey"> | string
+    keyHash?: StringFilter<"ApiKey"> | string
+    status?: EnumApiKeyStatusFilter<"ApiKey"> | $Enums.ApiKeyStatus
+    revokedAt?: DateTimeNullableFilter<"ApiKey"> | Date | string | null
+    createdAt?: DateTimeFilter<"ApiKey"> | Date | string
+    updatedAt?: DateTimeFilter<"ApiKey"> | Date | string
+    project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
+    permissions?: ApiKeyEndpointPermissionListRelationFilter
+  }
+
+  export type ApiKeyOrderByWithRelationInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    name?: SortOrder
+    prefix?: SortOrder
+    keyHash?: SortOrder
+    status?: SortOrder
+    revokedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    project?: ProjectOrderByWithRelationInput
+    permissions?: ApiKeyEndpointPermissionOrderByRelationAggregateInput
+  }
+
+  export type ApiKeyWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    keyHash?: string
+    projectId_name?: ApiKeyProjectIdNameCompoundUniqueInput
+    AND?: ApiKeyWhereInput | ApiKeyWhereInput[]
+    OR?: ApiKeyWhereInput[]
+    NOT?: ApiKeyWhereInput | ApiKeyWhereInput[]
+    projectId?: StringFilter<"ApiKey"> | string
+    name?: StringFilter<"ApiKey"> | string
+    prefix?: StringFilter<"ApiKey"> | string
+    status?: EnumApiKeyStatusFilter<"ApiKey"> | $Enums.ApiKeyStatus
+    revokedAt?: DateTimeNullableFilter<"ApiKey"> | Date | string | null
+    createdAt?: DateTimeFilter<"ApiKey"> | Date | string
+    updatedAt?: DateTimeFilter<"ApiKey"> | Date | string
+    project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
+    permissions?: ApiKeyEndpointPermissionListRelationFilter
+  }, "id" | "keyHash" | "projectId_name">
+
+  export type ApiKeyOrderByWithAggregationInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    name?: SortOrder
+    prefix?: SortOrder
+    keyHash?: SortOrder
+    status?: SortOrder
+    revokedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ApiKeyCountOrderByAggregateInput
+    _max?: ApiKeyMaxOrderByAggregateInput
+    _min?: ApiKeyMinOrderByAggregateInput
+  }
+
+  export type ApiKeyScalarWhereWithAggregatesInput = {
+    AND?: ApiKeyScalarWhereWithAggregatesInput | ApiKeyScalarWhereWithAggregatesInput[]
+    OR?: ApiKeyScalarWhereWithAggregatesInput[]
+    NOT?: ApiKeyScalarWhereWithAggregatesInput | ApiKeyScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ApiKey"> | string
+    projectId?: StringWithAggregatesFilter<"ApiKey"> | string
+    name?: StringWithAggregatesFilter<"ApiKey"> | string
+    prefix?: StringWithAggregatesFilter<"ApiKey"> | string
+    keyHash?: StringWithAggregatesFilter<"ApiKey"> | string
+    status?: EnumApiKeyStatusWithAggregatesFilter<"ApiKey"> | $Enums.ApiKeyStatus
+    revokedAt?: DateTimeNullableWithAggregatesFilter<"ApiKey"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ApiKey"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ApiKey"> | Date | string
+  }
+
+  export type ApiKeyEndpointPermissionWhereInput = {
+    AND?: ApiKeyEndpointPermissionWhereInput | ApiKeyEndpointPermissionWhereInput[]
+    OR?: ApiKeyEndpointPermissionWhereInput[]
+    NOT?: ApiKeyEndpointPermissionWhereInput | ApiKeyEndpointPermissionWhereInput[]
+    id?: StringFilter<"ApiKeyEndpointPermission"> | string
+    apiKeyId?: StringFilter<"ApiKeyEndpointPermission"> | string
+    projectId?: StringFilter<"ApiKeyEndpointPermission"> | string
+    endpointId?: StringFilter<"ApiKeyEndpointPermission"> | string
+    createdAt?: DateTimeFilter<"ApiKeyEndpointPermission"> | Date | string
+    apiKey?: XOR<ApiKeyScalarRelationFilter, ApiKeyWhereInput>
+    project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
+    endpoint?: XOR<ProjectEndpointScalarRelationFilter, ProjectEndpointWhereInput>
+  }
+
+  export type ApiKeyEndpointPermissionOrderByWithRelationInput = {
+    id?: SortOrder
+    apiKeyId?: SortOrder
+    projectId?: SortOrder
+    endpointId?: SortOrder
+    createdAt?: SortOrder
+    apiKey?: ApiKeyOrderByWithRelationInput
+    project?: ProjectOrderByWithRelationInput
+    endpoint?: ProjectEndpointOrderByWithRelationInput
+  }
+
+  export type ApiKeyEndpointPermissionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    apiKeyId_endpointId?: ApiKeyEndpointPermissionApiKeyIdEndpointIdCompoundUniqueInput
+    AND?: ApiKeyEndpointPermissionWhereInput | ApiKeyEndpointPermissionWhereInput[]
+    OR?: ApiKeyEndpointPermissionWhereInput[]
+    NOT?: ApiKeyEndpointPermissionWhereInput | ApiKeyEndpointPermissionWhereInput[]
+    apiKeyId?: StringFilter<"ApiKeyEndpointPermission"> | string
+    projectId?: StringFilter<"ApiKeyEndpointPermission"> | string
+    endpointId?: StringFilter<"ApiKeyEndpointPermission"> | string
+    createdAt?: DateTimeFilter<"ApiKeyEndpointPermission"> | Date | string
+    apiKey?: XOR<ApiKeyScalarRelationFilter, ApiKeyWhereInput>
+    project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
+    endpoint?: XOR<ProjectEndpointScalarRelationFilter, ProjectEndpointWhereInput>
+  }, "id" | "apiKeyId_endpointId">
+
+  export type ApiKeyEndpointPermissionOrderByWithAggregationInput = {
+    id?: SortOrder
+    apiKeyId?: SortOrder
+    projectId?: SortOrder
+    endpointId?: SortOrder
+    createdAt?: SortOrder
+    _count?: ApiKeyEndpointPermissionCountOrderByAggregateInput
+    _max?: ApiKeyEndpointPermissionMaxOrderByAggregateInput
+    _min?: ApiKeyEndpointPermissionMinOrderByAggregateInput
+  }
+
+  export type ApiKeyEndpointPermissionScalarWhereWithAggregatesInput = {
+    AND?: ApiKeyEndpointPermissionScalarWhereWithAggregatesInput | ApiKeyEndpointPermissionScalarWhereWithAggregatesInput[]
+    OR?: ApiKeyEndpointPermissionScalarWhereWithAggregatesInput[]
+    NOT?: ApiKeyEndpointPermissionScalarWhereWithAggregatesInput | ApiKeyEndpointPermissionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ApiKeyEndpointPermission"> | string
+    apiKeyId?: StringWithAggregatesFilter<"ApiKeyEndpointPermission"> | string
+    projectId?: StringWithAggregatesFilter<"ApiKeyEndpointPermission"> | string
+    endpointId?: StringWithAggregatesFilter<"ApiKeyEndpointPermission"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ApiKeyEndpointPermission"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -4815,6 +7579,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     owner: UserCreateNestedOneWithoutProjectsInput
     endpoints?: ProjectEndpointCreateNestedManyWithoutProjectInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutProjectInput
+    apiKeyEndpointPermissions?: ApiKeyEndpointPermissionCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateInput = {
@@ -4825,6 +7591,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     endpoints?: ProjectEndpointUncheckedCreateNestedManyWithoutProjectInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutProjectInput
+    apiKeyEndpointPermissions?: ApiKeyEndpointPermissionUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUpdateInput = {
@@ -4835,6 +7603,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutProjectsNestedInput
     endpoints?: ProjectEndpointUpdateManyWithoutProjectNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutProjectNestedInput
+    apiKeyEndpointPermissions?: ApiKeyEndpointPermissionUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateInput = {
@@ -4845,6 +7615,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endpoints?: ProjectEndpointUncheckedUpdateManyWithoutProjectNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutProjectNestedInput
+    apiKeyEndpointPermissions?: ApiKeyEndpointPermissionUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectCreateManyInput = {
@@ -4882,6 +7654,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     project: ProjectCreateNestedOneWithoutEndpointsInput
+    apiKeyPermissions?: ApiKeyEndpointPermissionCreateNestedManyWithoutEndpointInput
   }
 
   export type ProjectEndpointUncheckedCreateInput = {
@@ -4893,6 +7666,7 @@ export namespace Prisma {
     status?: $Enums.EndpointStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    apiKeyPermissions?: ApiKeyEndpointPermissionUncheckedCreateNestedManyWithoutEndpointInput
   }
 
   export type ProjectEndpointUpdateInput = {
@@ -4904,6 +7678,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     project?: ProjectUpdateOneRequiredWithoutEndpointsNestedInput
+    apiKeyPermissions?: ApiKeyEndpointPermissionUpdateManyWithoutEndpointNestedInput
   }
 
   export type ProjectEndpointUncheckedUpdateInput = {
@@ -4915,6 +7690,7 @@ export namespace Prisma {
     status?: EnumEndpointStatusFieldUpdateOperationsInput | $Enums.EndpointStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    apiKeyPermissions?: ApiKeyEndpointPermissionUncheckedUpdateManyWithoutEndpointNestedInput
   }
 
   export type ProjectEndpointCreateManyInput = {
@@ -4947,6 +7723,146 @@ export namespace Prisma {
     status?: EnumEndpointStatusFieldUpdateOperationsInput | $Enums.EndpointStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApiKeyCreateInput = {
+    id?: string
+    name: string
+    prefix: string
+    keyHash: string
+    status?: $Enums.ApiKeyStatus
+    revokedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    project: ProjectCreateNestedOneWithoutApiKeysInput
+    permissions?: ApiKeyEndpointPermissionCreateNestedManyWithoutApiKeyInput
+  }
+
+  export type ApiKeyUncheckedCreateInput = {
+    id?: string
+    projectId: string
+    name: string
+    prefix: string
+    keyHash: string
+    status?: $Enums.ApiKeyStatus
+    revokedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    permissions?: ApiKeyEndpointPermissionUncheckedCreateNestedManyWithoutApiKeyInput
+  }
+
+  export type ApiKeyUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    prefix?: StringFieldUpdateOperationsInput | string
+    keyHash?: StringFieldUpdateOperationsInput | string
+    status?: EnumApiKeyStatusFieldUpdateOperationsInput | $Enums.ApiKeyStatus
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    project?: ProjectUpdateOneRequiredWithoutApiKeysNestedInput
+    permissions?: ApiKeyEndpointPermissionUpdateManyWithoutApiKeyNestedInput
+  }
+
+  export type ApiKeyUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    prefix?: StringFieldUpdateOperationsInput | string
+    keyHash?: StringFieldUpdateOperationsInput | string
+    status?: EnumApiKeyStatusFieldUpdateOperationsInput | $Enums.ApiKeyStatus
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    permissions?: ApiKeyEndpointPermissionUncheckedUpdateManyWithoutApiKeyNestedInput
+  }
+
+  export type ApiKeyCreateManyInput = {
+    id?: string
+    projectId: string
+    name: string
+    prefix: string
+    keyHash: string
+    status?: $Enums.ApiKeyStatus
+    revokedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ApiKeyUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    prefix?: StringFieldUpdateOperationsInput | string
+    keyHash?: StringFieldUpdateOperationsInput | string
+    status?: EnumApiKeyStatusFieldUpdateOperationsInput | $Enums.ApiKeyStatus
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApiKeyUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    prefix?: StringFieldUpdateOperationsInput | string
+    keyHash?: StringFieldUpdateOperationsInput | string
+    status?: EnumApiKeyStatusFieldUpdateOperationsInput | $Enums.ApiKeyStatus
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApiKeyEndpointPermissionCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    apiKey: ApiKeyCreateNestedOneWithoutPermissionsInput
+    project: ProjectCreateNestedOneWithoutApiKeyEndpointPermissionsInput
+    endpoint: ProjectEndpointCreateNestedOneWithoutApiKeyPermissionsInput
+  }
+
+  export type ApiKeyEndpointPermissionUncheckedCreateInput = {
+    id?: string
+    apiKeyId: string
+    projectId: string
+    endpointId: string
+    createdAt?: Date | string
+  }
+
+  export type ApiKeyEndpointPermissionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    apiKey?: ApiKeyUpdateOneRequiredWithoutPermissionsNestedInput
+    project?: ProjectUpdateOneRequiredWithoutApiKeyEndpointPermissionsNestedInput
+    endpoint?: ProjectEndpointUpdateOneRequiredWithoutApiKeyPermissionsNestedInput
+  }
+
+  export type ApiKeyEndpointPermissionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    apiKeyId?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    endpointId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApiKeyEndpointPermissionCreateManyInput = {
+    id?: string
+    apiKeyId: string
+    projectId: string
+    endpointId: string
+    createdAt?: Date | string
+  }
+
+  export type ApiKeyEndpointPermissionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApiKeyEndpointPermissionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    apiKeyId?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    endpointId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -5067,12 +7983,32 @@ export namespace Prisma {
     none?: ProjectEndpointWhereInput
   }
 
+  export type ApiKeyListRelationFilter = {
+    every?: ApiKeyWhereInput
+    some?: ApiKeyWhereInput
+    none?: ApiKeyWhereInput
+  }
+
+  export type ApiKeyEndpointPermissionListRelationFilter = {
+    every?: ApiKeyEndpointPermissionWhereInput
+    some?: ApiKeyEndpointPermissionWhereInput
+    none?: ApiKeyEndpointPermissionWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
   }
 
   export type ProjectEndpointOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ApiKeyOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ApiKeyEndpointPermissionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -5204,6 +8140,128 @@ export namespace Prisma {
     _max?: NestedEnumEndpointStatusFilter<$PrismaModel>
   }
 
+  export type EnumApiKeyStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ApiKeyStatus | EnumApiKeyStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ApiKeyStatus[] | ListEnumApiKeyStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ApiKeyStatus[] | ListEnumApiKeyStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumApiKeyStatusFilter<$PrismaModel> | $Enums.ApiKeyStatus
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type ApiKeyProjectIdNameCompoundUniqueInput = {
+    projectId: string
+    name: string
+  }
+
+  export type ApiKeyCountOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    name?: SortOrder
+    prefix?: SortOrder
+    keyHash?: SortOrder
+    status?: SortOrder
+    revokedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ApiKeyMaxOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    name?: SortOrder
+    prefix?: SortOrder
+    keyHash?: SortOrder
+    status?: SortOrder
+    revokedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ApiKeyMinOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    name?: SortOrder
+    prefix?: SortOrder
+    keyHash?: SortOrder
+    status?: SortOrder
+    revokedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumApiKeyStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ApiKeyStatus | EnumApiKeyStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ApiKeyStatus[] | ListEnumApiKeyStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ApiKeyStatus[] | ListEnumApiKeyStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumApiKeyStatusWithAggregatesFilter<$PrismaModel> | $Enums.ApiKeyStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumApiKeyStatusFilter<$PrismaModel>
+    _max?: NestedEnumApiKeyStatusFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type ApiKeyScalarRelationFilter = {
+    is?: ApiKeyWhereInput
+    isNot?: ApiKeyWhereInput
+  }
+
+  export type ProjectEndpointScalarRelationFilter = {
+    is?: ProjectEndpointWhereInput
+    isNot?: ProjectEndpointWhereInput
+  }
+
+  export type ApiKeyEndpointPermissionApiKeyIdEndpointIdCompoundUniqueInput = {
+    apiKeyId: string
+    endpointId: string
+  }
+
+  export type ApiKeyEndpointPermissionCountOrderByAggregateInput = {
+    id?: SortOrder
+    apiKeyId?: SortOrder
+    projectId?: SortOrder
+    endpointId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ApiKeyEndpointPermissionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    apiKeyId?: SortOrder
+    projectId?: SortOrder
+    endpointId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ApiKeyEndpointPermissionMinOrderByAggregateInput = {
+    id?: SortOrder
+    apiKeyId?: SortOrder
+    projectId?: SortOrder
+    endpointId?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type ProjectCreateNestedManyWithoutOwnerInput = {
     create?: XOR<ProjectCreateWithoutOwnerInput, ProjectUncheckedCreateWithoutOwnerInput> | ProjectCreateWithoutOwnerInput[] | ProjectUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: ProjectCreateOrConnectWithoutOwnerInput | ProjectCreateOrConnectWithoutOwnerInput[]
@@ -5267,11 +8325,39 @@ export namespace Prisma {
     connect?: ProjectEndpointWhereUniqueInput | ProjectEndpointWhereUniqueInput[]
   }
 
+  export type ApiKeyCreateNestedManyWithoutProjectInput = {
+    create?: XOR<ApiKeyCreateWithoutProjectInput, ApiKeyUncheckedCreateWithoutProjectInput> | ApiKeyCreateWithoutProjectInput[] | ApiKeyUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ApiKeyCreateOrConnectWithoutProjectInput | ApiKeyCreateOrConnectWithoutProjectInput[]
+    createMany?: ApiKeyCreateManyProjectInputEnvelope
+    connect?: ApiKeyWhereUniqueInput | ApiKeyWhereUniqueInput[]
+  }
+
+  export type ApiKeyEndpointPermissionCreateNestedManyWithoutProjectInput = {
+    create?: XOR<ApiKeyEndpointPermissionCreateWithoutProjectInput, ApiKeyEndpointPermissionUncheckedCreateWithoutProjectInput> | ApiKeyEndpointPermissionCreateWithoutProjectInput[] | ApiKeyEndpointPermissionUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ApiKeyEndpointPermissionCreateOrConnectWithoutProjectInput | ApiKeyEndpointPermissionCreateOrConnectWithoutProjectInput[]
+    createMany?: ApiKeyEndpointPermissionCreateManyProjectInputEnvelope
+    connect?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
+  }
+
   export type ProjectEndpointUncheckedCreateNestedManyWithoutProjectInput = {
     create?: XOR<ProjectEndpointCreateWithoutProjectInput, ProjectEndpointUncheckedCreateWithoutProjectInput> | ProjectEndpointCreateWithoutProjectInput[] | ProjectEndpointUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: ProjectEndpointCreateOrConnectWithoutProjectInput | ProjectEndpointCreateOrConnectWithoutProjectInput[]
     createMany?: ProjectEndpointCreateManyProjectInputEnvelope
     connect?: ProjectEndpointWhereUniqueInput | ProjectEndpointWhereUniqueInput[]
+  }
+
+  export type ApiKeyUncheckedCreateNestedManyWithoutProjectInput = {
+    create?: XOR<ApiKeyCreateWithoutProjectInput, ApiKeyUncheckedCreateWithoutProjectInput> | ApiKeyCreateWithoutProjectInput[] | ApiKeyUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ApiKeyCreateOrConnectWithoutProjectInput | ApiKeyCreateOrConnectWithoutProjectInput[]
+    createMany?: ApiKeyCreateManyProjectInputEnvelope
+    connect?: ApiKeyWhereUniqueInput | ApiKeyWhereUniqueInput[]
+  }
+
+  export type ApiKeyEndpointPermissionUncheckedCreateNestedManyWithoutProjectInput = {
+    create?: XOR<ApiKeyEndpointPermissionCreateWithoutProjectInput, ApiKeyEndpointPermissionUncheckedCreateWithoutProjectInput> | ApiKeyEndpointPermissionCreateWithoutProjectInput[] | ApiKeyEndpointPermissionUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ApiKeyEndpointPermissionCreateOrConnectWithoutProjectInput | ApiKeyEndpointPermissionCreateOrConnectWithoutProjectInput[]
+    createMany?: ApiKeyEndpointPermissionCreateManyProjectInputEnvelope
+    connect?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -5300,6 +8386,34 @@ export namespace Prisma {
     deleteMany?: ProjectEndpointScalarWhereInput | ProjectEndpointScalarWhereInput[]
   }
 
+  export type ApiKeyUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<ApiKeyCreateWithoutProjectInput, ApiKeyUncheckedCreateWithoutProjectInput> | ApiKeyCreateWithoutProjectInput[] | ApiKeyUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ApiKeyCreateOrConnectWithoutProjectInput | ApiKeyCreateOrConnectWithoutProjectInput[]
+    upsert?: ApiKeyUpsertWithWhereUniqueWithoutProjectInput | ApiKeyUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: ApiKeyCreateManyProjectInputEnvelope
+    set?: ApiKeyWhereUniqueInput | ApiKeyWhereUniqueInput[]
+    disconnect?: ApiKeyWhereUniqueInput | ApiKeyWhereUniqueInput[]
+    delete?: ApiKeyWhereUniqueInput | ApiKeyWhereUniqueInput[]
+    connect?: ApiKeyWhereUniqueInput | ApiKeyWhereUniqueInput[]
+    update?: ApiKeyUpdateWithWhereUniqueWithoutProjectInput | ApiKeyUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: ApiKeyUpdateManyWithWhereWithoutProjectInput | ApiKeyUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: ApiKeyScalarWhereInput | ApiKeyScalarWhereInput[]
+  }
+
+  export type ApiKeyEndpointPermissionUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<ApiKeyEndpointPermissionCreateWithoutProjectInput, ApiKeyEndpointPermissionUncheckedCreateWithoutProjectInput> | ApiKeyEndpointPermissionCreateWithoutProjectInput[] | ApiKeyEndpointPermissionUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ApiKeyEndpointPermissionCreateOrConnectWithoutProjectInput | ApiKeyEndpointPermissionCreateOrConnectWithoutProjectInput[]
+    upsert?: ApiKeyEndpointPermissionUpsertWithWhereUniqueWithoutProjectInput | ApiKeyEndpointPermissionUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: ApiKeyEndpointPermissionCreateManyProjectInputEnvelope
+    set?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
+    disconnect?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
+    delete?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
+    connect?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
+    update?: ApiKeyEndpointPermissionUpdateWithWhereUniqueWithoutProjectInput | ApiKeyEndpointPermissionUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: ApiKeyEndpointPermissionUpdateManyWithWhereWithoutProjectInput | ApiKeyEndpointPermissionUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: ApiKeyEndpointPermissionScalarWhereInput | ApiKeyEndpointPermissionScalarWhereInput[]
+  }
+
   export type ProjectEndpointUncheckedUpdateManyWithoutProjectNestedInput = {
     create?: XOR<ProjectEndpointCreateWithoutProjectInput, ProjectEndpointUncheckedCreateWithoutProjectInput> | ProjectEndpointCreateWithoutProjectInput[] | ProjectEndpointUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: ProjectEndpointCreateOrConnectWithoutProjectInput | ProjectEndpointCreateOrConnectWithoutProjectInput[]
@@ -5314,10 +8428,52 @@ export namespace Prisma {
     deleteMany?: ProjectEndpointScalarWhereInput | ProjectEndpointScalarWhereInput[]
   }
 
+  export type ApiKeyUncheckedUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<ApiKeyCreateWithoutProjectInput, ApiKeyUncheckedCreateWithoutProjectInput> | ApiKeyCreateWithoutProjectInput[] | ApiKeyUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ApiKeyCreateOrConnectWithoutProjectInput | ApiKeyCreateOrConnectWithoutProjectInput[]
+    upsert?: ApiKeyUpsertWithWhereUniqueWithoutProjectInput | ApiKeyUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: ApiKeyCreateManyProjectInputEnvelope
+    set?: ApiKeyWhereUniqueInput | ApiKeyWhereUniqueInput[]
+    disconnect?: ApiKeyWhereUniqueInput | ApiKeyWhereUniqueInput[]
+    delete?: ApiKeyWhereUniqueInput | ApiKeyWhereUniqueInput[]
+    connect?: ApiKeyWhereUniqueInput | ApiKeyWhereUniqueInput[]
+    update?: ApiKeyUpdateWithWhereUniqueWithoutProjectInput | ApiKeyUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: ApiKeyUpdateManyWithWhereWithoutProjectInput | ApiKeyUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: ApiKeyScalarWhereInput | ApiKeyScalarWhereInput[]
+  }
+
+  export type ApiKeyEndpointPermissionUncheckedUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<ApiKeyEndpointPermissionCreateWithoutProjectInput, ApiKeyEndpointPermissionUncheckedCreateWithoutProjectInput> | ApiKeyEndpointPermissionCreateWithoutProjectInput[] | ApiKeyEndpointPermissionUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ApiKeyEndpointPermissionCreateOrConnectWithoutProjectInput | ApiKeyEndpointPermissionCreateOrConnectWithoutProjectInput[]
+    upsert?: ApiKeyEndpointPermissionUpsertWithWhereUniqueWithoutProjectInput | ApiKeyEndpointPermissionUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: ApiKeyEndpointPermissionCreateManyProjectInputEnvelope
+    set?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
+    disconnect?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
+    delete?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
+    connect?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
+    update?: ApiKeyEndpointPermissionUpdateWithWhereUniqueWithoutProjectInput | ApiKeyEndpointPermissionUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: ApiKeyEndpointPermissionUpdateManyWithWhereWithoutProjectInput | ApiKeyEndpointPermissionUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: ApiKeyEndpointPermissionScalarWhereInput | ApiKeyEndpointPermissionScalarWhereInput[]
+  }
+
   export type ProjectCreateNestedOneWithoutEndpointsInput = {
     create?: XOR<ProjectCreateWithoutEndpointsInput, ProjectUncheckedCreateWithoutEndpointsInput>
     connectOrCreate?: ProjectCreateOrConnectWithoutEndpointsInput
     connect?: ProjectWhereUniqueInput
+  }
+
+  export type ApiKeyEndpointPermissionCreateNestedManyWithoutEndpointInput = {
+    create?: XOR<ApiKeyEndpointPermissionCreateWithoutEndpointInput, ApiKeyEndpointPermissionUncheckedCreateWithoutEndpointInput> | ApiKeyEndpointPermissionCreateWithoutEndpointInput[] | ApiKeyEndpointPermissionUncheckedCreateWithoutEndpointInput[]
+    connectOrCreate?: ApiKeyEndpointPermissionCreateOrConnectWithoutEndpointInput | ApiKeyEndpointPermissionCreateOrConnectWithoutEndpointInput[]
+    createMany?: ApiKeyEndpointPermissionCreateManyEndpointInputEnvelope
+    connect?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
+  }
+
+  export type ApiKeyEndpointPermissionUncheckedCreateNestedManyWithoutEndpointInput = {
+    create?: XOR<ApiKeyEndpointPermissionCreateWithoutEndpointInput, ApiKeyEndpointPermissionUncheckedCreateWithoutEndpointInput> | ApiKeyEndpointPermissionCreateWithoutEndpointInput[] | ApiKeyEndpointPermissionUncheckedCreateWithoutEndpointInput[]
+    connectOrCreate?: ApiKeyEndpointPermissionCreateOrConnectWithoutEndpointInput | ApiKeyEndpointPermissionCreateOrConnectWithoutEndpointInput[]
+    createMany?: ApiKeyEndpointPermissionCreateManyEndpointInputEnvelope
+    connect?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
   }
 
   export type EnumEndpointMethodFieldUpdateOperationsInput = {
@@ -5334,6 +8490,140 @@ export namespace Prisma {
     upsert?: ProjectUpsertWithoutEndpointsInput
     connect?: ProjectWhereUniqueInput
     update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutEndpointsInput, ProjectUpdateWithoutEndpointsInput>, ProjectUncheckedUpdateWithoutEndpointsInput>
+  }
+
+  export type ApiKeyEndpointPermissionUpdateManyWithoutEndpointNestedInput = {
+    create?: XOR<ApiKeyEndpointPermissionCreateWithoutEndpointInput, ApiKeyEndpointPermissionUncheckedCreateWithoutEndpointInput> | ApiKeyEndpointPermissionCreateWithoutEndpointInput[] | ApiKeyEndpointPermissionUncheckedCreateWithoutEndpointInput[]
+    connectOrCreate?: ApiKeyEndpointPermissionCreateOrConnectWithoutEndpointInput | ApiKeyEndpointPermissionCreateOrConnectWithoutEndpointInput[]
+    upsert?: ApiKeyEndpointPermissionUpsertWithWhereUniqueWithoutEndpointInput | ApiKeyEndpointPermissionUpsertWithWhereUniqueWithoutEndpointInput[]
+    createMany?: ApiKeyEndpointPermissionCreateManyEndpointInputEnvelope
+    set?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
+    disconnect?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
+    delete?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
+    connect?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
+    update?: ApiKeyEndpointPermissionUpdateWithWhereUniqueWithoutEndpointInput | ApiKeyEndpointPermissionUpdateWithWhereUniqueWithoutEndpointInput[]
+    updateMany?: ApiKeyEndpointPermissionUpdateManyWithWhereWithoutEndpointInput | ApiKeyEndpointPermissionUpdateManyWithWhereWithoutEndpointInput[]
+    deleteMany?: ApiKeyEndpointPermissionScalarWhereInput | ApiKeyEndpointPermissionScalarWhereInput[]
+  }
+
+  export type ApiKeyEndpointPermissionUncheckedUpdateManyWithoutEndpointNestedInput = {
+    create?: XOR<ApiKeyEndpointPermissionCreateWithoutEndpointInput, ApiKeyEndpointPermissionUncheckedCreateWithoutEndpointInput> | ApiKeyEndpointPermissionCreateWithoutEndpointInput[] | ApiKeyEndpointPermissionUncheckedCreateWithoutEndpointInput[]
+    connectOrCreate?: ApiKeyEndpointPermissionCreateOrConnectWithoutEndpointInput | ApiKeyEndpointPermissionCreateOrConnectWithoutEndpointInput[]
+    upsert?: ApiKeyEndpointPermissionUpsertWithWhereUniqueWithoutEndpointInput | ApiKeyEndpointPermissionUpsertWithWhereUniqueWithoutEndpointInput[]
+    createMany?: ApiKeyEndpointPermissionCreateManyEndpointInputEnvelope
+    set?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
+    disconnect?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
+    delete?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
+    connect?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
+    update?: ApiKeyEndpointPermissionUpdateWithWhereUniqueWithoutEndpointInput | ApiKeyEndpointPermissionUpdateWithWhereUniqueWithoutEndpointInput[]
+    updateMany?: ApiKeyEndpointPermissionUpdateManyWithWhereWithoutEndpointInput | ApiKeyEndpointPermissionUpdateManyWithWhereWithoutEndpointInput[]
+    deleteMany?: ApiKeyEndpointPermissionScalarWhereInput | ApiKeyEndpointPermissionScalarWhereInput[]
+  }
+
+  export type ProjectCreateNestedOneWithoutApiKeysInput = {
+    create?: XOR<ProjectCreateWithoutApiKeysInput, ProjectUncheckedCreateWithoutApiKeysInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutApiKeysInput
+    connect?: ProjectWhereUniqueInput
+  }
+
+  export type ApiKeyEndpointPermissionCreateNestedManyWithoutApiKeyInput = {
+    create?: XOR<ApiKeyEndpointPermissionCreateWithoutApiKeyInput, ApiKeyEndpointPermissionUncheckedCreateWithoutApiKeyInput> | ApiKeyEndpointPermissionCreateWithoutApiKeyInput[] | ApiKeyEndpointPermissionUncheckedCreateWithoutApiKeyInput[]
+    connectOrCreate?: ApiKeyEndpointPermissionCreateOrConnectWithoutApiKeyInput | ApiKeyEndpointPermissionCreateOrConnectWithoutApiKeyInput[]
+    createMany?: ApiKeyEndpointPermissionCreateManyApiKeyInputEnvelope
+    connect?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
+  }
+
+  export type ApiKeyEndpointPermissionUncheckedCreateNestedManyWithoutApiKeyInput = {
+    create?: XOR<ApiKeyEndpointPermissionCreateWithoutApiKeyInput, ApiKeyEndpointPermissionUncheckedCreateWithoutApiKeyInput> | ApiKeyEndpointPermissionCreateWithoutApiKeyInput[] | ApiKeyEndpointPermissionUncheckedCreateWithoutApiKeyInput[]
+    connectOrCreate?: ApiKeyEndpointPermissionCreateOrConnectWithoutApiKeyInput | ApiKeyEndpointPermissionCreateOrConnectWithoutApiKeyInput[]
+    createMany?: ApiKeyEndpointPermissionCreateManyApiKeyInputEnvelope
+    connect?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
+  }
+
+  export type EnumApiKeyStatusFieldUpdateOperationsInput = {
+    set?: $Enums.ApiKeyStatus
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type ProjectUpdateOneRequiredWithoutApiKeysNestedInput = {
+    create?: XOR<ProjectCreateWithoutApiKeysInput, ProjectUncheckedCreateWithoutApiKeysInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutApiKeysInput
+    upsert?: ProjectUpsertWithoutApiKeysInput
+    connect?: ProjectWhereUniqueInput
+    update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutApiKeysInput, ProjectUpdateWithoutApiKeysInput>, ProjectUncheckedUpdateWithoutApiKeysInput>
+  }
+
+  export type ApiKeyEndpointPermissionUpdateManyWithoutApiKeyNestedInput = {
+    create?: XOR<ApiKeyEndpointPermissionCreateWithoutApiKeyInput, ApiKeyEndpointPermissionUncheckedCreateWithoutApiKeyInput> | ApiKeyEndpointPermissionCreateWithoutApiKeyInput[] | ApiKeyEndpointPermissionUncheckedCreateWithoutApiKeyInput[]
+    connectOrCreate?: ApiKeyEndpointPermissionCreateOrConnectWithoutApiKeyInput | ApiKeyEndpointPermissionCreateOrConnectWithoutApiKeyInput[]
+    upsert?: ApiKeyEndpointPermissionUpsertWithWhereUniqueWithoutApiKeyInput | ApiKeyEndpointPermissionUpsertWithWhereUniqueWithoutApiKeyInput[]
+    createMany?: ApiKeyEndpointPermissionCreateManyApiKeyInputEnvelope
+    set?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
+    disconnect?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
+    delete?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
+    connect?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
+    update?: ApiKeyEndpointPermissionUpdateWithWhereUniqueWithoutApiKeyInput | ApiKeyEndpointPermissionUpdateWithWhereUniqueWithoutApiKeyInput[]
+    updateMany?: ApiKeyEndpointPermissionUpdateManyWithWhereWithoutApiKeyInput | ApiKeyEndpointPermissionUpdateManyWithWhereWithoutApiKeyInput[]
+    deleteMany?: ApiKeyEndpointPermissionScalarWhereInput | ApiKeyEndpointPermissionScalarWhereInput[]
+  }
+
+  export type ApiKeyEndpointPermissionUncheckedUpdateManyWithoutApiKeyNestedInput = {
+    create?: XOR<ApiKeyEndpointPermissionCreateWithoutApiKeyInput, ApiKeyEndpointPermissionUncheckedCreateWithoutApiKeyInput> | ApiKeyEndpointPermissionCreateWithoutApiKeyInput[] | ApiKeyEndpointPermissionUncheckedCreateWithoutApiKeyInput[]
+    connectOrCreate?: ApiKeyEndpointPermissionCreateOrConnectWithoutApiKeyInput | ApiKeyEndpointPermissionCreateOrConnectWithoutApiKeyInput[]
+    upsert?: ApiKeyEndpointPermissionUpsertWithWhereUniqueWithoutApiKeyInput | ApiKeyEndpointPermissionUpsertWithWhereUniqueWithoutApiKeyInput[]
+    createMany?: ApiKeyEndpointPermissionCreateManyApiKeyInputEnvelope
+    set?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
+    disconnect?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
+    delete?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
+    connect?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
+    update?: ApiKeyEndpointPermissionUpdateWithWhereUniqueWithoutApiKeyInput | ApiKeyEndpointPermissionUpdateWithWhereUniqueWithoutApiKeyInput[]
+    updateMany?: ApiKeyEndpointPermissionUpdateManyWithWhereWithoutApiKeyInput | ApiKeyEndpointPermissionUpdateManyWithWhereWithoutApiKeyInput[]
+    deleteMany?: ApiKeyEndpointPermissionScalarWhereInput | ApiKeyEndpointPermissionScalarWhereInput[]
+  }
+
+  export type ApiKeyCreateNestedOneWithoutPermissionsInput = {
+    create?: XOR<ApiKeyCreateWithoutPermissionsInput, ApiKeyUncheckedCreateWithoutPermissionsInput>
+    connectOrCreate?: ApiKeyCreateOrConnectWithoutPermissionsInput
+    connect?: ApiKeyWhereUniqueInput
+  }
+
+  export type ProjectCreateNestedOneWithoutApiKeyEndpointPermissionsInput = {
+    create?: XOR<ProjectCreateWithoutApiKeyEndpointPermissionsInput, ProjectUncheckedCreateWithoutApiKeyEndpointPermissionsInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutApiKeyEndpointPermissionsInput
+    connect?: ProjectWhereUniqueInput
+  }
+
+  export type ProjectEndpointCreateNestedOneWithoutApiKeyPermissionsInput = {
+    create?: XOR<ProjectEndpointCreateWithoutApiKeyPermissionsInput, ProjectEndpointUncheckedCreateWithoutApiKeyPermissionsInput>
+    connectOrCreate?: ProjectEndpointCreateOrConnectWithoutApiKeyPermissionsInput
+    connect?: ProjectEndpointWhereUniqueInput
+  }
+
+  export type ApiKeyUpdateOneRequiredWithoutPermissionsNestedInput = {
+    create?: XOR<ApiKeyCreateWithoutPermissionsInput, ApiKeyUncheckedCreateWithoutPermissionsInput>
+    connectOrCreate?: ApiKeyCreateOrConnectWithoutPermissionsInput
+    upsert?: ApiKeyUpsertWithoutPermissionsInput
+    connect?: ApiKeyWhereUniqueInput
+    update?: XOR<XOR<ApiKeyUpdateToOneWithWhereWithoutPermissionsInput, ApiKeyUpdateWithoutPermissionsInput>, ApiKeyUncheckedUpdateWithoutPermissionsInput>
+  }
+
+  export type ProjectUpdateOneRequiredWithoutApiKeyEndpointPermissionsNestedInput = {
+    create?: XOR<ProjectCreateWithoutApiKeyEndpointPermissionsInput, ProjectUncheckedCreateWithoutApiKeyEndpointPermissionsInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutApiKeyEndpointPermissionsInput
+    upsert?: ProjectUpsertWithoutApiKeyEndpointPermissionsInput
+    connect?: ProjectWhereUniqueInput
+    update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutApiKeyEndpointPermissionsInput, ProjectUpdateWithoutApiKeyEndpointPermissionsInput>, ProjectUncheckedUpdateWithoutApiKeyEndpointPermissionsInput>
+  }
+
+  export type ProjectEndpointUpdateOneRequiredWithoutApiKeyPermissionsNestedInput = {
+    create?: XOR<ProjectEndpointCreateWithoutApiKeyPermissionsInput, ProjectEndpointUncheckedCreateWithoutApiKeyPermissionsInput>
+    connectOrCreate?: ProjectEndpointCreateOrConnectWithoutApiKeyPermissionsInput
+    upsert?: ProjectEndpointUpsertWithoutApiKeyPermissionsInput
+    connect?: ProjectEndpointWhereUniqueInput
+    update?: XOR<XOR<ProjectEndpointUpdateToOneWithWhereWithoutApiKeyPermissionsInput, ProjectEndpointUpdateWithoutApiKeyPermissionsInput>, ProjectEndpointUncheckedUpdateWithoutApiKeyPermissionsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -5479,6 +8769,48 @@ export namespace Prisma {
     _max?: NestedEnumEndpointStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumApiKeyStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ApiKeyStatus | EnumApiKeyStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ApiKeyStatus[] | ListEnumApiKeyStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ApiKeyStatus[] | ListEnumApiKeyStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumApiKeyStatusFilter<$PrismaModel> | $Enums.ApiKeyStatus
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedEnumApiKeyStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ApiKeyStatus | EnumApiKeyStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ApiKeyStatus[] | ListEnumApiKeyStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ApiKeyStatus[] | ListEnumApiKeyStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumApiKeyStatusWithAggregatesFilter<$PrismaModel> | $Enums.ApiKeyStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumApiKeyStatusFilter<$PrismaModel>
+    _max?: NestedEnumApiKeyStatusFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type ProjectCreateWithoutOwnerInput = {
     id?: string
     name: string
@@ -5486,6 +8818,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     endpoints?: ProjectEndpointCreateNestedManyWithoutProjectInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutProjectInput
+    apiKeyEndpointPermissions?: ApiKeyEndpointPermissionCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutOwnerInput = {
@@ -5495,6 +8829,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     endpoints?: ProjectEndpointUncheckedCreateNestedManyWithoutProjectInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutProjectInput
+    apiKeyEndpointPermissions?: ApiKeyEndpointPermissionUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutOwnerInput = {
@@ -5564,6 +8900,7 @@ export namespace Prisma {
     status?: $Enums.EndpointStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    apiKeyPermissions?: ApiKeyEndpointPermissionCreateNestedManyWithoutEndpointInput
   }
 
   export type ProjectEndpointUncheckedCreateWithoutProjectInput = {
@@ -5574,6 +8911,7 @@ export namespace Prisma {
     status?: $Enums.EndpointStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    apiKeyPermissions?: ApiKeyEndpointPermissionUncheckedCreateNestedManyWithoutEndpointInput
   }
 
   export type ProjectEndpointCreateOrConnectWithoutProjectInput = {
@@ -5583,6 +8921,64 @@ export namespace Prisma {
 
   export type ProjectEndpointCreateManyProjectInputEnvelope = {
     data: ProjectEndpointCreateManyProjectInput | ProjectEndpointCreateManyProjectInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ApiKeyCreateWithoutProjectInput = {
+    id?: string
+    name: string
+    prefix: string
+    keyHash: string
+    status?: $Enums.ApiKeyStatus
+    revokedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    permissions?: ApiKeyEndpointPermissionCreateNestedManyWithoutApiKeyInput
+  }
+
+  export type ApiKeyUncheckedCreateWithoutProjectInput = {
+    id?: string
+    name: string
+    prefix: string
+    keyHash: string
+    status?: $Enums.ApiKeyStatus
+    revokedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    permissions?: ApiKeyEndpointPermissionUncheckedCreateNestedManyWithoutApiKeyInput
+  }
+
+  export type ApiKeyCreateOrConnectWithoutProjectInput = {
+    where: ApiKeyWhereUniqueInput
+    create: XOR<ApiKeyCreateWithoutProjectInput, ApiKeyUncheckedCreateWithoutProjectInput>
+  }
+
+  export type ApiKeyCreateManyProjectInputEnvelope = {
+    data: ApiKeyCreateManyProjectInput | ApiKeyCreateManyProjectInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ApiKeyEndpointPermissionCreateWithoutProjectInput = {
+    id?: string
+    createdAt?: Date | string
+    apiKey: ApiKeyCreateNestedOneWithoutPermissionsInput
+    endpoint: ProjectEndpointCreateNestedOneWithoutApiKeyPermissionsInput
+  }
+
+  export type ApiKeyEndpointPermissionUncheckedCreateWithoutProjectInput = {
+    id?: string
+    apiKeyId: string
+    endpointId: string
+    createdAt?: Date | string
+  }
+
+  export type ApiKeyEndpointPermissionCreateOrConnectWithoutProjectInput = {
+    where: ApiKeyEndpointPermissionWhereUniqueInput
+    create: XOR<ApiKeyEndpointPermissionCreateWithoutProjectInput, ApiKeyEndpointPermissionUncheckedCreateWithoutProjectInput>
+  }
+
+  export type ApiKeyEndpointPermissionCreateManyProjectInputEnvelope = {
+    data: ApiKeyEndpointPermissionCreateManyProjectInput | ApiKeyEndpointPermissionCreateManyProjectInput[]
     skipDuplicates?: boolean
   }
 
@@ -5643,6 +9039,64 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"ProjectEndpoint"> | Date | string
   }
 
+  export type ApiKeyUpsertWithWhereUniqueWithoutProjectInput = {
+    where: ApiKeyWhereUniqueInput
+    update: XOR<ApiKeyUpdateWithoutProjectInput, ApiKeyUncheckedUpdateWithoutProjectInput>
+    create: XOR<ApiKeyCreateWithoutProjectInput, ApiKeyUncheckedCreateWithoutProjectInput>
+  }
+
+  export type ApiKeyUpdateWithWhereUniqueWithoutProjectInput = {
+    where: ApiKeyWhereUniqueInput
+    data: XOR<ApiKeyUpdateWithoutProjectInput, ApiKeyUncheckedUpdateWithoutProjectInput>
+  }
+
+  export type ApiKeyUpdateManyWithWhereWithoutProjectInput = {
+    where: ApiKeyScalarWhereInput
+    data: XOR<ApiKeyUpdateManyMutationInput, ApiKeyUncheckedUpdateManyWithoutProjectInput>
+  }
+
+  export type ApiKeyScalarWhereInput = {
+    AND?: ApiKeyScalarWhereInput | ApiKeyScalarWhereInput[]
+    OR?: ApiKeyScalarWhereInput[]
+    NOT?: ApiKeyScalarWhereInput | ApiKeyScalarWhereInput[]
+    id?: StringFilter<"ApiKey"> | string
+    projectId?: StringFilter<"ApiKey"> | string
+    name?: StringFilter<"ApiKey"> | string
+    prefix?: StringFilter<"ApiKey"> | string
+    keyHash?: StringFilter<"ApiKey"> | string
+    status?: EnumApiKeyStatusFilter<"ApiKey"> | $Enums.ApiKeyStatus
+    revokedAt?: DateTimeNullableFilter<"ApiKey"> | Date | string | null
+    createdAt?: DateTimeFilter<"ApiKey"> | Date | string
+    updatedAt?: DateTimeFilter<"ApiKey"> | Date | string
+  }
+
+  export type ApiKeyEndpointPermissionUpsertWithWhereUniqueWithoutProjectInput = {
+    where: ApiKeyEndpointPermissionWhereUniqueInput
+    update: XOR<ApiKeyEndpointPermissionUpdateWithoutProjectInput, ApiKeyEndpointPermissionUncheckedUpdateWithoutProjectInput>
+    create: XOR<ApiKeyEndpointPermissionCreateWithoutProjectInput, ApiKeyEndpointPermissionUncheckedCreateWithoutProjectInput>
+  }
+
+  export type ApiKeyEndpointPermissionUpdateWithWhereUniqueWithoutProjectInput = {
+    where: ApiKeyEndpointPermissionWhereUniqueInput
+    data: XOR<ApiKeyEndpointPermissionUpdateWithoutProjectInput, ApiKeyEndpointPermissionUncheckedUpdateWithoutProjectInput>
+  }
+
+  export type ApiKeyEndpointPermissionUpdateManyWithWhereWithoutProjectInput = {
+    where: ApiKeyEndpointPermissionScalarWhereInput
+    data: XOR<ApiKeyEndpointPermissionUpdateManyMutationInput, ApiKeyEndpointPermissionUncheckedUpdateManyWithoutProjectInput>
+  }
+
+  export type ApiKeyEndpointPermissionScalarWhereInput = {
+    AND?: ApiKeyEndpointPermissionScalarWhereInput | ApiKeyEndpointPermissionScalarWhereInput[]
+    OR?: ApiKeyEndpointPermissionScalarWhereInput[]
+    NOT?: ApiKeyEndpointPermissionScalarWhereInput | ApiKeyEndpointPermissionScalarWhereInput[]
+    id?: StringFilter<"ApiKeyEndpointPermission"> | string
+    apiKeyId?: StringFilter<"ApiKeyEndpointPermission"> | string
+    projectId?: StringFilter<"ApiKeyEndpointPermission"> | string
+    endpointId?: StringFilter<"ApiKeyEndpointPermission"> | string
+    createdAt?: DateTimeFilter<"ApiKeyEndpointPermission"> | Date | string
+  }
+
   export type ProjectCreateWithoutEndpointsInput = {
     id?: string
     name: string
@@ -5650,6 +9104,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     owner: UserCreateNestedOneWithoutProjectsInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutProjectInput
+    apiKeyEndpointPermissions?: ApiKeyEndpointPermissionCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutEndpointsInput = {
@@ -5659,11 +9115,37 @@ export namespace Prisma {
     description?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutProjectInput
+    apiKeyEndpointPermissions?: ApiKeyEndpointPermissionUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutEndpointsInput = {
     where: ProjectWhereUniqueInput
     create: XOR<ProjectCreateWithoutEndpointsInput, ProjectUncheckedCreateWithoutEndpointsInput>
+  }
+
+  export type ApiKeyEndpointPermissionCreateWithoutEndpointInput = {
+    id?: string
+    createdAt?: Date | string
+    apiKey: ApiKeyCreateNestedOneWithoutPermissionsInput
+    project: ProjectCreateNestedOneWithoutApiKeyEndpointPermissionsInput
+  }
+
+  export type ApiKeyEndpointPermissionUncheckedCreateWithoutEndpointInput = {
+    id?: string
+    apiKeyId: string
+    projectId: string
+    createdAt?: Date | string
+  }
+
+  export type ApiKeyEndpointPermissionCreateOrConnectWithoutEndpointInput = {
+    where: ApiKeyEndpointPermissionWhereUniqueInput
+    create: XOR<ApiKeyEndpointPermissionCreateWithoutEndpointInput, ApiKeyEndpointPermissionUncheckedCreateWithoutEndpointInput>
+  }
+
+  export type ApiKeyEndpointPermissionCreateManyEndpointInputEnvelope = {
+    data: ApiKeyEndpointPermissionCreateManyEndpointInput | ApiKeyEndpointPermissionCreateManyEndpointInput[]
+    skipDuplicates?: boolean
   }
 
   export type ProjectUpsertWithoutEndpointsInput = {
@@ -5684,6 +9166,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutProjectsNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutProjectNestedInput
+    apiKeyEndpointPermissions?: ApiKeyEndpointPermissionUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutEndpointsInput = {
@@ -5691,6 +9175,308 @@ export namespace Prisma {
     ownerId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutProjectNestedInput
+    apiKeyEndpointPermissions?: ApiKeyEndpointPermissionUncheckedUpdateManyWithoutProjectNestedInput
+  }
+
+  export type ApiKeyEndpointPermissionUpsertWithWhereUniqueWithoutEndpointInput = {
+    where: ApiKeyEndpointPermissionWhereUniqueInput
+    update: XOR<ApiKeyEndpointPermissionUpdateWithoutEndpointInput, ApiKeyEndpointPermissionUncheckedUpdateWithoutEndpointInput>
+    create: XOR<ApiKeyEndpointPermissionCreateWithoutEndpointInput, ApiKeyEndpointPermissionUncheckedCreateWithoutEndpointInput>
+  }
+
+  export type ApiKeyEndpointPermissionUpdateWithWhereUniqueWithoutEndpointInput = {
+    where: ApiKeyEndpointPermissionWhereUniqueInput
+    data: XOR<ApiKeyEndpointPermissionUpdateWithoutEndpointInput, ApiKeyEndpointPermissionUncheckedUpdateWithoutEndpointInput>
+  }
+
+  export type ApiKeyEndpointPermissionUpdateManyWithWhereWithoutEndpointInput = {
+    where: ApiKeyEndpointPermissionScalarWhereInput
+    data: XOR<ApiKeyEndpointPermissionUpdateManyMutationInput, ApiKeyEndpointPermissionUncheckedUpdateManyWithoutEndpointInput>
+  }
+
+  export type ProjectCreateWithoutApiKeysInput = {
+    id?: string
+    name: string
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    owner: UserCreateNestedOneWithoutProjectsInput
+    endpoints?: ProjectEndpointCreateNestedManyWithoutProjectInput
+    apiKeyEndpointPermissions?: ApiKeyEndpointPermissionCreateNestedManyWithoutProjectInput
+  }
+
+  export type ProjectUncheckedCreateWithoutApiKeysInput = {
+    id?: string
+    ownerId: string
+    name: string
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    endpoints?: ProjectEndpointUncheckedCreateNestedManyWithoutProjectInput
+    apiKeyEndpointPermissions?: ApiKeyEndpointPermissionUncheckedCreateNestedManyWithoutProjectInput
+  }
+
+  export type ProjectCreateOrConnectWithoutApiKeysInput = {
+    where: ProjectWhereUniqueInput
+    create: XOR<ProjectCreateWithoutApiKeysInput, ProjectUncheckedCreateWithoutApiKeysInput>
+  }
+
+  export type ApiKeyEndpointPermissionCreateWithoutApiKeyInput = {
+    id?: string
+    createdAt?: Date | string
+    project: ProjectCreateNestedOneWithoutApiKeyEndpointPermissionsInput
+    endpoint: ProjectEndpointCreateNestedOneWithoutApiKeyPermissionsInput
+  }
+
+  export type ApiKeyEndpointPermissionUncheckedCreateWithoutApiKeyInput = {
+    id?: string
+    projectId: string
+    endpointId: string
+    createdAt?: Date | string
+  }
+
+  export type ApiKeyEndpointPermissionCreateOrConnectWithoutApiKeyInput = {
+    where: ApiKeyEndpointPermissionWhereUniqueInput
+    create: XOR<ApiKeyEndpointPermissionCreateWithoutApiKeyInput, ApiKeyEndpointPermissionUncheckedCreateWithoutApiKeyInput>
+  }
+
+  export type ApiKeyEndpointPermissionCreateManyApiKeyInputEnvelope = {
+    data: ApiKeyEndpointPermissionCreateManyApiKeyInput | ApiKeyEndpointPermissionCreateManyApiKeyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ProjectUpsertWithoutApiKeysInput = {
+    update: XOR<ProjectUpdateWithoutApiKeysInput, ProjectUncheckedUpdateWithoutApiKeysInput>
+    create: XOR<ProjectCreateWithoutApiKeysInput, ProjectUncheckedCreateWithoutApiKeysInput>
+    where?: ProjectWhereInput
+  }
+
+  export type ProjectUpdateToOneWithWhereWithoutApiKeysInput = {
+    where?: ProjectWhereInput
+    data: XOR<ProjectUpdateWithoutApiKeysInput, ProjectUncheckedUpdateWithoutApiKeysInput>
+  }
+
+  export type ProjectUpdateWithoutApiKeysInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutProjectsNestedInput
+    endpoints?: ProjectEndpointUpdateManyWithoutProjectNestedInput
+    apiKeyEndpointPermissions?: ApiKeyEndpointPermissionUpdateManyWithoutProjectNestedInput
+  }
+
+  export type ProjectUncheckedUpdateWithoutApiKeysInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endpoints?: ProjectEndpointUncheckedUpdateManyWithoutProjectNestedInput
+    apiKeyEndpointPermissions?: ApiKeyEndpointPermissionUncheckedUpdateManyWithoutProjectNestedInput
+  }
+
+  export type ApiKeyEndpointPermissionUpsertWithWhereUniqueWithoutApiKeyInput = {
+    where: ApiKeyEndpointPermissionWhereUniqueInput
+    update: XOR<ApiKeyEndpointPermissionUpdateWithoutApiKeyInput, ApiKeyEndpointPermissionUncheckedUpdateWithoutApiKeyInput>
+    create: XOR<ApiKeyEndpointPermissionCreateWithoutApiKeyInput, ApiKeyEndpointPermissionUncheckedCreateWithoutApiKeyInput>
+  }
+
+  export type ApiKeyEndpointPermissionUpdateWithWhereUniqueWithoutApiKeyInput = {
+    where: ApiKeyEndpointPermissionWhereUniqueInput
+    data: XOR<ApiKeyEndpointPermissionUpdateWithoutApiKeyInput, ApiKeyEndpointPermissionUncheckedUpdateWithoutApiKeyInput>
+  }
+
+  export type ApiKeyEndpointPermissionUpdateManyWithWhereWithoutApiKeyInput = {
+    where: ApiKeyEndpointPermissionScalarWhereInput
+    data: XOR<ApiKeyEndpointPermissionUpdateManyMutationInput, ApiKeyEndpointPermissionUncheckedUpdateManyWithoutApiKeyInput>
+  }
+
+  export type ApiKeyCreateWithoutPermissionsInput = {
+    id?: string
+    name: string
+    prefix: string
+    keyHash: string
+    status?: $Enums.ApiKeyStatus
+    revokedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    project: ProjectCreateNestedOneWithoutApiKeysInput
+  }
+
+  export type ApiKeyUncheckedCreateWithoutPermissionsInput = {
+    id?: string
+    projectId: string
+    name: string
+    prefix: string
+    keyHash: string
+    status?: $Enums.ApiKeyStatus
+    revokedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ApiKeyCreateOrConnectWithoutPermissionsInput = {
+    where: ApiKeyWhereUniqueInput
+    create: XOR<ApiKeyCreateWithoutPermissionsInput, ApiKeyUncheckedCreateWithoutPermissionsInput>
+  }
+
+  export type ProjectCreateWithoutApiKeyEndpointPermissionsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    owner: UserCreateNestedOneWithoutProjectsInput
+    endpoints?: ProjectEndpointCreateNestedManyWithoutProjectInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutProjectInput
+  }
+
+  export type ProjectUncheckedCreateWithoutApiKeyEndpointPermissionsInput = {
+    id?: string
+    ownerId: string
+    name: string
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    endpoints?: ProjectEndpointUncheckedCreateNestedManyWithoutProjectInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutProjectInput
+  }
+
+  export type ProjectCreateOrConnectWithoutApiKeyEndpointPermissionsInput = {
+    where: ProjectWhereUniqueInput
+    create: XOR<ProjectCreateWithoutApiKeyEndpointPermissionsInput, ProjectUncheckedCreateWithoutApiKeyEndpointPermissionsInput>
+  }
+
+  export type ProjectEndpointCreateWithoutApiKeyPermissionsInput = {
+    id?: string
+    method: $Enums.EndpointMethod
+    path: string
+    upstreamUrl: string
+    status?: $Enums.EndpointStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    project: ProjectCreateNestedOneWithoutEndpointsInput
+  }
+
+  export type ProjectEndpointUncheckedCreateWithoutApiKeyPermissionsInput = {
+    id?: string
+    projectId: string
+    method: $Enums.EndpointMethod
+    path: string
+    upstreamUrl: string
+    status?: $Enums.EndpointStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProjectEndpointCreateOrConnectWithoutApiKeyPermissionsInput = {
+    where: ProjectEndpointWhereUniqueInput
+    create: XOR<ProjectEndpointCreateWithoutApiKeyPermissionsInput, ProjectEndpointUncheckedCreateWithoutApiKeyPermissionsInput>
+  }
+
+  export type ApiKeyUpsertWithoutPermissionsInput = {
+    update: XOR<ApiKeyUpdateWithoutPermissionsInput, ApiKeyUncheckedUpdateWithoutPermissionsInput>
+    create: XOR<ApiKeyCreateWithoutPermissionsInput, ApiKeyUncheckedCreateWithoutPermissionsInput>
+    where?: ApiKeyWhereInput
+  }
+
+  export type ApiKeyUpdateToOneWithWhereWithoutPermissionsInput = {
+    where?: ApiKeyWhereInput
+    data: XOR<ApiKeyUpdateWithoutPermissionsInput, ApiKeyUncheckedUpdateWithoutPermissionsInput>
+  }
+
+  export type ApiKeyUpdateWithoutPermissionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    prefix?: StringFieldUpdateOperationsInput | string
+    keyHash?: StringFieldUpdateOperationsInput | string
+    status?: EnumApiKeyStatusFieldUpdateOperationsInput | $Enums.ApiKeyStatus
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    project?: ProjectUpdateOneRequiredWithoutApiKeysNestedInput
+  }
+
+  export type ApiKeyUncheckedUpdateWithoutPermissionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    prefix?: StringFieldUpdateOperationsInput | string
+    keyHash?: StringFieldUpdateOperationsInput | string
+    status?: EnumApiKeyStatusFieldUpdateOperationsInput | $Enums.ApiKeyStatus
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectUpsertWithoutApiKeyEndpointPermissionsInput = {
+    update: XOR<ProjectUpdateWithoutApiKeyEndpointPermissionsInput, ProjectUncheckedUpdateWithoutApiKeyEndpointPermissionsInput>
+    create: XOR<ProjectCreateWithoutApiKeyEndpointPermissionsInput, ProjectUncheckedCreateWithoutApiKeyEndpointPermissionsInput>
+    where?: ProjectWhereInput
+  }
+
+  export type ProjectUpdateToOneWithWhereWithoutApiKeyEndpointPermissionsInput = {
+    where?: ProjectWhereInput
+    data: XOR<ProjectUpdateWithoutApiKeyEndpointPermissionsInput, ProjectUncheckedUpdateWithoutApiKeyEndpointPermissionsInput>
+  }
+
+  export type ProjectUpdateWithoutApiKeyEndpointPermissionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutProjectsNestedInput
+    endpoints?: ProjectEndpointUpdateManyWithoutProjectNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutProjectNestedInput
+  }
+
+  export type ProjectUncheckedUpdateWithoutApiKeyEndpointPermissionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endpoints?: ProjectEndpointUncheckedUpdateManyWithoutProjectNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutProjectNestedInput
+  }
+
+  export type ProjectEndpointUpsertWithoutApiKeyPermissionsInput = {
+    update: XOR<ProjectEndpointUpdateWithoutApiKeyPermissionsInput, ProjectEndpointUncheckedUpdateWithoutApiKeyPermissionsInput>
+    create: XOR<ProjectEndpointCreateWithoutApiKeyPermissionsInput, ProjectEndpointUncheckedCreateWithoutApiKeyPermissionsInput>
+    where?: ProjectEndpointWhereInput
+  }
+
+  export type ProjectEndpointUpdateToOneWithWhereWithoutApiKeyPermissionsInput = {
+    where?: ProjectEndpointWhereInput
+    data: XOR<ProjectEndpointUpdateWithoutApiKeyPermissionsInput, ProjectEndpointUncheckedUpdateWithoutApiKeyPermissionsInput>
+  }
+
+  export type ProjectEndpointUpdateWithoutApiKeyPermissionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    method?: EnumEndpointMethodFieldUpdateOperationsInput | $Enums.EndpointMethod
+    path?: StringFieldUpdateOperationsInput | string
+    upstreamUrl?: StringFieldUpdateOperationsInput | string
+    status?: EnumEndpointStatusFieldUpdateOperationsInput | $Enums.EndpointStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    project?: ProjectUpdateOneRequiredWithoutEndpointsNestedInput
+  }
+
+  export type ProjectEndpointUncheckedUpdateWithoutApiKeyPermissionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    method?: EnumEndpointMethodFieldUpdateOperationsInput | $Enums.EndpointMethod
+    path?: StringFieldUpdateOperationsInput | string
+    upstreamUrl?: StringFieldUpdateOperationsInput | string
+    status?: EnumEndpointStatusFieldUpdateOperationsInput | $Enums.EndpointStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -5710,6 +9496,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endpoints?: ProjectEndpointUpdateManyWithoutProjectNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutProjectNestedInput
+    apiKeyEndpointPermissions?: ApiKeyEndpointPermissionUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutOwnerInput = {
@@ -5719,6 +9507,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endpoints?: ProjectEndpointUncheckedUpdateManyWithoutProjectNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutProjectNestedInput
+    apiKeyEndpointPermissions?: ApiKeyEndpointPermissionUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateManyWithoutOwnerInput = {
@@ -5739,6 +9529,24 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ApiKeyCreateManyProjectInput = {
+    id?: string
+    name: string
+    prefix: string
+    keyHash: string
+    status?: $Enums.ApiKeyStatus
+    revokedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ApiKeyEndpointPermissionCreateManyProjectInput = {
+    id?: string
+    apiKeyId: string
+    endpointId: string
+    createdAt?: Date | string
+  }
+
   export type ProjectEndpointUpdateWithoutProjectInput = {
     id?: StringFieldUpdateOperationsInput | string
     method?: EnumEndpointMethodFieldUpdateOperationsInput | $Enums.EndpointMethod
@@ -5747,6 +9555,7 @@ export namespace Prisma {
     status?: EnumEndpointStatusFieldUpdateOperationsInput | $Enums.EndpointStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    apiKeyPermissions?: ApiKeyEndpointPermissionUpdateManyWithoutEndpointNestedInput
   }
 
   export type ProjectEndpointUncheckedUpdateWithoutProjectInput = {
@@ -5757,6 +9566,7 @@ export namespace Prisma {
     status?: EnumEndpointStatusFieldUpdateOperationsInput | $Enums.EndpointStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    apiKeyPermissions?: ApiKeyEndpointPermissionUncheckedUpdateManyWithoutEndpointNestedInput
   }
 
   export type ProjectEndpointUncheckedUpdateManyWithoutProjectInput = {
@@ -5767,6 +9577,118 @@ export namespace Prisma {
     status?: EnumEndpointStatusFieldUpdateOperationsInput | $Enums.EndpointStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApiKeyUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    prefix?: StringFieldUpdateOperationsInput | string
+    keyHash?: StringFieldUpdateOperationsInput | string
+    status?: EnumApiKeyStatusFieldUpdateOperationsInput | $Enums.ApiKeyStatus
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    permissions?: ApiKeyEndpointPermissionUpdateManyWithoutApiKeyNestedInput
+  }
+
+  export type ApiKeyUncheckedUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    prefix?: StringFieldUpdateOperationsInput | string
+    keyHash?: StringFieldUpdateOperationsInput | string
+    status?: EnumApiKeyStatusFieldUpdateOperationsInput | $Enums.ApiKeyStatus
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    permissions?: ApiKeyEndpointPermissionUncheckedUpdateManyWithoutApiKeyNestedInput
+  }
+
+  export type ApiKeyUncheckedUpdateManyWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    prefix?: StringFieldUpdateOperationsInput | string
+    keyHash?: StringFieldUpdateOperationsInput | string
+    status?: EnumApiKeyStatusFieldUpdateOperationsInput | $Enums.ApiKeyStatus
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApiKeyEndpointPermissionUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    apiKey?: ApiKeyUpdateOneRequiredWithoutPermissionsNestedInput
+    endpoint?: ProjectEndpointUpdateOneRequiredWithoutApiKeyPermissionsNestedInput
+  }
+
+  export type ApiKeyEndpointPermissionUncheckedUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    apiKeyId?: StringFieldUpdateOperationsInput | string
+    endpointId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApiKeyEndpointPermissionUncheckedUpdateManyWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    apiKeyId?: StringFieldUpdateOperationsInput | string
+    endpointId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApiKeyEndpointPermissionCreateManyEndpointInput = {
+    id?: string
+    apiKeyId: string
+    projectId: string
+    createdAt?: Date | string
+  }
+
+  export type ApiKeyEndpointPermissionUpdateWithoutEndpointInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    apiKey?: ApiKeyUpdateOneRequiredWithoutPermissionsNestedInput
+    project?: ProjectUpdateOneRequiredWithoutApiKeyEndpointPermissionsNestedInput
+  }
+
+  export type ApiKeyEndpointPermissionUncheckedUpdateWithoutEndpointInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    apiKeyId?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApiKeyEndpointPermissionUncheckedUpdateManyWithoutEndpointInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    apiKeyId?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApiKeyEndpointPermissionCreateManyApiKeyInput = {
+    id?: string
+    projectId: string
+    endpointId: string
+    createdAt?: Date | string
+  }
+
+  export type ApiKeyEndpointPermissionUpdateWithoutApiKeyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    project?: ProjectUpdateOneRequiredWithoutApiKeyEndpointPermissionsNestedInput
+    endpoint?: ProjectEndpointUpdateOneRequiredWithoutApiKeyPermissionsNestedInput
+  }
+
+  export type ApiKeyEndpointPermissionUncheckedUpdateWithoutApiKeyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    endpointId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApiKeyEndpointPermissionUncheckedUpdateManyWithoutApiKeyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    endpointId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

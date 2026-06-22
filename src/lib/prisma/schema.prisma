@@ -8,7 +8,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
   id           String   @id @default(uuid())
   email        String   @unique
@@ -29,8 +28,10 @@ model Project {
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
 
-  owner     User              @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  endpoints ProjectEndpoint[]
+  owner                  User                       @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  endpoints              ProjectEndpoint[]
+  apiKeys                ApiKey[]
+  apiKeyEndpointPermissions ApiKeyEndpointPermission[]
 
   @@unique([ownerId, name])
   @@index([ownerId])
@@ -47,11 +48,50 @@ model ProjectEndpoint {
   createdAt   DateTime       @default(now()) @map("created_at")
   updatedAt   DateTime       @updatedAt @map("updated_at")
 
-  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  project           Project                    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  apiKeyPermissions ApiKeyEndpointPermission[]
 
   @@unique([projectId, method, path])
   @@index([projectId])
   @@map("project_endpoints")
+}
+
+model ApiKey {
+  id        String       @id @default(uuid())
+  projectId String       @map("project_id")
+  name      String
+  prefix    String
+  keyHash   String       @unique @map("key_hash")
+  status    ApiKeyStatus @default(ACTIVE)
+  revokedAt DateTime?    @map("revoked_at")
+  createdAt DateTime     @default(now()) @map("created_at")
+  updatedAt DateTime     @updatedAt @map("updated_at")
+
+  project     Project                    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  permissions ApiKeyEndpointPermission[]
+
+  @@unique([projectId, name])
+  @@index([projectId])
+  @@index([prefix])
+  @@map("api_keys")
+}
+
+model ApiKeyEndpointPermission {
+  id         String   @id @default(uuid())
+  apiKeyId   String   @map("api_key_id")
+  projectId  String   @map("project_id")
+  endpointId String   @map("endpoint_id")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  apiKey   ApiKey          @relation(fields: [apiKeyId], references: [id], onDelete: Cascade)
+  project  Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  endpoint ProjectEndpoint @relation(fields: [endpointId], references: [id], onDelete: Cascade)
+
+  @@unique([apiKeyId, endpointId])
+  @@index([apiKeyId])
+  @@index([projectId])
+  @@index([endpointId])
+  @@map("api_key_endpoint_permissions")
 }
 
 enum EndpointMethod {
@@ -65,4 +105,9 @@ enum EndpointMethod {
 enum EndpointStatus {
   ENABLED
   DISABLED
+}
+
+enum ApiKeyStatus {
+  ACTIVE
+  REVOKED
 }

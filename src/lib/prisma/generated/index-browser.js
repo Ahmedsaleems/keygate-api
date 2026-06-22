@@ -149,6 +149,26 @@ exports.Prisma.ProjectEndpointScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ApiKeyScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  name: 'name',
+  prefix: 'prefix',
+  keyHash: 'keyHash',
+  status: 'status',
+  revokedAt: 'revokedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ApiKeyEndpointPermissionScalarFieldEnum = {
+  id: 'id',
+  apiKeyId: 'apiKeyId',
+  projectId: 'projectId',
+  endpointId: 'endpointId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -176,10 +196,17 @@ exports.EndpointStatus = exports.$Enums.EndpointStatus = {
   DISABLED: 'DISABLED'
 };
 
+exports.ApiKeyStatus = exports.$Enums.ApiKeyStatus = {
+  ACTIVE: 'ACTIVE',
+  REVOKED: 'REVOKED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Project: 'Project',
-  ProjectEndpoint: 'ProjectEndpoint'
+  ProjectEndpoint: 'ProjectEndpoint',
+  ApiKey: 'ApiKey',
+  ApiKeyEndpointPermission: 'ApiKeyEndpointPermission'
 };
 
 /**
