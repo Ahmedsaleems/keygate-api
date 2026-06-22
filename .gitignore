@@ -45,6 +45,9 @@ lerna-debug.log*
 # config
 config/config.yaml
 
+# todo
+app.todo
+
 # temp directory
 .temp
 .tmp
