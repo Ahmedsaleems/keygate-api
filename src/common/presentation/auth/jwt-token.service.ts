@@ -28,7 +28,7 @@ export class JwtTokenService {
 
     return this.jwtService.signAsync(payload, {
       secret: this.config.secret,
-      expiresIn: this.config.expiresIn,
+      expiresIn: this.config.expiresIn as any,
     });
   }
 
