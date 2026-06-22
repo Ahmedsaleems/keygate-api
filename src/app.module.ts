@@ -4,13 +4,15 @@ import { ConfigModule } from './lib/config/module';
 import { HealthModule } from './modules/health/module';
 import { DatabaseModule } from './lib/database/module';
 import { UsersModule } from './modules/users/module';
+import { ProjectsModule } from './modules/projects/module';
 
 @Module({
   imports: [
     ConfigModule,
     HealthModule,
     DatabaseModule,
-    UsersModule
+    UsersModule,
+    ProjectsModule,
   ],
   providers: [AppConfig],
   exports: [AppConfig],

@@ -1,0 +1,109 @@
+import { Injectable } from '@nestjs/common';
+import { EndpointMethod as PrismaEndpointMethod } from '../../../../lib/prisma/generated';
+import { PrismaService } from '../../../../lib/database/prisma.service';
+import { ProjectEndpointRepositoryPort } from '../../application/project-endpoint-repository.port';
+import { ProjectEndpoint } from '../../domain/project-endpoint.entity';
+import { EndpointMethod } from '../../domain/endpoint-method.vo';
+import { EndpointPath } from '../../domain/endpoint-path.vo';
+import { ProjectEndpointId } from '../../domain/project-endpoint-id.vo';
+import { ProjectId } from '../../domain/project-id.vo';
+import { PrismaProjectEndpointMapper } from './prisma-project-endpoint.mapper';
+
+@Injectable()
+export class PrismaProjectEndpointRepository
+  implements ProjectEndpointRepositoryPort
+{
+  constructor(private readonly prisma: PrismaService) {}
+
+  async create(endpoint: ProjectEndpoint): Promise<void> {
+    const persistenceEndpoint =
+      PrismaProjectEndpointMapper.toPersistence(endpoint);
+
+    await this.prisma.projectEndpoint.create({
+      data: {
+        id: persistenceEndpoint.id,
+        projectId: persistenceEndpoint.projectId,
+        method: persistenceEndpoint.method,
+        path: persistenceEndpoint.path,
+        upstreamUrl: persistenceEndpoint.upstreamUrl,
+        status: persistenceEndpoint.status,
+        createdAt: persistenceEndpoint.createdAt,
+        updatedAt: persistenceEndpoint.updatedAt,
+      },
+    });
+  }
+
+  async findById(
+    endpointId: ProjectEndpointId,
+  ): Promise<ProjectEndpoint | null> {
+    const endpoint = await this.prisma.projectEndpoint.findUnique({
+      where: {
+        id: endpointId.toString(),
+      },
+    });
+
+    if (!endpoint) {
+      return null;
+    }
+
+    return PrismaProjectEndpointMapper.toDomain(endpoint);
+  }
+
+  async findByProjectId(projectId: ProjectId): Promise<ProjectEndpoint[]> {
+    const endpoints = await this.prisma.projectEndpoint.findMany({
+      where: {
+        projectId: projectId.toString(),
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    return endpoints.map(PrismaProjectEndpointMapper.toDomain);
+  }
+
+  async existsByProjectIdMethodAndPath(
+    projectId: ProjectId,
+    method: EndpointMethod,
+    path: EndpointPath,
+  ): Promise<boolean> {
+    const endpoint = await this.prisma.projectEndpoint.findFirst({
+      where: {
+        projectId: projectId.toString(),
+        method: method.toString() as PrismaEndpointMethod,
+        path: path.toString(),
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    return endpoint !== null;
+  }
+
+  async update(endpoint: ProjectEndpoint): Promise<void> {
+    const persistenceEndpoint =
+      PrismaProjectEndpointMapper.toPersistence(endpoint);
+
+    await this.prisma.projectEndpoint.update({
+      where: {
+        id: persistenceEndpoint.id,
+      },
+      data: {
+        method: persistenceEndpoint.method,
+        path: persistenceEndpoint.path,
+        upstreamUrl: persistenceEndpoint.upstreamUrl,
+        status: persistenceEndpoint.status,
+        updatedAt: persistenceEndpoint.updatedAt,
+      },
+    });
+  }
+
+  async delete(endpointId: ProjectEndpointId): Promise<void> {
+    await this.prisma.projectEndpoint.deleteMany({
+      where: {
+        id: endpointId.toString(),
+      },
+    });
+  }
+}
