@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { UsersConfig } from './config';
 import { PasswordHashingModule } from 'src/common/application/security/module';
 import { RegisterUserService } from "./application/register-user.service";
 import { LoginUserService } from "./application/login-user.service";
@@ -19,7 +18,6 @@ import { DatabaseModule } from 'src/common/infrastructure/database/module';
 @Module({
     imports: [PasswordHashingModule, DatabaseModule],
     providers: [
-        UsersConfig,
         {
             provide: USER_REPOSITORY_PORT,
             useClass: PrismaUserRepository,
@@ -47,6 +45,5 @@ import { DatabaseModule } from 'src/common/infrastructure/database/module';
             inject: [USER_REPOSITORY_PORT],
         },
     ],
-    exports: [UsersConfig],
 })
 export class UsersModule { }
