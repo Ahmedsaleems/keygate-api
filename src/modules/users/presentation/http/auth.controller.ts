@@ -3,9 +3,7 @@ import { CurrentUser } from 'src/lib/auth/current-user.decorator';
 import type { AuthenticatedUser } from 'src/lib/auth/authenticated-user';
 import { JwtAuthGuard } from 'src/lib/auth/jwt-auth.guard';
 import { JwtTokenService } from 'src/lib/auth/jwt-token.service';
-import { GetUserService } from 'src/modules/users/application/get-user.service';
-import { LoginUserService } from '../../application/login-user.service';
-import { RegisterUserService } from '../../application/register-user.service';
+import { UsersService } from '../../application/service';
 import { Email } from '../../domain/email.vo';
 import { UserId } from '../../domain/user-id.vo';
 import { AuthResponseDto } from './dto/auth-response.dto';
@@ -16,9 +14,7 @@ import { RegisterUserRequestDto } from './dto/register-user.request.dto';
 @Controller('auth')
 export class AuthController {
   constructor(
-    private readonly registerUserService: RegisterUserService,
-    private readonly loginUserService: LoginUserService,
-    private readonly getUserService: GetUserService,
+    private readonly usersService: UsersService,
     private readonly jwtTokenService: JwtTokenService,
   ) {}
 
@@ -26,7 +22,7 @@ export class AuthController {
   async register(@Body() dto: RegisterUserRequestDto): Promise<AuthResponseDto> {
     const email = Email.create(dto.email);
 
-    const user = await this.registerUserService.execute(email, dto.password);
+    const user = await this.usersService.register(email, dto.password);
 
     const accessToken = await this.jwtTokenService.issueAccessToken({
       subject: user.getId().toString(),
@@ -40,7 +36,7 @@ export class AuthController {
   async login(@Body() dto: LoginUserRequestDto): Promise<AuthResponseDto> {
     const email = Email.create(dto.email);
 
-    const user = await this.loginUserService.execute(email, dto.password);
+    const user = await this.usersService.login(email, dto.password);
 
     const accessToken = await this.jwtTokenService.issueAccessToken({
       subject: user.getId().toString(),
@@ -57,7 +53,7 @@ export class AuthController {
   ): Promise<CurrentUserResponseDto> {
     const userId = UserId.fromString(currentUser.subject);
 
-    const user = await this.getUserService.execute(userId);
+    const user = await this.usersService.getCurrentUser(userId);
 
     return CurrentUserResponseDto.fromDomain(user);
   }

@@ -1,8 +1,5 @@
 import { Module } from '@nestjs/common';
 import { PasswordHashingModule } from 'src/lib/security/module';
-import { RegisterUserService } from "./application/register-user.service";
-import { LoginUserService } from "./application/login-user.service";
-import { GetUserService } from "./application/get-user.service";
 import {
     USER_REPOSITORY_PORT,
     UserRepositoryPort,
@@ -15,6 +12,7 @@ import { PrismaUserRepository } from './infrastructure/persistence/prisma-user.r
 import { DatabaseModule } from 'src/lib/database/module';
 import { AuthController } from './presentation/http/auth.controller';
 import { JwtAuthModule } from 'src/lib/auth/auth.module';
+import { UsersService } from './application/service';
 
 
 @Module({
@@ -26,33 +24,17 @@ import { JwtAuthModule } from 'src/lib/auth/auth.module';
             useClass: PrismaUserRepository,
         },
         {
-            provide: RegisterUserService,
+            provide: UsersService,
             useFactory: (
                 userRepository: UserRepositoryPort,
                 passwordHasher: PasswordHasherPort,
-            ) => new RegisterUserService(userRepository, passwordHasher),
+            ) => new UsersService(userRepository, passwordHasher),
             inject: [USER_REPOSITORY_PORT, PASSWORD_HASHER_PORT],
-        },
-        {
-            provide: LoginUserService,
-            useFactory: (
-                userRepository: UserRepositoryPort,
-                passwordHasher: PasswordHasherPort,
-            ) => new LoginUserService(userRepository, passwordHasher),
-            inject: [USER_REPOSITORY_PORT, PASSWORD_HASHER_PORT],
-        },
-        {
-            provide: GetUserService,
-            useFactory: (userRepository: UserRepositoryPort) =>
-                new GetUserService(userRepository),
-            inject: [USER_REPOSITORY_PORT],
         },
     ],
     exports: [
-    USER_REPOSITORY_PORT,
-    RegisterUserService,
-    LoginUserService,
-    GetUserService,
-  ],
+        USER_REPOSITORY_PORT,
+        UsersService,
+    ],
 })
 export class UsersModule { }
