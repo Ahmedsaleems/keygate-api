@@ -16,7 +16,7 @@ auth:
     parallelism: 1
 
 apiKeys:
-  prefix: dk_live
+  prefix: kg_live
   hmacSecret: change_me_to_a_long_random_hmac_secret_at_least_32_chars
   randomBytesLength: 32
 
