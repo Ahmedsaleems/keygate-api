@@ -13,10 +13,13 @@ import {
 } from '../../common/application/security/password-hasher.port';
 import { PrismaUserRepository } from './infrastructure/persistence/prisma-user.repository';
 import { DatabaseModule } from 'src/common/infrastructure/database/module';
+import { AuthController } from './presentation/http/auth.controller';
+import { JwtAuthModule } from 'src/common/presentation/auth/auth.module';
 
 
 @Module({
-    imports: [PasswordHashingModule, DatabaseModule],
+    imports: [PasswordHashingModule, DatabaseModule, JwtAuthModule],
+    controllers: [AuthController],
     providers: [
         {
             provide: USER_REPOSITORY_PORT,
@@ -45,5 +48,11 @@ import { DatabaseModule } from 'src/common/infrastructure/database/module';
             inject: [USER_REPOSITORY_PORT],
         },
     ],
+    exports: [
+    USER_REPOSITORY_PORT,
+    RegisterUserService,
+    LoginUserService,
+    GetUserService,
+  ],
 })
 export class UsersModule { }
