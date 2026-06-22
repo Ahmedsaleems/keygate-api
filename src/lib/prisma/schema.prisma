@@ -16,5 +16,53 @@ model User {
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
 
+  projects Project[]
+
   @@map("users")
+}
+
+model Project {
+  id          String   @id @default(uuid())
+  ownerId     String   @map("owner_id")
+  name        String
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  owner     User              @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  endpoints ProjectEndpoint[]
+
+  @@unique([ownerId, name])
+  @@index([ownerId])
+  @@map("projects")
+}
+
+model ProjectEndpoint {
+  id          String         @id @default(uuid())
+  projectId   String         @map("project_id")
+  method      EndpointMethod
+  path        String
+  upstreamUrl String         @map("upstream_url")
+  status      EndpointStatus @default(ENABLED)
+  createdAt   DateTime       @default(now()) @map("created_at")
+  updatedAt   DateTime       @updatedAt @map("updated_at")
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, method, path])
+  @@index([projectId])
+  @@map("project_endpoints")
+}
+
+enum EndpointMethod {
+  GET
+  POST
+  PUT
+  PATCH
+  DELETE
+}
+
+enum EndpointStatus {
+  ENABLED
+  DISABLED
 }
