@@ -5,6 +5,7 @@ import { HealthModule } from './modules/health/module';
 import { DatabaseModule } from './lib/database/module';
 import { UsersModule } from './modules/users/module';
 import { ProjectsModule } from './modules/projects/module';
+import { ApiKeysModule } from './modules/api-keys/module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { ProjectsModule } from './modules/projects/module';
     DatabaseModule,
     UsersModule,
     ProjectsModule,
+    ApiKeysModule,
   ],
   providers: [AppConfig],
   exports: [AppConfig],
