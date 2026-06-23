@@ -18,9 +18,15 @@ import { ApiKeysService } from './application/api-key.service';
 import { PrismaApiKeyProjectAccessAdapter } from './infrastructure/adapters/prisma-project-access.adapter';
 import { PrismaApiKeyEndpointPermissionRepository } from './infrastructure/persistence/prisma-endpoint-permission.repository';
 import { PrismaApiKeyRepository } from './infrastructure/persistence/prisma-api-key.repository';
+import { ApiKeysController } from './presentation/http/api-keys.controller';
+import { ApiKeyEndpointPermissionsController } from './presentation/http/endpoint-permissions.controller';
+import { JwtAuthModule } from 'src/lib/auth/auth.module';
+
+
 
 @Module({
-  imports: [DatabaseModule, ApiKeySecurityModule],
+  imports: [DatabaseModule, ApiKeySecurityModule, JwtAuthModule],
+  controllers: [ApiKeysController, ApiKeyEndpointPermissionsController],
   providers: [
     {
       provide: API_KEY_REPOSITORY_PORT,
