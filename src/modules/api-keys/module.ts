@@ -1,55 +1,66 @@
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from 'src/lib/database/module';
-import { ApiKeySecurityModule } from '../../lib//api-keys/module';
-
+import { ApiKeyService as ApiKeyCredentialService } from '../../lib/api-keys/service';
+import { ApiKeySecurityModule } from '../../lib/api-keys/module';
 import {
-    API_KEY_ENDPOINT_PERMISSION_REPOSITORY_PORT,
-    ApiKeyEndpointPermissionRepositoryPort,
+  API_KEY_ENDPOINT_PERMISSION_REPOSITORY_PORT,
+  ApiKeyEndpointPermissionRepositoryPort,
 } from './application/endpoint-permission-repository.port';
 import {
-    API_KEY_REPOSITORY_PORT,
-    ApiKeyRepositoryPort,
+  API_KEY_PROJECT_ACCESS_PORT,
+  ApiKeyProjectAccessPort,
+} from './application/project-access.port';
+import {
+  API_KEY_REPOSITORY_PORT,
+  ApiKeyRepositoryPort,
 } from './application/api-key-repository.port';
+import { ApiKeysService } from './application/api-key.service';
+import { PrismaApiKeyProjectAccessAdapter } from './infrastructure/adapters/prisma-project-access.adapter';
 import { PrismaApiKeyEndpointPermissionRepository } from './infrastructure/persistence/prisma-endpoint-permission.repository';
 import { PrismaApiKeyRepository } from './infrastructure/persistence/prisma-api-key.repository';
-import { ApiKeyService as ApiKeyCredentialService } from '../../lib/api-keys/service';
-import { ApiKeysService } from './application/api-key.service';
-
-
 
 @Module({
-    imports: [DatabaseModule, ApiKeySecurityModule],
-    providers: [
-        {
-            provide: API_KEY_REPOSITORY_PORT,
-            useClass: PrismaApiKeyRepository,
-        },
-        {
-            provide: API_KEY_ENDPOINT_PERMISSION_REPOSITORY_PORT,
-            useClass: PrismaApiKeyEndpointPermissionRepository,
-        },
-        {
-            provide: ApiKeysService,
-            useFactory: (
-                apiKeyRepository: ApiKeyRepositoryPort,
-                permissionRepository: ApiKeyEndpointPermissionRepositoryPort,
-                apiKeyCredentialService: ApiKeyCredentialService,
-            ) =>
-                new ApiKeysService(
-                    apiKeyRepository,
-                    permissionRepository,
-                    apiKeyCredentialService,
-                ),
-            inject: [
-                API_KEY_REPOSITORY_PORT,
-                API_KEY_ENDPOINT_PERMISSION_REPOSITORY_PORT,
-                ApiKeyCredentialService,
-            ],
-        },
-    ],
-    exports: [
+  imports: [DatabaseModule, ApiKeySecurityModule],
+  providers: [
+    {
+      provide: API_KEY_REPOSITORY_PORT,
+      useClass: PrismaApiKeyRepository,
+    },
+    {
+      provide: API_KEY_ENDPOINT_PERMISSION_REPOSITORY_PORT,
+      useClass: PrismaApiKeyEndpointPermissionRepository,
+    },
+    {
+      provide: API_KEY_PROJECT_ACCESS_PORT,
+      useClass: PrismaApiKeyProjectAccessAdapter,
+    },
+    {
+      provide: ApiKeysService,
+      useFactory: (
+        apiKeyRepository: ApiKeyRepositoryPort,
+        permissionRepository: ApiKeyEndpointPermissionRepositoryPort,
+        projectAccess: ApiKeyProjectAccessPort,
+        apiKeyCredentialService: ApiKeyCredentialService,
+      ) =>
+        new ApiKeysService(
+          apiKeyRepository,
+          permissionRepository,
+          projectAccess,
+          apiKeyCredentialService,
+        ),
+      inject: [
         API_KEY_REPOSITORY_PORT,
         API_KEY_ENDPOINT_PERMISSION_REPOSITORY_PORT,
-    ],
+        API_KEY_PROJECT_ACCESS_PORT,
+        ApiKeyCredentialService,
+      ],
+    },
+  ],
+  exports: [
+    API_KEY_REPOSITORY_PORT,
+    API_KEY_ENDPOINT_PERMISSION_REPOSITORY_PORT,
+    API_KEY_PROJECT_ACCESS_PORT,
+    ApiKeysService,
+  ],
 })
-export class ApiKeysModule { }
+export class ApiKeysModule {}

@@ -4,149 +4,185 @@ import { ApiKey } from '../domain/api-key.entity';
 import { ApiKeyHash } from '../domain/api-key-hash.vo';
 import { ApiKeyId } from '../domain/api-key-id.vo';
 import { ApiKeyName } from '../domain/api-key-name.vo';
+import { ApiKeyOwnerId } from '../domain/owner-id.vo';
 import { ApiKeyPrefix } from '../domain/api-key-prefix.vo';
 import { ApiKeyProjectEndpointId } from '../domain/project-endpoint-id.vo';
 import { ApiKeyProjectId } from '../domain/project-id.vo';
 import { IssuedApiKey } from '../domain/issued-api-key.vo';
-import { ApiKeyAlreadyExistsError } from './error';
-import { ApiKeyEndpointPermissionAlreadyExistsError } from './error';
-import { ApiKeyEndpointPermissionNotFoundError } from './error';
-import { ApiKeyNotFoundError } from './error';
-import { ApiKeyRevokedError } from './error';
+import {
+    ApiKeyAlreadyExistsError,
+    ApiKeyEndpointPermissionAlreadyExistsError,
+    ApiKeyEndpointPermissionNotFoundError,
+    ApiKeyNotFoundError,
+    ApiKeyRevokedError,
+} from './error';
 import { ApiKeyEndpointPermissionRepositoryPort } from './endpoint-permission-repository.port';
+import { ApiKeyProjectAccessPort } from './project-access.port';
 import { ApiKeyRepositoryPort } from './api-key-repository.port';
 
 export class ApiKeysService {
-  constructor(
-    private readonly apiKeyRepository: ApiKeyRepositoryPort,
-    private readonly permissionRepository: ApiKeyEndpointPermissionRepositoryPort,
-    private readonly apiKeyCredentialService: ApiKeyCredentialService,
-  ) {}
+    constructor(
+        private readonly apiKeyRepository: ApiKeyRepositoryPort,
+        private readonly permissionRepository: ApiKeyEndpointPermissionRepositoryPort,
+        private readonly projectAccess: ApiKeyProjectAccessPort,
+        private readonly apiKeyCredentialService: ApiKeyCredentialService,
+    ) { }
 
-  async createApiKey(
-    projectId: ApiKeyProjectId,
-    name: ApiKeyName,
-  ): Promise<IssuedApiKey> {
-    const alreadyExists = await this.apiKeyRepository.existsByProjectIdAndName(
-      projectId,
-      name,
-    );
+    async createApiKey(
+        ownerId: ApiKeyOwnerId,
+        projectId: ApiKeyProjectId,
+        name: ApiKeyName,
+    ): Promise<IssuedApiKey> {
+        await this.projectAccess.ensureProjectIsAccessible(ownerId, projectId);
 
-    if (alreadyExists) {
-      throw new ApiKeyAlreadyExistsError();
+        const alreadyExists = await this.apiKeyRepository.existsByProjectIdAndName(
+            projectId,
+            name,
+        );
+
+        if (alreadyExists) {
+            throw new ApiKeyAlreadyExistsError();
+        }
+
+        const credential = this.apiKeyCredentialService.generate();
+
+        const apiKey = ApiKey.create({
+            projectId,
+            name,
+            prefix: ApiKeyPrefix.create(credential.prefix),
+            keyHash: ApiKeyHash.create(credential.hash),
+        });
+
+        await this.apiKeyRepository.create(apiKey);
+
+        return IssuedApiKey.create(apiKey, credential.rawKey);
     }
 
-    const credential = this.apiKeyCredentialService.generate();
+    async listApiKeys(
+        ownerId: ApiKeyOwnerId,
+        projectId: ApiKeyProjectId,
+    ): Promise<ApiKey[]> {
+        await this.projectAccess.ensureProjectIsAccessible(ownerId, projectId);
 
-    const apiKey = ApiKey.create({
-      projectId,
-      name,
-      prefix: ApiKeyPrefix.create(credential.prefix),
-      keyHash: ApiKeyHash.create(credential.hash),
-    });
-
-    await this.apiKeyRepository.create(apiKey);
-
-    return IssuedApiKey.create(apiKey, credential.rawKey);
-  }
-
-  async listApiKeys(projectId: ApiKeyProjectId): Promise<ApiKey[]> {
-    return this.apiKeyRepository.findByProjectId(projectId);
-  }
-
-  async getApiKey(
-    projectId: ApiKeyProjectId,
-    apiKeyId: ApiKeyId,
-  ): Promise<ApiKey> {
-    return this.getApiKeyForProject(projectId, apiKeyId);
-  }
-
-  async revokeApiKey(
-    projectId: ApiKeyProjectId,
-    apiKeyId: ApiKeyId,
-  ): Promise<ApiKey> {
-    const apiKey = await this.getApiKeyForProject(projectId, apiKeyId);
-
-    apiKey.revoke();
-
-    await this.apiKeyRepository.update(apiKey);
-
-    return apiKey;
-  }
-
-  async assignEndpointPermission(
-    projectId: ApiKeyProjectId,
-    apiKeyId: ApiKeyId,
-    endpointId: ApiKeyProjectEndpointId,
-  ): Promise<ApiKeyEndpointPermission> {
-    const apiKey = await this.getApiKeyForProject(projectId, apiKeyId);
-
-    if (apiKey.isRevoked()) {
-      throw new ApiKeyRevokedError();
+        return this.apiKeyRepository.findByProjectId(projectId);
     }
 
-    const alreadyExists =
-      await this.permissionRepository.existsByApiKeyIdAndEndpointId(
-        apiKeyId,
-        endpointId,
-      );
+    async getApiKey(
+        ownerId: ApiKeyOwnerId,
+        projectId: ApiKeyProjectId,
+        apiKeyId: ApiKeyId,
+    ): Promise<ApiKey> {
+        await this.projectAccess.ensureProjectIsAccessible(ownerId, projectId);
 
-    if (alreadyExists) {
-      throw new ApiKeyEndpointPermissionAlreadyExistsError();
+        return this.getApiKeyForProject(projectId, apiKeyId);
     }
 
-    const permission = ApiKeyEndpointPermission.create({
-      apiKeyId,
-      projectId,
-      endpointId,
-    });
+    async revokeApiKey(
+        ownerId: ApiKeyOwnerId,
+        projectId: ApiKeyProjectId,
+        apiKeyId: ApiKeyId,
+    ): Promise<ApiKey> {
+        await this.projectAccess.ensureProjectIsAccessible(ownerId, projectId);
 
-    await this.permissionRepository.create(permission);
+        const apiKey = await this.getApiKeyForProject(projectId, apiKeyId);
 
-    return permission;
-  }
+        apiKey.revoke();
 
-  async removeEndpointPermission(
-    projectId: ApiKeyProjectId,
-    apiKeyId: ApiKeyId,
-    endpointId: ApiKeyProjectEndpointId,
-  ): Promise<void> {
-    await this.getApiKeyForProject(projectId, apiKeyId);
+        await this.apiKeyRepository.update(apiKey);
 
-    const exists = await this.permissionRepository.existsByApiKeyIdAndEndpointId(
-      apiKeyId,
-      endpointId,
-    );
-
-    if (!exists) {
-      throw new ApiKeyEndpointPermissionNotFoundError();
+        return apiKey;
     }
 
-    await this.permissionRepository.deleteByApiKeyIdAndEndpointId(
-      apiKeyId,
-      endpointId,
-    );
-  }
+    async assignEndpointPermission(
+        ownerId: ApiKeyOwnerId,
+        projectId: ApiKeyProjectId,
+        apiKeyId: ApiKeyId,
+        endpointId: ApiKeyProjectEndpointId,
+    ): Promise<ApiKeyEndpointPermission> {
+        await this.projectAccess.ensureEndpointIsAccessible(
+            ownerId,
+            projectId,
+            endpointId,
+        );
 
-  async listEndpointPermissions(
-    projectId: ApiKeyProjectId,
-    apiKeyId: ApiKeyId,
-  ): Promise<ApiKeyEndpointPermission[]> {
-    await this.getApiKeyForProject(projectId, apiKeyId);
+        const apiKey = await this.getApiKeyForProject(projectId, apiKeyId);
 
-    return this.permissionRepository.findByApiKeyId(apiKeyId);
-  }
+        if (apiKey.isRevoked()) {
+            throw new ApiKeyRevokedError();
+        }
 
-  private async getApiKeyForProject(
-    projectId: ApiKeyProjectId,
-    apiKeyId: ApiKeyId,
-  ): Promise<ApiKey> {
-    const apiKey = await this.apiKeyRepository.findById(apiKeyId);
+        const alreadyExists =
+            await this.permissionRepository.existsByApiKeyIdAndEndpointId(
+                apiKeyId,
+                endpointId,
+            );
 
-    if (!apiKey || !apiKey.belongsToProject(projectId)) {
-      throw new ApiKeyNotFoundError();
+        if (alreadyExists) {
+            throw new ApiKeyEndpointPermissionAlreadyExistsError();
+        }
+
+        const permission = ApiKeyEndpointPermission.create({
+            apiKeyId,
+            projectId,
+            endpointId,
+        });
+
+        await this.permissionRepository.create(permission);
+
+        return permission;
     }
 
-    return apiKey;
-  }
+    async removeEndpointPermission(
+        ownerId: ApiKeyOwnerId,
+        projectId: ApiKeyProjectId,
+        apiKeyId: ApiKeyId,
+        endpointId: ApiKeyProjectEndpointId,
+    ): Promise<void> {
+        await this.projectAccess.ensureEndpointIsAccessible(
+            ownerId,
+            projectId,
+            endpointId,
+        );
+
+        await this.getApiKeyForProject(projectId, apiKeyId);
+
+        const exists = await this.permissionRepository.existsByApiKeyIdAndEndpointId(
+            apiKeyId,
+            endpointId,
+        );
+
+        if (!exists) {
+            throw new ApiKeyEndpointPermissionNotFoundError();
+        }
+
+        await this.permissionRepository.deleteByApiKeyIdAndEndpointId(
+            apiKeyId,
+            endpointId,
+        );
+    }
+
+    async listEndpointPermissions(
+        ownerId: ApiKeyOwnerId,
+        projectId: ApiKeyProjectId,
+        apiKeyId: ApiKeyId,
+    ): Promise<ApiKeyEndpointPermission[]> {
+        await this.projectAccess.ensureProjectIsAccessible(ownerId, projectId);
+
+        await this.getApiKeyForProject(projectId, apiKeyId);
+
+        return this.permissionRepository.findByApiKeyId(apiKeyId);
+    }
+
+    private async getApiKeyForProject(
+        projectId: ApiKeyProjectId,
+        apiKeyId: ApiKeyId,
+    ): Promise<ApiKey> {
+        const apiKey = await this.apiKeyRepository.findById(apiKeyId);
+
+        if (!apiKey || !apiKey.belongsToProject(projectId)) {
+            throw new ApiKeyNotFoundError();
+        }
+
+        return apiKey;
+    }
 }

@@ -86,3 +86,11 @@ export class InvalidIssuedApiKeyError extends ApplicationError {
     super('Invalid issued API key.');
   }
 }
+
+export class InvalidApiKeyOwnerIdError extends ApplicationError {
+  readonly code = 'INVALID_API_KEY_OWNER_ID';
+
+  constructor(value: string) {
+    super('Invalid API key owner id.', { value });
+  }
+}

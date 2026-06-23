@@ -39,3 +39,19 @@ export class ApiKeyEndpointPermissionNotFoundError extends ApplicationError {
     super('API key endpoint permission was not found.');
   }
 }
+
+export class ApiKeyProjectNotAccessibleError extends ApplicationError {
+  readonly code = 'API_KEY_PROJECT_NOT_ACCESSIBLE';
+
+  constructor() {
+    super('Project was not found or is not accessible.');
+  }
+}
+
+export class ApiKeyProjectEndpointNotAccessibleError extends ApplicationError {
+  readonly code = 'API_KEY_PROJECT_ENDPOINT_NOT_ACCESSIBLE';
+
+  constructor() {
+    super('Project endpoint was not found or is not accessible.');
+  }
+}
