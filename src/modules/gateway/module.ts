@@ -15,9 +15,11 @@ import {
 } from './application/http-forwarder.port';
 import { GatewayService } from './application/service';
 import { GatewayHttpForwarderAdapter } from './infrastructure/http/http-forwarder.adapter';
+import { GatewayController } from './presentation/http/gateway.controller';
 
 @Module({
   imports: [ApiKeysPublicModule, ProjectsPublicModule],
+  controllers: [GatewayController],
   providers: [
     {
       provide: GATEWAY_HTTP_FORWARDER_PORT,
