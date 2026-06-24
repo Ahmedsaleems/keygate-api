@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import {
   PROJECT_ACCESS_PUBLIC_PORT,
   type ProjectAccessPublicPort,
-} from 'src/modules/projects/public/project-access.port';
+} from 'src/modules/projects/public/project-access.public.port';
 import { ApiKeyProjectEndpointNotAccessibleError } from '../../application/error';
 import { ApiKeyProjectNotAccessibleError } from '../../application/error';
 import { ApiKeyProjectAccessPort } from '../../application/project-access.port';

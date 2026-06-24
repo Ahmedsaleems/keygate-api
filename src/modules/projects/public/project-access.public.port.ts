@@ -1,7 +1,7 @@
 import {
   ProjectAccessCheckParams,
   ProjectEndpointAccessCheckParams,
-} from './project-access.types';
+} from './project-access.public.types';
 
 export const PROJECT_ACCESS_PUBLIC_PORT = Symbol(
   'PROJECT_ACCESS_PUBLIC_PORT',

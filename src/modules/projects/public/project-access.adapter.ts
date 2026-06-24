@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../lib/database/prisma.service';
-import { ProjectAccessPublicPort } from './project-access.port';
+import { ProjectAccessPublicPort } from './project-access.public.port';
 import {
   ProjectAccessCheckParams,
   ProjectEndpointAccessCheckParams,
-} from './project-access.types';
+} from './project-access.public.types';
 
 @Injectable()
 export class ProjectAccessPublicAdapter implements ProjectAccessPublicPort {

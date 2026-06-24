@@ -20,7 +20,7 @@ import { PrismaApiKeyRepository } from './infrastructure/persistence/prisma-api-
 import { ApiKeysController } from './presentation/http/api-keys.controller';
 import { ApiKeyEndpointPermissionsController } from './presentation/http/endpoint-permissions.controller';
 import { JwtAuthModule } from 'src/lib/auth/auth.module';
-import { ProjectsPublicModule } from '../projects/public/projects-public.module';
+import { ProjectsPublicModule } from '../projects/public/projects.public.module';
 import { ProjectAccessAdapter } from './infrastructure/adapter/project-access.adapter';
 
 
