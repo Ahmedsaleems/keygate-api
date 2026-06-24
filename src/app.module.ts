@@ -6,6 +6,7 @@ import { DatabaseModule } from './lib/database/module';
 import { UsersModule } from './modules/users/module';
 import { ProjectsModule } from './modules/projects/module';
 import { ApiKeysModule } from './modules/api-keys/module';
+import { GatewayModule } from './modules/gateway/module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { ApiKeysModule } from './modules/api-keys/module';
     UsersModule,
     ProjectsModule,
     ApiKeysModule,
+    GatewayModule,
   ],
   providers: [AppConfig],
   exports: [AppConfig],
