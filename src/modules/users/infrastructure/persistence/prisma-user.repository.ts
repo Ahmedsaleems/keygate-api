@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaErrorClassifier } from '../../../../lib/database/prisma-error.classifier';
 import { PrismaService } from '../../../../lib/database/prisma.service';
+import { UserAlreadyExistsError } from '../../application/error';
 import { UserRepositoryPort } from '../../application/user-repository.port';
 import { User } from '../../domain/user.entity';
 import { Email } from '../../domain/email.vo';
@@ -13,15 +15,23 @@ export class PrismaUserRepository implements UserRepositoryPort {
   async create(user: User): Promise<void> {
     const persistenceUser = PrismaUserMapper.toPersistence(user);
 
-    await this.prisma.user.create({
-      data: {
-        id: persistenceUser.id,
-        email: persistenceUser.email,
-        passwordHash: persistenceUser.passwordHash,
-        createdAt: persistenceUser.createdAt,
-        updatedAt: persistenceUser.updatedAt,
-      },
-    });
+    try {
+      await this.prisma.user.create({
+        data: {
+          id: persistenceUser.id,
+          email: persistenceUser.email,
+          passwordHash: persistenceUser.passwordHash,
+          createdAt: persistenceUser.createdAt,
+          updatedAt: persistenceUser.updatedAt,
+        },
+      });
+    } catch (error: unknown) {
+      if (PrismaErrorClassifier.isUniqueConstraintViolation(error, ['email'])) {
+        throw new UserAlreadyExistsError(user.getEmail().toString());
+      }
+
+      throw error;
+    }
   }
 
   async findById(userId: UserId): Promise<User | null> {

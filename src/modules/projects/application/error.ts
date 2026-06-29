@@ -21,6 +21,16 @@ export class ProjectAccessDeniedError extends ApplicationError {
   }
 }
 
+export class ProjectOwnerNotFoundError extends ApplicationError {
+  readonly code = 'PROJECT_OWNER_NOT_FOUND';
+
+  constructor(ownerId: string) {
+    super('Project owner was not found.', {
+      ownerId,
+    });
+  }
+}
+
 export class ProjectAlreadyExistsError extends ApplicationError {
   readonly code = 'PROJECT_ALREADY_EXISTS';
 

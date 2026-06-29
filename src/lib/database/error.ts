@@ -14,3 +14,12 @@ export class DatabaseConnectionError extends DatabaseError {
   }
 }
 
+export class DatabaseUnavailableError extends DatabaseError {
+  readonly code = 'DATABASE_UNAVAILABLE';
+
+  constructor(cause: unknown) {
+    super('Database is temporarily unavailable.', undefined, {
+      cause,
+    });
+  }
+}

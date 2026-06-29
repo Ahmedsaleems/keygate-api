@@ -41,7 +41,7 @@ export class ApiKeysService {
         );
 
         if (alreadyExists) {
-            throw new ApiKeyAlreadyExistsError();
+            throw new ApiKeyAlreadyExistsError(name.toString());
         }
 
         const credential = this.apiKeyCredentialService.generate();

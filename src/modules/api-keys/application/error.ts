@@ -3,8 +3,10 @@ import { ApplicationError } from 'src/lib/errors/application.error';
 export class ApiKeyAlreadyExistsError extends ApplicationError {
   readonly code = 'API_KEY_ALREADY_EXISTS';
 
-  constructor() {
-    super('API key with this name already exists for this project.');
+  constructor(name: string) {
+    super('API key with this name already exists for this project.', {
+      name,
+    });
   }
 }
 
@@ -53,5 +55,13 @@ export class ApiKeyProjectEndpointNotAccessibleError extends ApplicationError {
 
   constructor() {
     super('Project endpoint was not found or is not accessible.');
+  }
+}
+
+export class ApiKeyEndpointPermissionReferencesNotFoundError extends ApplicationError {
+  readonly code = 'API_KEY_ENDPOINT_PERMISSION_REFERENCES_NOT_FOUND';
+
+  constructor() {
+    super('Invalid API key endpoint permission references.');
   }
 }

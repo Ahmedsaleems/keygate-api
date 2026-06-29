@@ -1,5 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaErrorClassifier } from '../../../../lib/database/prisma-error.classifier';
 import { PrismaService } from '../../../../lib/database/prisma.service';
+import {
+  ProjectAlreadyExistsError,
+  ProjectNotFoundError,
+  ProjectOwnerNotFoundError,
+} from '../../application/error';
 import { ProjectRepositoryPort } from '../../application/project-repository.port';
 import { Project } from '../../domain/project.entity';
 import { ProjectId } from '../../domain/project-id.vo';
@@ -14,16 +20,35 @@ export class PrismaProjectRepository implements ProjectRepositoryPort {
   async create(project: Project): Promise<void> {
     const persistenceProject = PrismaProjectMapper.toPersistence(project);
 
-    await this.prisma.project.create({
-      data: {
-        id: persistenceProject.id,
-        ownerId: persistenceProject.ownerId,
-        name: persistenceProject.name,
-        description: persistenceProject.description,
-        createdAt: persistenceProject.createdAt,
-        updatedAt: persistenceProject.updatedAt,
-      },
-    });
+    try {
+      await this.prisma.project.create({
+        data: {
+          id: persistenceProject.id,
+          ownerId: persistenceProject.ownerId,
+          name: persistenceProject.name,
+          description: persistenceProject.description,
+          createdAt: persistenceProject.createdAt,
+          updatedAt: persistenceProject.updatedAt,
+        },
+      });
+    } catch (error: unknown) {
+      if (
+        PrismaErrorClassifier.isUniqueConstraintViolation(error, [
+          'ownerId',
+          'name',
+        ])
+      ) {
+        throw new ProjectAlreadyExistsError(
+          persistenceProject.ownerId,
+          persistenceProject.name,);
+      }
+
+      if (PrismaErrorClassifier.isForeignKeyConstraintViolation(error)) {
+        throw new ProjectOwnerNotFoundError(persistenceProject.ownerId);
+      }
+
+      throw error;
+    }
   }
 
   async findById(projectId: ProjectId): Promise<Project | null> {
@@ -73,16 +98,35 @@ export class PrismaProjectRepository implements ProjectRepositoryPort {
   async update(project: Project): Promise<void> {
     const persistenceProject = PrismaProjectMapper.toPersistence(project);
 
-    await this.prisma.project.update({
-      where: {
-        id: persistenceProject.id,
-      },
-      data: {
-        name: persistenceProject.name,
-        description: persistenceProject.description,
-        updatedAt: persistenceProject.updatedAt,
-      },
-    });
+    try {
+      await this.prisma.project.update({
+        where: {
+          id: persistenceProject.id,
+        },
+        data: {
+          name: persistenceProject.name,
+          description: persistenceProject.description,
+          updatedAt: persistenceProject.updatedAt,
+        },
+      });
+    } catch (error: unknown) {
+      if (
+        PrismaErrorClassifier.isUniqueConstraintViolation(error, [
+          'ownerId',
+          'name',
+        ])
+      ) {
+        throw new ProjectAlreadyExistsError(
+          persistenceProject.ownerId,
+          persistenceProject.name,);
+      }
+
+      if (PrismaErrorClassifier.isRecordNotFound(error)) {
+        throw new ProjectNotFoundError(persistenceProject.id);
+      }
+
+      throw error;
+    }
   }
 
   async delete(projectId: ProjectId): Promise<void> {
