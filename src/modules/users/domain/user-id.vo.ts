@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { EmptyUserId } from './error';
+import { InvalidUserIdError } from './error';
 
 export class UserId {
   private constructor(private readonly value: string) {}
@@ -9,11 +9,12 @@ export class UserId {
   }
 
   static fromString(value: string): UserId {
-    if (!value || value.trim().length === 0) {
-      throw EmptyUserId;
+    const normalized = value.trim();
+    if (!normalized) {
+      throw new InvalidUserIdError(normalized);
     }
 
-    return new UserId(value);
+    return new UserId(normalized);
   }
 
   toString(): string {

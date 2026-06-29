@@ -1,7 +1,5 @@
 import { ApplicationError } from 'src/lib/errors/application.error';
 
-export const EmptyUserId: Error = new Error('UserId cannot be empty.')
-
 export class InvalidEmailError extends ApplicationError {
     readonly code = 'INVALID_EMAIL';
 
@@ -17,5 +15,15 @@ export class InvalidPasswordHashError extends ApplicationError {
 
     constructor() {
         super('Invalid password hash.');
+    }
+}
+
+export class InvalidUserIdError extends ApplicationError {
+    readonly code = 'INVALID_USER_ID';
+
+    constructor(id: string) {
+        super('Invalid user id.', {
+            id,
+        });
     }
 }

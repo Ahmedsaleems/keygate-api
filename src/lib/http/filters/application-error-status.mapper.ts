@@ -3,6 +3,7 @@ import { HttpStatus } from '@nestjs/common';
 const APPLICATION_ERROR_HTTP_STATUS_MAP: Record<string, number> = {
   INVALID_EMAIL: HttpStatus.BAD_REQUEST,
   INVALID_PASSWORD_HASH: HttpStatus.INTERNAL_SERVER_ERROR,
+  INVALID_USER_ID: HttpStatus.BAD_REQUEST,
 
   USER_ALREADY_EXISTS: HttpStatus.CONFLICT,
   INVALID_CREDENTIALS: HttpStatus.UNAUTHORIZED,
