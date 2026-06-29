@@ -4,6 +4,7 @@ import { ProjectAccessDeniedError } from './error';
 import { ProjectAlreadyExistsError } from './error';
 import { ProjectEndpointAlreadyExistsError } from './error';
 import { ProjectEndpointNotFoundError } from './error';
+import { ProjectEndpointRouteShapeAlreadyExistsError } from './error';
 import { ProjectNotFoundError } from './error';
 import { ProjectEndpoint } from '../domain/project-endpoint.entity';
 import { Project } from '../domain/project.entity';
@@ -122,6 +123,8 @@ export class ProjectsService {
       );
     }
 
+    await this.ensureEndpointRouteShapeIsAvailable(projectId, method, path);
+
     const endpoint = ProjectEndpoint.create({
       projectId,
       method,
@@ -187,6 +190,13 @@ export class ProjectsService {
           finalPath.toString(),
         );
       }
+
+      await this.ensureEndpointRouteShapeIsAvailable(
+        projectId,
+        finalMethod,
+        finalPath,
+        endpointId,
+      );
     }
 
     endpoint.update({
@@ -275,5 +285,38 @@ export class ProjectsService {
     }
 
     return endpoint;
+  }
+
+  private async ensureEndpointRouteShapeIsAvailable(
+    projectId: ProjectId,
+    method: EndpointMethod,
+    path: EndpointPath,
+    ignoredEndpointId?: ProjectEndpointId,
+  ): Promise<void> {
+    const endpoints =
+      await this.projectEndpointRepository.findByProjectId(projectId);
+
+    const conflictingEndpoint = endpoints.find((endpoint) => {
+      if (ignoredEndpointId && endpoint.getId().equals(ignoredEndpointId)) {
+        return false;
+      }
+
+      return (
+        endpoint.getMethod().equals(method) &&
+        endpoint.getPath().hasSameRouteShape(path)
+      );
+    });
+
+    if (!conflictingEndpoint) {
+      return;
+    }
+
+    throw new ProjectEndpointRouteShapeAlreadyExistsError(
+      projectId.toString(),
+      method.toString(),
+      path.toString(),
+      path.toRouteShape(),
+      conflictingEndpoint.getPath().toString(),
+    );
   }
 }

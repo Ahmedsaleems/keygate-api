@@ -15,13 +15,25 @@ type PathMatchResult = {
   pathParams: Record<string, string>;
 };
 
+type MatchedEndpoint = {
+  endpoint: {
+    id: string;
+    projectId: string;
+    method: PrismaEndpointMethod;
+    path: string;
+    upstreamUrl: string;
+    status: PrismaEndpointStatus;
+    createdAt: Date;
+  };
+  registeredPath: string;
+  pathParams: Record<string, string>;
+};
+
 const ALLOWED_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
 
 @Injectable()
-export class ProjectEndpointRuntimePublicService
-  implements ProjectEndpointRuntimePublicPort
-{
-  constructor(private readonly prisma: PrismaService) {}
+export class ProjectEndpointRuntimePublicAdapter implements ProjectEndpointRuntimePublicPort {
+  constructor(private readonly prisma: PrismaService) { }
 
   async resolveEndpoint(
     params: RuntimeProjectEndpointResolveParams,
@@ -50,11 +62,11 @@ export class ProjectEndpointRuntimePublicService
         path: true,
         upstreamUrl: true,
         status: true,
-      },
-      orderBy: {
-        createdAt: 'asc',
+        createdAt: true,
       },
     });
+
+    const matches: MatchedEndpoint[] = [];
 
     for (const endpoint of endpoints) {
       const registeredPath = this.normalizePath(endpoint.path);
@@ -69,23 +81,33 @@ export class ProjectEndpointRuntimePublicService
         continue;
       }
 
-      return {
-        endpointId: endpoint.id,
-        projectId: endpoint.projectId,
-        method: endpoint.method,
+      matches.push({
+        endpoint,
         registeredPath,
-        requestPath,
-        upstreamUrl: endpoint.upstreamUrl,
-        resolvedUpstreamUrl: this.resolveUpstreamUrl(
-          endpoint.upstreamUrl,
-          match.pathParams,
-        ),
-        status: endpoint.status,
         pathParams: match.pathParams,
-      };
+      });
     }
 
-    return null;
+    const selectedMatch = this.selectMostSpecificMatch(matches);
+
+    if (!selectedMatch) {
+      return null;
+    }
+
+    return {
+      endpointId: selectedMatch.endpoint.id,
+      projectId: selectedMatch.endpoint.projectId,
+      method: selectedMatch.endpoint.method,
+      registeredPath: selectedMatch.registeredPath,
+      requestPath,
+      upstreamUrl: selectedMatch.endpoint.upstreamUrl,
+      resolvedUpstreamUrl: this.resolveUpstreamUrl(
+        selectedMatch.endpoint.upstreamUrl,
+        selectedMatch.pathParams,
+      ),
+      status: selectedMatch.endpoint.status,
+      pathParams: selectedMatch.pathParams,
+    };
   }
 
   private normalizeMethod(method: string): PrismaEndpointMethod | null {
@@ -180,6 +202,74 @@ export class ProjectEndpointRuntimePublicService
     }
 
     return path.slice(1).split('/');
+  }
+
+  private selectMostSpecificMatch(
+    matches: MatchedEndpoint[],
+  ): MatchedEndpoint | null {
+    if (matches.length === 0) {
+      return null;
+    }
+
+    return [...matches].sort((left, right) => {
+      const specificity = this.compareRouteSpecificity(
+        left.registeredPath,
+        right.registeredPath,
+      );
+
+      if (specificity !== 0) {
+        return specificity;
+      }
+
+      // safety net checks (created time and id string comparison) (if routes registered through pipeline, this may not be reachable)
+      const createdAtDifference =
+        left.endpoint.createdAt.getTime() - right.endpoint.createdAt.getTime();
+
+      if (createdAtDifference !== 0) {
+        return createdAtDifference;
+      }
+
+      return left.endpoint.id.localeCompare(right.endpoint.id);
+    })[0];
+  }
+
+  private compareRouteSpecificity(leftPath: string, rightPath: string): number {
+    const leftSegments = this.toSegments(leftPath);
+    const rightSegments = this.toSegments(rightPath);
+
+    const staticSegmentDifference =
+      this.countStaticSegments(rightSegments) -
+      this.countStaticSegments(leftSegments);
+
+    if (staticSegmentDifference !== 0) {
+      return staticSegmentDifference;
+    }
+
+    for (let index = 0; index < leftSegments.length; index += 1) {
+      const leftIsStatic = !this.isParameterSegment(leftSegments[index] ?? '');
+      const rightIsStatic = !this.isParameterSegment(
+        rightSegments[index] ?? '',
+      );
+
+      if (leftIsStatic && !rightIsStatic) {
+        return -1;
+      }
+
+      if (!leftIsStatic && rightIsStatic) {
+        return 1;
+      }
+    }
+
+    return 0;
+  }
+
+  private countStaticSegments(segments: string[]): number {
+    return segments.filter((segment) => !this.isParameterSegment(segment))
+      .length;
+  }
+
+  private isParameterSegment(segment: string): boolean {
+    return segment.startsWith(':');
   }
 
   private resolveUpstreamUrl(

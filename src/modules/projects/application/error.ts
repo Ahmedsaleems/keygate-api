@@ -53,3 +53,23 @@ export class ProjectEndpointAlreadyExistsError extends ApplicationError {
     });
   }
 }
+
+export class ProjectEndpointRouteShapeAlreadyExistsError extends ApplicationError {
+  readonly code = 'PROJECT_ENDPOINT_ROUTE_SHAPE_ALREADY_EXISTS';
+
+  constructor(
+    projectId: string,
+    method: string,
+    path: string,
+    routeShape: string,
+    conflictingPath: string,
+  ) {
+    super('Project endpoint with this method and route shape already exists.', {
+      projectId,
+      method,
+      path,
+      routeShape,
+      conflictingPath,
+    });
+  }
+}

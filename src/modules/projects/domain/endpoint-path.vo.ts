@@ -25,6 +25,23 @@ export class EndpointPath {
     return this.value;
   }
 
+  toRouteShape(): string {
+    if (this.value === '/') {
+      return this.value;
+    }
+
+    const segments = this.value.slice(1).split('/');
+    const normalizedSegments = segments.map((segment) =>
+      segment.startsWith(':') ? ':param' : segment,
+    );
+
+    return `/${normalizedSegments.join('/')}`;
+  }
+
+  hasSameRouteShape(other: EndpointPath): boolean {
+    return this.toRouteShape() === other.toRouteShape();
+  }
+
   equals(other: EndpointPath): boolean {
     return this.value === other.value;
   }
