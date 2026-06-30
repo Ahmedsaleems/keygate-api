@@ -1,6 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../../lib/database/prisma.service';
-import { ApiKeyService } from '../../../lib/api-keys/service';
+import { ApiKeysService } from '../application/api-key.service';
+import {
+  InvalidApiKeyIdError,
+  InvalidApiKeyProjectEndpointIdError,
+  InvalidRawApiKeyError,
+} from '../domain/error';
+import { ApiKeyId } from '../domain/api-key-id.vo';
+import { ApiKeyProjectEndpointId } from '../domain/project-endpoint-id.vo';
+import { RawApiKey } from '../domain/raw-api-key.vo';
 import { ApiKeyRuntimePublicPort } from './api-key-runtime.public.port';
 import {
   RuntimeApiKeyAuthenticationResult,
@@ -8,50 +15,37 @@ import {
 } from './api-key-runtime.public.types';
 
 @Injectable()
-export class ApiKeyRuntimePublicService implements ApiKeyRuntimePublicPort {
-  constructor(
-    private readonly prisma: PrismaService,
-    private readonly apiKeyCredentialService: ApiKeyService,
-  ) {}
+export class ApiKeyRuntimePublicAdapter implements ApiKeyRuntimePublicPort {
+  constructor(private readonly apiKeysService: ApiKeysService) {}
 
   async authenticateRawKey(
     rawApiKey: string,
   ): Promise<RuntimeApiKeyAuthenticationResult> {
-    const normalizedRawKey = rawApiKey.trim();
+    let credential: RawApiKey;
 
-    if (!normalizedRawKey) {
-      return {
-        status: 'INVALID',
-      };
+    try {
+      credential = RawApiKey.create(rawApiKey);
+    } catch (error: unknown) {
+      if (error instanceof InvalidRawApiKeyError) {
+        return { status: 'INVALID' };
+      }
+
+      throw error;
     }
 
-    const keyHash = this.apiKeyCredentialService.hash(normalizedRawKey);
-
-    const apiKey = await this.prisma.apiKey.findUnique({
-      where: {
-        keyHash,
-      },
-      select: {
-        id: true,
-        projectId: true,
-        prefix: true,
-        status: true,
-      },
-    });
+    const apiKey = await this.apiKeysService.authenticateRawKey(credential);
 
     if (!apiKey) {
-      return {
-        status: 'INVALID',
-      };
+      return { status: 'INVALID' };
     }
 
     const runtimeApiKey = {
-      apiKeyId: apiKey.id,
-      projectId: apiKey.projectId,
-      prefix: apiKey.prefix,
+      apiKeyId: apiKey.getId().toString(),
+      projectId: apiKey.getProjectId().toString(),
+      prefix: apiKey.getPrefix().toString(),
     };
 
-    if (apiKey.status === 'REVOKED') {
+    if (apiKey.isRevoked()) {
       return {
         status: 'REVOKED',
         apiKey: runtimeApiKey,
@@ -67,16 +61,23 @@ export class ApiKeyRuntimePublicService implements ApiKeyRuntimePublicPort {
   async canAccessEndpoint(
     params: RuntimeApiKeyEndpointAccessCheckParams,
   ): Promise<boolean> {
-    const count = await this.prisma.apiKeyEndpointPermission.count({
-      where: {
-        apiKeyId: params.apiKeyId,
-        endpointId: params.endpointId,
-        apiKey: {
-          status: 'ACTIVE',
-        },
-      },
-    });
+    let apiKeyId: ApiKeyId;
+    let endpointId: ApiKeyProjectEndpointId;
 
-    return count > 0;
+    try {
+      apiKeyId = ApiKeyId.fromString(params.apiKeyId);
+      endpointId = ApiKeyProjectEndpointId.fromString(params.endpointId);
+    } catch (error: unknown) {
+      if (
+        error instanceof InvalidApiKeyIdError ||
+        error instanceof InvalidApiKeyProjectEndpointIdError
+      ) {
+        return false;
+      }
+
+      throw error;
+    }
+
+    return this.apiKeysService.canAccessEndpoint(apiKeyId, endpointId);
   }
 }

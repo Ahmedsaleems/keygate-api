@@ -1,15 +1,14 @@
 import { Module } from '@nestjs/common';
-import { DatabaseModule } from '../../../lib/database/module';
-import { ApiKeySecurityModule } from '../../../lib/api-keys/module';
+import { ApiKeysModule } from '../module';
 import { API_KEY_RUNTIME_PUBLIC_PORT } from './api-key-runtime.public.port';
-import { ApiKeyRuntimePublicService } from './api-key-runtime.adapter';
+import { ApiKeyRuntimePublicAdapter } from './api-key-runtime.adapter';
 
 @Module({
-  imports: [DatabaseModule, ApiKeySecurityModule],
+  imports: [ApiKeysModule],
   providers: [
     {
       provide: API_KEY_RUNTIME_PUBLIC_PORT,
-      useClass: ApiKeyRuntimePublicService,
+      useClass: ApiKeyRuntimePublicAdapter,
     },
   ],
   exports: [API_KEY_RUNTIME_PUBLIC_PORT],

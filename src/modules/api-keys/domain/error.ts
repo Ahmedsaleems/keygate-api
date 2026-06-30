@@ -60,6 +60,14 @@ export class InvalidApiKeyHashError extends ApplicationError {
   }
 }
 
+export class InvalidRawApiKeyError extends ApplicationError {
+  readonly code = 'INVALID_RAW_API_KEY';
+
+  constructor() {
+    super('Invalid raw API key.');
+  }
+}
+
 export class InvalidApiKeyStatusError extends ApplicationError {
   readonly code = 'INVALID_API_KEY_STATUS';
 
