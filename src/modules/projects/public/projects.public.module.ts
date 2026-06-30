@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { DatabaseModule } from 'src/lib/database/module';
+import { ProjectsModule } from '../module';
 import { PROJECT_ACCESS_PUBLIC_PORT } from './project-access.public.port';
 import { ProjectAccessPublicAdapter } from './project-access.adapter';
 import { PROJECT_ENDPOINT_RUNTIME_PUBLIC_PORT } from './project-endpoint-runtime.public.port';
 import { ProjectEndpointRuntimePublicAdapter } from './project-endpoint-runtime.adapter';
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [ProjectsModule],
   providers: [
     {
       provide: PROJECT_ACCESS_PUBLIC_PORT,

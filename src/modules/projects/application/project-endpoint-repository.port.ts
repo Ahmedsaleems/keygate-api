@@ -15,6 +15,11 @@ export interface ProjectEndpointRepositoryPort {
 
   findByProjectId(projectId: ProjectId): Promise<ProjectEndpoint[]>;
 
+  findByProjectIdAndMethod(
+    projectId: ProjectId,
+    method: EndpointMethod,
+  ): Promise<ProjectEndpoint[]>;
+
   existsByProjectIdMethodAndPath(
     projectId: ProjectId,
     method: EndpointMethod,

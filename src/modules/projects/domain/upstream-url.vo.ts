@@ -3,7 +3,7 @@ import { InvalidUpstreamUrlError } from './error';
 export class UpstreamUrl {
   private static readonly MAX_LENGTH = 1000;
 
-  private constructor(private readonly value: string) {}
+  private constructor(private readonly value: string) { }
 
   static create(value: string): UpstreamUrl {
     const normalized = value.trim();
@@ -33,5 +33,15 @@ export class UpstreamUrl {
 
   equals(other: UpstreamUrl): boolean {
     return this.value === other.value;
+  }
+
+  resolveUpstreamUrl(pathParams: Record<string, string>): string {
+    let resolved = this.value;
+
+    for (const [key, value] of Object.entries(pathParams)) {
+      resolved = resolved.replaceAll(`:${key}`, encodeURIComponent(value));
+    }
+
+    return resolved;
   }
 }

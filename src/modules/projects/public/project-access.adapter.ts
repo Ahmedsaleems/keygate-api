@@ -1,5 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../../lib/database/prisma.service';
+import { ProjectsService } from '../application/projects.service';
+import {
+  InvalidProjectEndpointIdError,
+  InvalidProjectIdError,
+  InvalidProjectOwnerIdError,
+} from '../domain/error';
+import { ProjectEndpointId } from '../domain/project-endpoint-id.vo';
+import { ProjectId } from '../domain/project-id.vo';
+import { ProjectOwnerId } from '../domain/project-owner-id.vo';
 import { ProjectAccessPublicPort } from './project-access.public.port';
 import {
   ProjectAccessCheckParams,
@@ -8,32 +16,56 @@ import {
 
 @Injectable()
 export class ProjectAccessPublicAdapter implements ProjectAccessPublicPort {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly projectsService: ProjectsService) {}
 
   async canAccessProject(params: ProjectAccessCheckParams): Promise<boolean> {
-    const count = await this.prisma.project.count({
-      where: {
-        id: params.projectId,
-        ownerId: params.ownerId,
-      },
-    });
+    let ownerId: ProjectOwnerId;
+    let projectId: ProjectId;
 
-    return count > 0;
+    try {
+      ownerId = ProjectOwnerId.fromString(params.ownerId);
+      projectId = ProjectId.fromString(params.projectId);
+    } catch (error: unknown) {
+      if (
+        error instanceof InvalidProjectOwnerIdError ||
+        error instanceof InvalidProjectIdError
+      ) {
+        return false;
+      }
+
+      throw error;
+    }
+
+    return this.projectsService.canAccessProject(ownerId, projectId);
   }
 
   async canAccessEndpoint(
     params: ProjectEndpointAccessCheckParams,
   ): Promise<boolean> {
-    const count = await this.prisma.projectEndpoint.count({
-      where: {
-        id: params.endpointId,
-        projectId: params.projectId,
-        project: {
-          ownerId: params.ownerId,
-        },
-      },
-    });
+    let ownerId: ProjectOwnerId;
+    let projectId: ProjectId;
+    let endpointId: ProjectEndpointId;
 
-    return count > 0;
+    try {
+      ownerId = ProjectOwnerId.fromString(params.ownerId);
+      projectId = ProjectId.fromString(params.projectId);
+      endpointId = ProjectEndpointId.fromString(params.endpointId);
+    } catch (error: unknown) {
+      if (
+        error instanceof InvalidProjectOwnerIdError ||
+        error instanceof InvalidProjectIdError ||
+        error instanceof InvalidProjectEndpointIdError
+      ) {
+        return false;
+      }
+
+      throw error;
+    }
+
+    return this.projectsService.canAccessEndpoint(
+      ownerId,
+      projectId,
+      endpointId,
+    );
   }
 }

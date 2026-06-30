@@ -21,7 +21,59 @@ export class ProjectsService {
   constructor(
     private readonly projectRepository: ProjectRepositoryPort,
     private readonly projectEndpointRepository: ProjectEndpointRepositoryPort,
-  ) {}
+  ) { }
+
+  async canAccessProject(
+    ownerId: ProjectOwnerId,
+    projectId: ProjectId,
+  ): Promise<boolean> {
+    const project = await this.projectRepository.findById(projectId);
+
+    return project?.isOwnedBy(ownerId) ?? false;
+  }
+
+  async canAccessEndpoint(
+    ownerId: ProjectOwnerId,
+    projectId: ProjectId,
+    endpointId: ProjectEndpointId,
+  ): Promise<boolean> {
+    if (!(await this.canAccessProject(ownerId, projectId))) {
+      return false;
+    }
+
+    const endpoint = await this.projectEndpointRepository.findById(endpointId);
+
+    return endpoint?.belongsToProject(projectId) ?? false;
+  }
+
+  async resolveEndpoint(
+    projectId: ProjectId,
+    method: EndpointMethod,
+    requestPath: EndpointPath,
+  ): Promise<ProjectEndpoint | null> {
+    const endpoints =
+      await this.projectEndpointRepository.findByProjectIdAndMethod(
+        projectId,
+        method,
+      );
+
+    let selectedEndpoint: ProjectEndpoint | null = null;
+
+    for (const endpoint of endpoints) {
+      if (!endpoint.getPath().matches(requestPath)) {
+        continue;
+      }
+
+      if (
+        !selectedEndpoint ||
+        endpoint.resolutionPriority(selectedEndpoint) < 0
+      ) {
+        selectedEndpoint = endpoint;
+      }
+    }
+
+    return selectedEndpoint;
+  }
 
   async createProject(
     ownerId: ProjectOwnerId,
@@ -68,8 +120,10 @@ export class ProjectsService {
     const project = await this.getProjectForOwner(ownerId, projectId);
 
     if (name && !project.getName().equals(name)) {
-      const projectExists =
-        await this.projectRepository.existsByOwnerIdAndName(ownerId, name);
+      const projectExists = await this.projectRepository.existsByOwnerIdAndName(
+        ownerId,
+        name,
+      );
 
       if (projectExists) {
         throw new ProjectAlreadyExistsError(

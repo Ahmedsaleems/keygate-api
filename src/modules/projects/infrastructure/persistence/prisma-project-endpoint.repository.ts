@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaErrorClassifier } from '../../../../lib/database/prisma-error.classifier';
-import { EndpointMethod as PrismaEndpointMethod } from '../../../../lib/prisma/generated';
 import { PrismaService } from '../../../../lib/database/prisma.service';
 import {
   ProjectEndpointAlreadyExistsError,
@@ -47,7 +46,8 @@ export class PrismaProjectEndpointRepository implements ProjectEndpointRepositor
         throw new ProjectEndpointAlreadyExistsError(
           persistenceEndpoint.projectId,
           persistenceEndpoint.method,
-          persistenceEndpoint.path,);
+          persistenceEndpoint.path,
+        );
       }
 
       if (PrismaErrorClassifier.isForeignKeyConstraintViolation(error)) {
@@ -84,7 +84,25 @@ export class PrismaProjectEndpointRepository implements ProjectEndpointRepositor
       },
     });
 
-    return endpoints.map(PrismaProjectEndpointMapper.toDomain);
+    return endpoints.map((endpoint) =>
+      PrismaProjectEndpointMapper.toDomain(endpoint),
+    );
+  }
+
+  async findByProjectIdAndMethod(
+    projectId: ProjectId,
+    method: EndpointMethod,
+  ): Promise<ProjectEndpoint[]> {
+    const endpoints = await this.prisma.projectEndpoint.findMany({
+      where: {
+        projectId: projectId.toString(),
+        method: method.toString(),
+      },
+    });
+
+    return endpoints.map((endpoint) =>
+      PrismaProjectEndpointMapper.toDomain(endpoint),
+    );
   }
 
   async existsByProjectIdMethodAndPath(
@@ -95,7 +113,7 @@ export class PrismaProjectEndpointRepository implements ProjectEndpointRepositor
     const endpoint = await this.prisma.projectEndpoint.findFirst({
       where: {
         projectId: projectId.toString(),
-        method: method.toString() as PrismaEndpointMethod,
+        method: method.toString(),
         path: path.toString(),
       },
       select: {
@@ -134,7 +152,8 @@ export class PrismaProjectEndpointRepository implements ProjectEndpointRepositor
         throw new ProjectEndpointAlreadyExistsError(
           persistenceEndpoint.projectId,
           persistenceEndpoint.method,
-          persistenceEndpoint.path,);
+          persistenceEndpoint.path,
+        );
       }
 
       if (PrismaErrorClassifier.isRecordNotFound(error)) {

@@ -47,4 +47,55 @@ export class EndpointPath {
   equals(other: EndpointPath): boolean {
     return this.value === other.value;
   }
+
+  matches(requestPath: EndpointPath): boolean {
+    const registeredSegments = this.toSegments(this.value);
+    const requestSegments = this.toSegments(requestPath.value);
+
+    if (registeredSegments.length !== requestSegments.length) {
+      return false;
+    }
+
+    return registeredSegments.every((registeredSegment, index) => {
+      const requestSegment = requestSegments[index];
+
+      if (!registeredSegment || !requestSegment) {
+        return false;
+      }
+
+      if (registeredSegment.startsWith(':')) {
+        const paramName = registeredSegment.slice(1);
+
+        return paramName.length > 0;
+      }
+
+      return registeredSegment === requestSegment;
+    });
+  }
+
+  extractPathParams(requestPath: EndpointPath): Record<string, string> {
+    const registeredSegments = this.toSegments(this.value);
+    const requestSegments = this.toSegments(requestPath.value);
+    const pathParams: Record<string, string> = {};
+
+    registeredSegments.forEach((registeredSegment, index) => {
+      if (registeredSegment.startsWith(':')) {
+        const paramName = registeredSegment.slice(1);
+        const requestSegment = requestSegments[index];
+
+        if (paramName && requestSegment) {
+          pathParams[paramName] = decodeURIComponent(requestSegment);
+        }
+      }
+    });
+
+    return pathParams;
+  }
+
+  private toSegments(value: string): string[] {
+    const normalized =
+      value.length > 1 && value.endsWith('/') ? value.slice(0, -1) : value;
+
+    return normalized === '/' ? [] : normalized.slice(1).split('/');
+  }
 }

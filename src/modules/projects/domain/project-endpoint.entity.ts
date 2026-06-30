@@ -134,4 +134,57 @@ export class ProjectEndpoint {
   private touch(): void {
     this.updatedAt = new Date();
   }
+
+  resolutionPriority(other: ProjectEndpoint): number {
+    const leftSegments = this.toSegments(this.path.toString());
+    const rightSegments = this.toSegments(other.path.toString());
+
+    const staticSegmentDifference =
+      this.countStaticSegments(rightSegments) -
+      this.countStaticSegments(leftSegments);
+
+    if (staticSegmentDifference !== 0) {
+      return staticSegmentDifference;
+    }
+
+    for (let index = 0; index < leftSegments.length; index += 1) {
+      const leftIsStatic = !this.isParameterSegment(leftSegments[index] ?? '');
+      const rightIsStatic = !this.isParameterSegment(
+        rightSegments[index] ?? '',
+      );
+
+      if (leftIsStatic && !rightIsStatic) {
+        return -1;
+      }
+
+      if (!leftIsStatic && rightIsStatic) {
+        return 1;
+      }
+    }
+
+    const createdAtDifference =
+      this.createdAt.getTime() - other.createdAt.getTime();
+
+    if (createdAtDifference !== 0) {
+      return createdAtDifference;
+    }
+
+    return this.id.toString().localeCompare(other.getId().toString());
+  }
+
+  private toSegments(value: string): string[] {
+    const normalized =
+      value.length > 1 && value.endsWith('/') ? value.slice(0, -1) : value;
+
+    return normalized === '/' ? [] : normalized.slice(1).split('/');
+  }
+
+  private countStaticSegments(segments: string[]): number {
+    return segments.filter((segment) => !this.isParameterSegment(segment))
+      .length;
+  }
+
+  private isParameterSegment(segment: string): boolean {
+    return segment.startsWith(':');
+  }
 }
