@@ -98,11 +98,14 @@ export class ProjectEndpointsController {
     const projectId = ProjectId.fromString(projectIdParam);
     const endpointId = ProjectEndpointId.fromString(endpointIdParam);
 
-    const method = dto.method ? EndpointMethod.create(dto.method) : undefined;
-    const path = dto.path ? EndpointPath.create(dto.path) : undefined;
-    const upstreamUrl = dto.upstreamUrl
-      ? UpstreamUrl.create(dto.upstreamUrl)
-      : undefined;
+    const method =
+      dto.method === undefined ? undefined : EndpointMethod.create(dto.method);
+    const path =
+      dto.path === undefined ? undefined : EndpointPath.create(dto.path);
+    const upstreamUrl =
+      dto.upstreamUrl === undefined
+        ? undefined
+        : UpstreamUrl.create(dto.upstreamUrl);
 
     const endpoint = await this.projectsService.updateEndpoint(
       ownerId,

@@ -2,6 +2,7 @@ import { PasswordHasherPort } from 'src/lib/security/password-hasher.port';
 import { User } from '../domain/user.entity';
 import { Email } from '../domain/email.vo';
 import { PasswordHash } from '../domain/password-hash.vo';
+import { RawPassword } from '../domain/raw-password.vo';
 import { UserId } from '../domain/user-id.vo';
 import { InvalidCredentialsError } from './error';
 import { UserAlreadyExistsError } from './error';
@@ -14,14 +15,16 @@ export class UsersService {
     private readonly passwordHasher: PasswordHasherPort,
   ) {}
 
-  async register(email: Email, rawPassword: string): Promise<User> {
+  async register(email: Email, rawPassword: RawPassword): Promise<User> {
     const userExists = await this.userRepository.existsByEmail(email);
 
     if (userExists) {
       throw new UserAlreadyExistsError(email.toString());
     }
 
-    const hashedPassword = await this.passwordHasher.hash(rawPassword);
+    const hashedPassword = await this.passwordHasher.hash(
+      rawPassword.toString(),
+    );
     const passwordHash = PasswordHash.create(hashedPassword);
 
     const user = User.create({
@@ -34,7 +37,7 @@ export class UsersService {
     return user;
   }
 
-  async login(email: Email, rawPassword: string): Promise<User> {
+  async login(email: Email, rawPassword: RawPassword): Promise<User> {
     const user = await this.userRepository.findByEmail(email);
 
     if (!user) {
@@ -42,7 +45,7 @@ export class UsersService {
     }
 
     const isPasswordValid = await this.passwordHasher.verify(
-      rawPassword,
+      rawPassword.toString(),
       user.getPasswordHash().toString(),
     );
 

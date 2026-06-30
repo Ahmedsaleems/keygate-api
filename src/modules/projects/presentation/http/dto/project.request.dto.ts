@@ -1,18 +1,24 @@
-import { IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
-import { PartialType } from '@nestjs/mapped-types';
+import { IsNotEmpty, IsString, ValidateIf } from 'class-validator';
 
 export class CreateProjectRequestDto {
   @IsString()
-  @MinLength(3)
-  @MaxLength(80)
+  @IsNotEmpty()
   name!: string;
 
-  @IsOptional()
+  @ValidateIf((_object, value) => value !== undefined)
   @IsString()
-  @MaxLength(500)
+  @IsNotEmpty()
   description?: string;
 }
 
-export class UpdateProjectRequestDto extends PartialType(
-  CreateProjectRequestDto,
-) {}
+export class UpdateProjectRequestDto {
+  @ValidateIf((_object, value) => value !== undefined)
+  @IsString()
+  @IsNotEmpty()
+  name?: string;
+
+  @ValidateIf((_object, value) => value !== undefined)
+  @IsString()
+  @IsNotEmpty()
+  description?: string;
+}

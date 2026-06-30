@@ -1,8 +1,7 @@
-import { IsString, MaxLength, MinLength } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateApiKeyRequestDto {
   @IsString()
-  @MinLength(3)
-  @MaxLength(80)
+  @IsNotEmpty()
   name!: string;
 }

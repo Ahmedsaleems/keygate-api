@@ -1,6 +1,7 @@
 import { InvalidEndpointPathError } from './error';
 
 export class EndpointPath {
+  private static readonly MAX_LENGTH = 300;
   private static readonly PATH_REGEX = /^\/[A-Za-z0-9._~:/-]*$/;
 
   private constructor(private readonly value: string) {}
@@ -10,6 +11,7 @@ export class EndpointPath {
 
     if (
       !normalized ||
+      normalized.length > this.MAX_LENGTH ||
       !normalized.startsWith('/') ||
       normalized.includes('?') ||
       normalized.includes('#') ||

@@ -78,7 +78,8 @@ export class ProjectsController {
     const ownerId = ProjectOwnerId.fromString(currentUser.subject);
     const projectId = ProjectId.fromString(projectIdParam);
 
-    const name = dto.name ? ProjectName.create(dto.name) : undefined;
+    const name =
+      dto.name === undefined ? undefined : ProjectName.create(dto.name);
 
     const description =
       dto.description === undefined

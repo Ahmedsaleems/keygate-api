@@ -1,22 +1,32 @@
-import { IsIn, IsString, MaxLength } from 'class-validator';
-import { PartialType } from '@nestjs/mapped-types';
-
-const ALLOWED_ENDPOINT_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
+import { IsNotEmpty, IsString, ValidateIf } from 'class-validator';
 
 export class CreateProjectEndpointRequestDto {
   @IsString()
-  @IsIn(ALLOWED_ENDPOINT_METHODS)
+  @IsNotEmpty()
   method!: string;
 
   @IsString()
-  @MaxLength(300)
+  @IsNotEmpty()
   path!: string;
 
   @IsString()
-  @MaxLength(1000)
+  @IsNotEmpty()
   upstreamUrl!: string;
 }
 
-export class UpdateProjectEndpointRequestDto extends PartialType(
-  CreateProjectEndpointRequestDto,
-) {}
+export class UpdateProjectEndpointRequestDto {
+  @ValidateIf((_object, value) => value !== undefined)
+  @IsString()
+  @IsNotEmpty()
+  method?: string;
+
+  @ValidateIf((_object, value) => value !== undefined)
+  @IsString()
+  @IsNotEmpty()
+  path?: string;
+
+  @ValidateIf((_object, value) => value !== undefined)
+  @IsString()
+  @IsNotEmpty()
+  upstreamUrl?: string;
+}

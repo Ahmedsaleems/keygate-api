@@ -68,6 +68,9 @@ export class InvalidEndpointPathError extends ApplicationError {
     super('Invalid endpoint path.', {
       value,
       examples: ['/orders', '/orders/:orderId'],
+      constraints: {
+        maxLength: 300,
+      },
     });
   }
 }
@@ -89,6 +92,10 @@ export class InvalidUpstreamUrlError extends ApplicationError {
   constructor(value: string) {
     super('Invalid upstream URL.', {
       value,
+      constraints: {
+        maxLength: 1000,
+        allowedProtocols: ['http', 'https'],
+      },
     });
   }
 }

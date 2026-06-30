@@ -5,6 +5,7 @@ import { JwtAuthGuard } from 'src/lib/auth/jwt-auth.guard';
 import { JwtTokenService } from 'src/lib/auth/jwt-token.service';
 import { UsersService } from '../../application/service';
 import { Email } from '../../domain/email.vo';
+import { RawPassword } from '../../domain/raw-password.vo';
 import { UserId } from '../../domain/user-id.vo';
 import { AuthResponseDto } from './dto/auth-response.dto';
 import { CurrentUserResponseDto } from './dto/current-user.response.dto';
@@ -19,10 +20,13 @@ export class AuthController {
   ) {}
 
   @Post('register')
-  async register(@Body() dto: RegisterUserRequestDto): Promise<AuthResponseDto> {
+  async register(
+    @Body() dto: RegisterUserRequestDto,
+  ): Promise<AuthResponseDto> {
     const email = Email.create(dto.email);
+    const rawPassword = RawPassword.create(dto.password);
 
-    const user = await this.usersService.register(email, dto.password);
+    const user = await this.usersService.register(email, rawPassword);
 
     const accessToken = await this.jwtTokenService.issueAccessToken({
       subject: user.getId().toString(),
@@ -35,8 +39,9 @@ export class AuthController {
   @Post('login')
   async login(@Body() dto: LoginUserRequestDto): Promise<AuthResponseDto> {
     const email = Email.create(dto.email);
+    const rawPassword = RawPassword.create(dto.password);
 
-    const user = await this.usersService.login(email, dto.password);
+    const user = await this.usersService.login(email, rawPassword);
 
     const accessToken = await this.jwtTokenService.issueAccessToken({
       subject: user.getId().toString(),
