@@ -1,6 +1,7 @@
 import { EndpointMethod } from './endpoint-method.vo';
 import { EndpointPath } from './endpoint-path.vo';
 import { EndpointStatus } from './endpoint-status.vo';
+import { InvalidEndpointUpstreamParametersError } from './error';
 import { ProjectEndpointId } from './project-endpoint-id.vo';
 import { ProjectId } from './project-id.vo';
 import { UpstreamUrl } from './upstream-url.vo';
@@ -42,6 +43,8 @@ export class ProjectEndpoint {
   ) {}
 
   static create(props: CreateProjectEndpointProps): ProjectEndpoint {
+    this.ensureUpstreamParametersAreAvailable(props.path, props.upstreamUrl);
+
     const now = new Date();
 
     return new ProjectEndpoint(
@@ -57,6 +60,8 @@ export class ProjectEndpoint {
   }
 
   static rehydrate(props: RehydrateProjectEndpointProps): ProjectEndpoint {
+    this.ensureUpstreamParametersAreAvailable(props.path, props.upstreamUrl);
+
     return new ProjectEndpoint(
       props.id,
       props.projectId,
@@ -70,6 +75,14 @@ export class ProjectEndpoint {
   }
 
   update(props: UpdateProjectEndpointProps): void {
+    const finalPath = props.path ?? this.path;
+    const finalUpstreamUrl = props.upstreamUrl ?? this.upstreamUrl;
+
+    ProjectEndpoint.ensureUpstreamParametersAreAvailable(
+      finalPath,
+      finalUpstreamUrl,
+    );
+
     if (props.method) {
       this.method = props.method;
     }
@@ -133,6 +146,30 @@ export class ProjectEndpoint {
 
   private touch(): void {
     this.updatedAt = new Date();
+  }
+
+  private static ensureUpstreamParametersAreAvailable(
+    path: EndpointPath,
+    upstreamUrl: UpstreamUrl,
+  ): void {
+    const pathParameters = new Set(path.getParameterNames());
+    const unavailableParameters = [
+      ...new Set(
+        upstreamUrl
+          .getParameterNames()
+          .filter((parameterName) => !pathParameters.has(parameterName)),
+      ),
+    ];
+
+    if (unavailableParameters.length === 0) {
+      return;
+    }
+
+    throw new InvalidEndpointUpstreamParametersError(
+      path.toString(),
+      upstreamUrl.toString(),
+      unavailableParameters,
+    );
   }
 
   resolutionPriority(other: ProjectEndpoint): number {

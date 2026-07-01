@@ -52,6 +52,12 @@ export class EndpointPath {
     return this.value === other.value;
   }
 
+  getParameterNames(): string[] {
+    return this.toSegments()
+      .filter((segment) => segment.startsWith(':'))
+      .map((segment) => segment.slice(1));
+  }
+
   matches(requestPath: EndpointPath): boolean {
     const registeredSegments = this.toSegments();
     const requestSegments = requestPath.toSegments();
@@ -103,15 +109,34 @@ export class EndpointPath {
       return true;
     }
 
+    const parameterNames = new Set<string>();
+
     return value
       .slice(1)
       .split('/')
-      .every(
-        (segment) =>
-          segment.length > 0 &&
-          (!segment.startsWith(':') ||
-            this.PARAMETER_SEGMENT_REGEX.test(segment)),
-      );
+      .every((segment) => {
+        if (!segment) {
+          return false;
+        }
+
+        if (!segment.startsWith(':')) {
+          return true;
+        }
+
+        if (!this.PARAMETER_SEGMENT_REGEX.test(segment)) {
+          return false;
+        }
+
+        const parameterName = segment.slice(1);
+
+        if (parameterNames.has(parameterName)) {
+          return false;
+        }
+
+        parameterNames.add(parameterName);
+
+        return true;
+      });
   }
 
   private toSegments(): string[] {

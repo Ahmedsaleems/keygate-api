@@ -70,6 +70,7 @@ export class InvalidEndpointPathError extends ApplicationError {
       examples: ['/orders', '/orders/:orderId'],
       constraints: {
         maxLength: 300,
+        parameterNamesMustBeUnique: true,
       },
     });
   }
@@ -97,5 +98,24 @@ export class InvalidUpstreamUrlError extends ApplicationError {
         allowedProtocols: ['http', 'https'],
       },
     });
+  }
+}
+
+export class InvalidEndpointUpstreamParametersError extends ApplicationError {
+  readonly code = 'INVALID_ENDPOINT_UPSTREAM_PARAMETERS';
+
+  constructor(
+    path: string,
+    upstreamUrl: string,
+    unavailableParameters: string[],
+  ) {
+    super(
+      'Upstream URL contains parameters that are not defined by the endpoint path.',
+      {
+        path,
+        upstreamUrl,
+        unavailableParameters,
+      },
+    );
   }
 }
