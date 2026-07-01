@@ -173,10 +173,7 @@ export class ProjectEndpoint {
   }
 
   private toSegments(value: string): string[] {
-    const normalized =
-      value.length > 1 && value.endsWith('/') ? value.slice(0, -1) : value;
-
-    return normalized === '/' ? [] : normalized.slice(1).split('/');
+    return value === '/' ? [] : value.slice(1).split('/');
   }
 
   private countStaticSegments(segments: string[]): number {

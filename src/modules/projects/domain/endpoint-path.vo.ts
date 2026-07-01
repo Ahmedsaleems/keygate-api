@@ -3,19 +3,23 @@ import { InvalidEndpointPathError } from './error';
 export class EndpointPath {
   private static readonly MAX_LENGTH = 300;
   private static readonly PATH_REGEX = /^\/[A-Za-z0-9._~:/-]*$/;
+  private static readonly PARAMETER_SEGMENT_REGEX = /^:[A-Za-z_][A-Za-z0-9_]*$/;
 
   private constructor(private readonly value: string) {}
 
   static create(value: string): EndpointPath {
-    const normalized = value.trim();
+    const trimmed = value.trim();
+    const normalized = this.normalize(trimmed);
 
     if (
       !normalized ||
       normalized.length > this.MAX_LENGTH ||
       !normalized.startsWith('/') ||
+      trimmed.includes('//') ||
       normalized.includes('?') ||
       normalized.includes('#') ||
-      !this.PATH_REGEX.test(normalized)
+      !this.PATH_REGEX.test(normalized) ||
+      !this.hasValidSegments(normalized)
     ) {
       throw new InvalidEndpointPathError(value);
     }
@@ -49,8 +53,8 @@ export class EndpointPath {
   }
 
   matches(requestPath: EndpointPath): boolean {
-    const registeredSegments = this.toSegments(this.value);
-    const requestSegments = this.toSegments(requestPath.value);
+    const registeredSegments = this.toSegments();
+    const requestSegments = requestPath.toSegments();
 
     if (registeredSegments.length !== requestSegments.length) {
       return false;
@@ -59,14 +63,12 @@ export class EndpointPath {
     return registeredSegments.every((registeredSegment, index) => {
       const requestSegment = requestSegments[index];
 
-      if (!registeredSegment || !requestSegment) {
+      if (!requestSegment) {
         return false;
       }
 
       if (registeredSegment.startsWith(':')) {
-        const paramName = registeredSegment.slice(1);
-
-        return paramName.length > 0;
+        return true;
       }
 
       return registeredSegment === requestSegment;
@@ -74,8 +76,8 @@ export class EndpointPath {
   }
 
   extractPathParams(requestPath: EndpointPath): Record<string, string> {
-    const registeredSegments = this.toSegments(this.value);
-    const requestSegments = this.toSegments(requestPath.value);
+    const registeredSegments = this.toSegments();
+    const requestSegments = requestPath.toSegments();
     const pathParams: Record<string, string> = {};
 
     registeredSegments.forEach((registeredSegment, index) => {
@@ -92,10 +94,27 @@ export class EndpointPath {
     return pathParams;
   }
 
-  private toSegments(value: string): string[] {
-    const normalized =
-      value.length > 1 && value.endsWith('/') ? value.slice(0, -1) : value;
+  private static normalize(value: string): string {
+    return value.length > 1 && value.endsWith('/') ? value.slice(0, -1) : value;
+  }
 
-    return normalized === '/' ? [] : normalized.slice(1).split('/');
+  private static hasValidSegments(value: string): boolean {
+    if (value === '/') {
+      return true;
+    }
+
+    return value
+      .slice(1)
+      .split('/')
+      .every(
+        (segment) =>
+          segment.length > 0 &&
+          (!segment.startsWith(':') ||
+            this.PARAMETER_SEGMENT_REGEX.test(segment)),
+      );
+  }
+
+  private toSegments(): string[] {
+    return this.value === '/' ? [] : this.value.slice(1).split('/');
   }
 }
