@@ -1,10 +1,4 @@
-import {
-  All,
-  Controller,
-  Param,
-  Req,
-  Res,
-} from '@nestjs/common';
+import { All, Controller, Req, Res } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import { GatewayApiKeyMissingError } from '../../application/error';
 import { GatewayService } from '../../application/service';
@@ -20,11 +14,10 @@ import { GatewayRequestPath } from '../../domain/request-path.vo';
 export class GatewayController {
   constructor(private readonly gatewayService: GatewayService) {}
 
-  @All('/*gatewayPath')
+  @All(['', '/*gatewayPath'])
   async handleGatewayRequest(
     @Req() request: Request,
     @Res() response: Response,
-    @Param('gatewayPath') _gatewayPath?: string,
   ): Promise<void> {
     const gatewayRequest = GatewayRequest.create({
       rawApiKey: this.extractApiKey(request),
@@ -35,7 +28,8 @@ export class GatewayController {
       body: GatewayRequestBody.create(request.body),
     });
 
-    const upstreamResponse = await this.gatewayService.executeRequest(gatewayRequest);
+    const upstreamResponse =
+      await this.gatewayService.executeRequest(gatewayRequest);
 
     response
       .status(upstreamResponse.getStatusCode())
