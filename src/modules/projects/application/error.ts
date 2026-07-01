@@ -72,14 +72,14 @@ export class ProjectEndpointRouteShapeAlreadyExistsError extends ApplicationErro
     method: string,
     path: string,
     routeShape: string,
-    conflictingPath: string,
+    conflictingPath?: string,
   ) {
     super('Project endpoint with this method and route shape already exists.', {
       projectId,
       method,
       path,
       routeShape,
-      conflictingPath,
+      ...(conflictingPath === undefined ? {} : { conflictingPath }),
     });
   }
 }

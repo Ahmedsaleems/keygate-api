@@ -16,6 +16,7 @@ type ProjectEndpointPersistence = {
   projectId: string;
   method: PrismaEndpointMethod;
   path: string;
+  routeShape: string;
   upstreamUrl: string;
   status: PrismaEndpointStatus;
   createdAt: Date;
@@ -36,16 +37,15 @@ export class PrismaProjectEndpointMapper {
     });
   }
 
-  static toPersistence(
-    endpoint: ProjectEndpoint,
-  ): ProjectEndpointPersistence {
+  static toPersistence(endpoint: ProjectEndpoint): ProjectEndpointPersistence {
     return {
       id: endpoint.getId().toString(),
       projectId: endpoint.getProjectId().toString(),
-      method: endpoint.getMethod().toString() as PrismaEndpointMethod,
+      method: endpoint.getMethod().toString(),
       path: endpoint.getPath().toString(),
+      routeShape: endpoint.getPath().toRouteShape(),
       upstreamUrl: endpoint.getUpstreamUrl().toString(),
-      status: endpoint.getStatus().toString() as PrismaEndpointStatus,
+      status: endpoint.getStatus().toString(),
       createdAt: endpoint.getCreatedAt(),
       updatedAt: endpoint.getUpdatedAt(),
     };

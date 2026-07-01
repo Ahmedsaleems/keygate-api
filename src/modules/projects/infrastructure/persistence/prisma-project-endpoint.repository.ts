@@ -4,6 +4,7 @@ import { PrismaService } from '../../../../lib/database/prisma.service';
 import {
   ProjectEndpointAlreadyExistsError,
   ProjectEndpointNotFoundError,
+  ProjectEndpointRouteShapeAlreadyExistsError,
   ProjectNotFoundError,
 } from '../../application/error';
 import { ProjectEndpointRepositoryPort } from '../../application/project-endpoint-repository.port';
@@ -13,6 +14,10 @@ import { EndpointPath } from '../../domain/endpoint-path.vo';
 import { ProjectEndpointId } from '../../domain/project-endpoint-id.vo';
 import { ProjectId } from '../../domain/project-id.vo';
 import { PrismaProjectEndpointMapper } from './prisma-project-endpoint.mapper';
+
+type ProjectEndpointPersistence = ReturnType<
+  typeof PrismaProjectEndpointMapper.toPersistence
+>;
 
 @Injectable()
 export class PrismaProjectEndpointRepository implements ProjectEndpointRepositoryPort {
@@ -29,6 +34,7 @@ export class PrismaProjectEndpointRepository implements ProjectEndpointRepositor
           projectId: persistenceEndpoint.projectId,
           method: persistenceEndpoint.method,
           path: persistenceEndpoint.path,
+          routeShape: persistenceEndpoint.routeShape,
           upstreamUrl: persistenceEndpoint.upstreamUrl,
           status: persistenceEndpoint.status,
           createdAt: persistenceEndpoint.createdAt,
@@ -40,14 +46,10 @@ export class PrismaProjectEndpointRepository implements ProjectEndpointRepositor
         PrismaErrorClassifier.isUniqueConstraintViolation(error, [
           'projectId',
           'method',
-          'path',
+          'routeShape',
         ])
       ) {
-        throw new ProjectEndpointAlreadyExistsError(
-          persistenceEndpoint.projectId,
-          persistenceEndpoint.method,
-          persistenceEndpoint.path,
-        );
+        throw await this.createEndpointConflictError(persistenceEndpoint);
       }
 
       if (PrismaErrorClassifier.isForeignKeyConstraintViolation(error)) {
@@ -136,6 +138,7 @@ export class PrismaProjectEndpointRepository implements ProjectEndpointRepositor
         data: {
           method: persistenceEndpoint.method,
           path: persistenceEndpoint.path,
+          routeShape: persistenceEndpoint.routeShape,
           upstreamUrl: persistenceEndpoint.upstreamUrl,
           status: persistenceEndpoint.status,
           updatedAt: persistenceEndpoint.updatedAt,
@@ -146,14 +149,10 @@ export class PrismaProjectEndpointRepository implements ProjectEndpointRepositor
         PrismaErrorClassifier.isUniqueConstraintViolation(error, [
           'projectId',
           'method',
-          'path',
+          'routeShape',
         ])
       ) {
-        throw new ProjectEndpointAlreadyExistsError(
-          persistenceEndpoint.projectId,
-          persistenceEndpoint.method,
-          persistenceEndpoint.path,
-        );
+        throw await this.createEndpointConflictError(persistenceEndpoint);
       }
 
       if (PrismaErrorClassifier.isRecordNotFound(error)) {
@@ -170,5 +169,39 @@ export class PrismaProjectEndpointRepository implements ProjectEndpointRepositor
         id: endpointId.toString(),
       },
     });
+  }
+
+  private async createEndpointConflictError(
+    endpoint: ProjectEndpointPersistence,
+  ): Promise<
+    | ProjectEndpointAlreadyExistsError
+    | ProjectEndpointRouteShapeAlreadyExistsError
+  > {
+    const conflictingEndpoint = await this.prisma.projectEndpoint.findFirst({
+      where: {
+        projectId: endpoint.projectId,
+        method: endpoint.method,
+        routeShape: endpoint.routeShape,
+      },
+      select: {
+        path: true,
+      },
+    });
+
+    if (conflictingEndpoint?.path === endpoint.path) {
+      return new ProjectEndpointAlreadyExistsError(
+        endpoint.projectId,
+        endpoint.method,
+        endpoint.path,
+      );
+    }
+
+    return new ProjectEndpointRouteShapeAlreadyExistsError(
+      endpoint.projectId,
+      endpoint.method,
+      endpoint.path,
+      endpoint.routeShape,
+      conflictingEndpoint?.path,
+    );
   }
 }

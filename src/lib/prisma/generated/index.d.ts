@@ -3652,6 +3652,7 @@ export namespace Prisma {
     projectId: string | null
     method: $Enums.EndpointMethod | null
     path: string | null
+    routeShape: string | null
     upstreamUrl: string | null
     status: $Enums.EndpointStatus | null
     createdAt: Date | null
@@ -3663,6 +3664,7 @@ export namespace Prisma {
     projectId: string | null
     method: $Enums.EndpointMethod | null
     path: string | null
+    routeShape: string | null
     upstreamUrl: string | null
     status: $Enums.EndpointStatus | null
     createdAt: Date | null
@@ -3674,6 +3676,7 @@ export namespace Prisma {
     projectId: number
     method: number
     path: number
+    routeShape: number
     upstreamUrl: number
     status: number
     createdAt: number
@@ -3687,6 +3690,7 @@ export namespace Prisma {
     projectId?: true
     method?: true
     path?: true
+    routeShape?: true
     upstreamUrl?: true
     status?: true
     createdAt?: true
@@ -3698,6 +3702,7 @@ export namespace Prisma {
     projectId?: true
     method?: true
     path?: true
+    routeShape?: true
     upstreamUrl?: true
     status?: true
     createdAt?: true
@@ -3709,6 +3714,7 @@ export namespace Prisma {
     projectId?: true
     method?: true
     path?: true
+    routeShape?: true
     upstreamUrl?: true
     status?: true
     createdAt?: true
@@ -3793,6 +3799,7 @@ export namespace Prisma {
     projectId: string
     method: $Enums.EndpointMethod
     path: string
+    routeShape: string
     upstreamUrl: string
     status: $Enums.EndpointStatus
     createdAt: Date
@@ -3821,6 +3828,7 @@ export namespace Prisma {
     projectId?: boolean
     method?: boolean
     path?: boolean
+    routeShape?: boolean
     upstreamUrl?: boolean
     status?: boolean
     createdAt?: boolean
@@ -3835,6 +3843,7 @@ export namespace Prisma {
     projectId?: boolean
     method?: boolean
     path?: boolean
+    routeShape?: boolean
     upstreamUrl?: boolean
     status?: boolean
     createdAt?: boolean
@@ -3847,6 +3856,7 @@ export namespace Prisma {
     projectId?: boolean
     method?: boolean
     path?: boolean
+    routeShape?: boolean
     upstreamUrl?: boolean
     status?: boolean
     createdAt?: boolean
@@ -3859,13 +3869,14 @@ export namespace Prisma {
     projectId?: boolean
     method?: boolean
     path?: boolean
+    routeShape?: boolean
     upstreamUrl?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ProjectEndpointOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "projectId" | "method" | "path" | "upstreamUrl" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["projectEndpoint"]>
+  export type ProjectEndpointOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "projectId" | "method" | "path" | "routeShape" | "upstreamUrl" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["projectEndpoint"]>
   export type ProjectEndpointInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     project?: boolean | ProjectDefaultArgs<ExtArgs>
     apiKeyPermissions?: boolean | ProjectEndpoint$apiKeyPermissionsArgs<ExtArgs>
@@ -3889,6 +3900,7 @@ export namespace Prisma {
       projectId: string
       method: $Enums.EndpointMethod
       path: string
+      routeShape: string
       upstreamUrl: string
       status: $Enums.EndpointStatus
       createdAt: Date
@@ -4322,6 +4334,7 @@ export namespace Prisma {
     readonly projectId: FieldRef<"ProjectEndpoint", 'String'>
     readonly method: FieldRef<"ProjectEndpoint", 'EndpointMethod'>
     readonly path: FieldRef<"ProjectEndpoint", 'String'>
+    readonly routeShape: FieldRef<"ProjectEndpoint", 'String'>
     readonly upstreamUrl: FieldRef<"ProjectEndpoint", 'String'>
     readonly status: FieldRef<"ProjectEndpoint", 'EndpointStatus'>
     readonly createdAt: FieldRef<"ProjectEndpoint", 'DateTime'>
@@ -7020,6 +7033,7 @@ export namespace Prisma {
     projectId: 'projectId',
     method: 'method',
     path: 'path',
+    routeShape: 'routeShape',
     upstreamUrl: 'upstreamUrl',
     status: 'status',
     createdAt: 'createdAt',
@@ -7304,6 +7318,7 @@ export namespace Prisma {
     projectId?: StringFilter<"ProjectEndpoint"> | string
     method?: EnumEndpointMethodFilter<"ProjectEndpoint"> | $Enums.EndpointMethod
     path?: StringFilter<"ProjectEndpoint"> | string
+    routeShape?: StringFilter<"ProjectEndpoint"> | string
     upstreamUrl?: StringFilter<"ProjectEndpoint"> | string
     status?: EnumEndpointStatusFilter<"ProjectEndpoint"> | $Enums.EndpointStatus
     createdAt?: DateTimeFilter<"ProjectEndpoint"> | Date | string
@@ -7317,6 +7332,7 @@ export namespace Prisma {
     projectId?: SortOrder
     method?: SortOrder
     path?: SortOrder
+    routeShape?: SortOrder
     upstreamUrl?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -7327,26 +7343,28 @@ export namespace Prisma {
 
   export type ProjectEndpointWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    projectId_method_path?: ProjectEndpointProjectIdMethodPathCompoundUniqueInput
+    projectId_method_routeShape?: ProjectEndpointProjectIdMethodRouteShapeCompoundUniqueInput
     AND?: ProjectEndpointWhereInput | ProjectEndpointWhereInput[]
     OR?: ProjectEndpointWhereInput[]
     NOT?: ProjectEndpointWhereInput | ProjectEndpointWhereInput[]
     projectId?: StringFilter<"ProjectEndpoint"> | string
     method?: EnumEndpointMethodFilter<"ProjectEndpoint"> | $Enums.EndpointMethod
     path?: StringFilter<"ProjectEndpoint"> | string
+    routeShape?: StringFilter<"ProjectEndpoint"> | string
     upstreamUrl?: StringFilter<"ProjectEndpoint"> | string
     status?: EnumEndpointStatusFilter<"ProjectEndpoint"> | $Enums.EndpointStatus
     createdAt?: DateTimeFilter<"ProjectEndpoint"> | Date | string
     updatedAt?: DateTimeFilter<"ProjectEndpoint"> | Date | string
     project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
     apiKeyPermissions?: ApiKeyEndpointPermissionListRelationFilter
-  }, "id" | "projectId_method_path">
+  }, "id" | "projectId_method_routeShape">
 
   export type ProjectEndpointOrderByWithAggregationInput = {
     id?: SortOrder
     projectId?: SortOrder
     method?: SortOrder
     path?: SortOrder
+    routeShape?: SortOrder
     upstreamUrl?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -7364,6 +7382,7 @@ export namespace Prisma {
     projectId?: StringWithAggregatesFilter<"ProjectEndpoint"> | string
     method?: EnumEndpointMethodWithAggregatesFilter<"ProjectEndpoint"> | $Enums.EndpointMethod
     path?: StringWithAggregatesFilter<"ProjectEndpoint"> | string
+    routeShape?: StringWithAggregatesFilter<"ProjectEndpoint"> | string
     upstreamUrl?: StringWithAggregatesFilter<"ProjectEndpoint"> | string
     status?: EnumEndpointStatusWithAggregatesFilter<"ProjectEndpoint"> | $Enums.EndpointStatus
     createdAt?: DateTimeWithAggregatesFilter<"ProjectEndpoint"> | Date | string
@@ -7649,6 +7668,7 @@ export namespace Prisma {
     id?: string
     method: $Enums.EndpointMethod
     path: string
+    routeShape: string
     upstreamUrl: string
     status?: $Enums.EndpointStatus
     createdAt?: Date | string
@@ -7662,6 +7682,7 @@ export namespace Prisma {
     projectId: string
     method: $Enums.EndpointMethod
     path: string
+    routeShape: string
     upstreamUrl: string
     status?: $Enums.EndpointStatus
     createdAt?: Date | string
@@ -7673,6 +7694,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     method?: EnumEndpointMethodFieldUpdateOperationsInput | $Enums.EndpointMethod
     path?: StringFieldUpdateOperationsInput | string
+    routeShape?: StringFieldUpdateOperationsInput | string
     upstreamUrl?: StringFieldUpdateOperationsInput | string
     status?: EnumEndpointStatusFieldUpdateOperationsInput | $Enums.EndpointStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7686,6 +7708,7 @@ export namespace Prisma {
     projectId?: StringFieldUpdateOperationsInput | string
     method?: EnumEndpointMethodFieldUpdateOperationsInput | $Enums.EndpointMethod
     path?: StringFieldUpdateOperationsInput | string
+    routeShape?: StringFieldUpdateOperationsInput | string
     upstreamUrl?: StringFieldUpdateOperationsInput | string
     status?: EnumEndpointStatusFieldUpdateOperationsInput | $Enums.EndpointStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7698,6 +7721,7 @@ export namespace Prisma {
     projectId: string
     method: $Enums.EndpointMethod
     path: string
+    routeShape: string
     upstreamUrl: string
     status?: $Enums.EndpointStatus
     createdAt?: Date | string
@@ -7708,6 +7732,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     method?: EnumEndpointMethodFieldUpdateOperationsInput | $Enums.EndpointMethod
     path?: StringFieldUpdateOperationsInput | string
+    routeShape?: StringFieldUpdateOperationsInput | string
     upstreamUrl?: StringFieldUpdateOperationsInput | string
     status?: EnumEndpointStatusFieldUpdateOperationsInput | $Enums.EndpointStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7719,6 +7744,7 @@ export namespace Prisma {
     projectId?: StringFieldUpdateOperationsInput | string
     method?: EnumEndpointMethodFieldUpdateOperationsInput | $Enums.EndpointMethod
     path?: StringFieldUpdateOperationsInput | string
+    routeShape?: StringFieldUpdateOperationsInput | string
     upstreamUrl?: StringFieldUpdateOperationsInput | string
     status?: EnumEndpointStatusFieldUpdateOperationsInput | $Enums.EndpointStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8081,10 +8107,10 @@ export namespace Prisma {
     isNot?: ProjectWhereInput
   }
 
-  export type ProjectEndpointProjectIdMethodPathCompoundUniqueInput = {
+  export type ProjectEndpointProjectIdMethodRouteShapeCompoundUniqueInput = {
     projectId: string
     method: $Enums.EndpointMethod
-    path: string
+    routeShape: string
   }
 
   export type ProjectEndpointCountOrderByAggregateInput = {
@@ -8092,6 +8118,7 @@ export namespace Prisma {
     projectId?: SortOrder
     method?: SortOrder
     path?: SortOrder
+    routeShape?: SortOrder
     upstreamUrl?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -8103,6 +8130,7 @@ export namespace Prisma {
     projectId?: SortOrder
     method?: SortOrder
     path?: SortOrder
+    routeShape?: SortOrder
     upstreamUrl?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -8114,6 +8142,7 @@ export namespace Prisma {
     projectId?: SortOrder
     method?: SortOrder
     path?: SortOrder
+    routeShape?: SortOrder
     upstreamUrl?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -8896,6 +8925,7 @@ export namespace Prisma {
     id?: string
     method: $Enums.EndpointMethod
     path: string
+    routeShape: string
     upstreamUrl: string
     status?: $Enums.EndpointStatus
     createdAt?: Date | string
@@ -8907,6 +8937,7 @@ export namespace Prisma {
     id?: string
     method: $Enums.EndpointMethod
     path: string
+    routeShape: string
     upstreamUrl: string
     status?: $Enums.EndpointStatus
     createdAt?: Date | string
@@ -9033,6 +9064,7 @@ export namespace Prisma {
     projectId?: StringFilter<"ProjectEndpoint"> | string
     method?: EnumEndpointMethodFilter<"ProjectEndpoint"> | $Enums.EndpointMethod
     path?: StringFilter<"ProjectEndpoint"> | string
+    routeShape?: StringFilter<"ProjectEndpoint"> | string
     upstreamUrl?: StringFilter<"ProjectEndpoint"> | string
     status?: EnumEndpointStatusFilter<"ProjectEndpoint"> | $Enums.EndpointStatus
     createdAt?: DateTimeFilter<"ProjectEndpoint"> | Date | string
@@ -9357,6 +9389,7 @@ export namespace Prisma {
     id?: string
     method: $Enums.EndpointMethod
     path: string
+    routeShape: string
     upstreamUrl: string
     status?: $Enums.EndpointStatus
     createdAt?: Date | string
@@ -9369,6 +9402,7 @@ export namespace Prisma {
     projectId: string
     method: $Enums.EndpointMethod
     path: string
+    routeShape: string
     upstreamUrl: string
     status?: $Enums.EndpointStatus
     createdAt?: Date | string
@@ -9463,6 +9497,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     method?: EnumEndpointMethodFieldUpdateOperationsInput | $Enums.EndpointMethod
     path?: StringFieldUpdateOperationsInput | string
+    routeShape?: StringFieldUpdateOperationsInput | string
     upstreamUrl?: StringFieldUpdateOperationsInput | string
     status?: EnumEndpointStatusFieldUpdateOperationsInput | $Enums.EndpointStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9475,6 +9510,7 @@ export namespace Prisma {
     projectId?: StringFieldUpdateOperationsInput | string
     method?: EnumEndpointMethodFieldUpdateOperationsInput | $Enums.EndpointMethod
     path?: StringFieldUpdateOperationsInput | string
+    routeShape?: StringFieldUpdateOperationsInput | string
     upstreamUrl?: StringFieldUpdateOperationsInput | string
     status?: EnumEndpointStatusFieldUpdateOperationsInput | $Enums.EndpointStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9523,6 +9559,7 @@ export namespace Prisma {
     id?: string
     method: $Enums.EndpointMethod
     path: string
+    routeShape: string
     upstreamUrl: string
     status?: $Enums.EndpointStatus
     createdAt?: Date | string
@@ -9551,6 +9588,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     method?: EnumEndpointMethodFieldUpdateOperationsInput | $Enums.EndpointMethod
     path?: StringFieldUpdateOperationsInput | string
+    routeShape?: StringFieldUpdateOperationsInput | string
     upstreamUrl?: StringFieldUpdateOperationsInput | string
     status?: EnumEndpointStatusFieldUpdateOperationsInput | $Enums.EndpointStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9562,6 +9600,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     method?: EnumEndpointMethodFieldUpdateOperationsInput | $Enums.EndpointMethod
     path?: StringFieldUpdateOperationsInput | string
+    routeShape?: StringFieldUpdateOperationsInput | string
     upstreamUrl?: StringFieldUpdateOperationsInput | string
     status?: EnumEndpointStatusFieldUpdateOperationsInput | $Enums.EndpointStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9573,6 +9612,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     method?: EnumEndpointMethodFieldUpdateOperationsInput | $Enums.EndpointMethod
     path?: StringFieldUpdateOperationsInput | string
+    routeShape?: StringFieldUpdateOperationsInput | string
     upstreamUrl?: StringFieldUpdateOperationsInput | string
     status?: EnumEndpointStatusFieldUpdateOperationsInput | $Enums.EndpointStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

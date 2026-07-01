@@ -43,6 +43,7 @@ model ProjectEndpoint {
   projectId   String         @map("project_id")
   method      EndpointMethod
   path        String
+  routeShape  String         @map("route_shape")
   upstreamUrl String         @map("upstream_url")
   status      EndpointStatus @default(ENABLED)
   createdAt   DateTime       @default(now()) @map("created_at")
@@ -51,7 +52,7 @@ model ProjectEndpoint {
   project           Project                    @relation(fields: [projectId], references: [id], onDelete: Cascade)
   apiKeyPermissions ApiKeyEndpointPermission[]
 
-  @@unique([projectId, method, path])
+  @@unique([projectId, method, routeShape])
   @@index([projectId])
   @@map("project_endpoints")
 }

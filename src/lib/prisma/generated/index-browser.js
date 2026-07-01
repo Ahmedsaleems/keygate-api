@@ -143,6 +143,7 @@ exports.Prisma.ProjectEndpointScalarFieldEnum = {
   projectId: 'projectId',
   method: 'method',
   path: 'path',
+  routeShape: 'routeShape',
   upstreamUrl: 'upstreamUrl',
   status: 'status',
   createdAt: 'createdAt',
