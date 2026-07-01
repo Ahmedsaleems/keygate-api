@@ -28,9 +28,15 @@ export class GatewayUpstreamUrl {
       return this.value;
     }
 
-    const separator = this.value.includes('?') ? '&' : '?';
+    const url = new URL(this.value);
+    const existingQuery = url.search.slice(1);
+    const incomingQuery = queryString.toString();
 
-    return `${this.value}${separator}${queryString.toString()}`;
+    url.search = existingQuery
+      ? `${existingQuery}&${incomingQuery}`
+      : incomingQuery;
+
+    return url.toString();
   }
 
   toString(): string {
