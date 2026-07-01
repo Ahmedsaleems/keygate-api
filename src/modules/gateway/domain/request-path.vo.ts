@@ -31,7 +31,7 @@ export class GatewayRequestPath {
   }
 
   private static isValid(value: string): boolean {
-    return value.startsWith('/') && !/\s/.test(value);
+    return value.startsWith('/') && !value.includes('%') && !/\s/.test(value);
   }
 
   toString(): string {
