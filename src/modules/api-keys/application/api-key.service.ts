@@ -1,4 +1,4 @@
-import { ApiKeyService as ApiKeyCredentialService } from 'src/lib/api-keys/service';
+import { ApiKeyCredentialPublicPort } from 'src/lib/api-keys/api-key-credential.public.port';
 import { ApiKeyEndpointPermission } from '../domain/endpoint-permission.entity';
 import { ApiKey } from '../domain/api-key.entity';
 import { ApiKeyHash } from '../domain/api-key-hash.vo';
@@ -26,7 +26,7 @@ export class ApiKeysService {
     private readonly apiKeyRepository: ApiKeyRepositoryPort,
     private readonly permissionRepository: ApiKeyEndpointPermissionRepositoryPort,
     private readonly projectAccess: ApiKeyProjectAccessPort,
-    private readonly apiKeyCredentialService: ApiKeyCredentialService,
+    private readonly apiKeyCredentialService: ApiKeyCredentialPublicPort,
   ) {}
 
   async authenticateRawKey(rawApiKey: RawApiKey): Promise<ApiKey | null> {

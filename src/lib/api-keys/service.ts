@@ -1,15 +1,11 @@
 import { createHmac, randomBytes, timingSafeEqual } from 'node:crypto';
 import { Injectable } from '@nestjs/common';
+import { ApiKeyCredentialPublicPort } from './api-key-credential.public.port';
+import { GeneratedApiKeyCredential } from './api-key-credential.public.types';
 import { Config } from './config';
 
-export type GeneratedApiKeyCredential = {
-  rawKey: string;
-  prefix: string;
-  hash: string;
-};
-
 @Injectable()
-export class ApiKeyService {
+export class ApiKeyService implements ApiKeyCredentialPublicPort {
   constructor(private readonly config: Config) {}
 
   generate(): GeneratedApiKeyCredential {

@@ -1,6 +1,9 @@
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from 'src/lib/database/module';
-import { ApiKeyService as ApiKeyCredentialService } from '../../lib/api-keys/service';
+import {
+  API_KEY_CREDENTIAL_PUBLIC_PORT,
+  ApiKeyCredentialPublicPort,
+} from '../../lib/api-keys/api-key-credential.public.port';
 import { ApiKeySecurityModule } from '../../lib/api-keys/module';
 import {
   API_KEY_ENDPOINT_PERMISSION_REPOSITORY_PORT,
@@ -23,10 +26,13 @@ import { JwtAuthModule } from 'src/lib/auth/auth.module';
 import { ProjectsPublicModule } from '../projects/public';
 import { ProjectAccessAdapter } from './infrastructure/adapter/project-access.adapter';
 
-
-
 @Module({
-  imports: [DatabaseModule, ApiKeySecurityModule, JwtAuthModule, ProjectsPublicModule],
+  imports: [
+    DatabaseModule,
+    ApiKeySecurityModule,
+    JwtAuthModule,
+    ProjectsPublicModule,
+  ],
   controllers: [ApiKeysController, ApiKeyEndpointPermissionsController],
   providers: [
     {
@@ -47,7 +53,7 @@ import { ProjectAccessAdapter } from './infrastructure/adapter/project-access.ad
         apiKeyRepository: ApiKeyRepositoryPort,
         permissionRepository: ApiKeyEndpointPermissionRepositoryPort,
         projectAccess: ApiKeyProjectAccessPort,
-        apiKeyCredentialService: ApiKeyCredentialService,
+        apiKeyCredentialService: ApiKeyCredentialPublicPort,
       ) =>
         new ApiKeysService(
           apiKeyRepository,
@@ -59,7 +65,7 @@ import { ProjectAccessAdapter } from './infrastructure/adapter/project-access.ad
         API_KEY_REPOSITORY_PORT,
         API_KEY_ENDPOINT_PERMISSION_REPOSITORY_PORT,
         API_KEY_PROJECT_ACCESS_PORT,
-        ApiKeyCredentialService,
+        API_KEY_CREDENTIAL_PUBLIC_PORT,
       ],
     },
   ],
