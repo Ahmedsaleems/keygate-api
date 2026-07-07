@@ -2,10 +2,11 @@ import { PaginatedResponse } from '../common/types';
 import { PaginationStrategy } from '../common/types';
 import { CursorPaginationDirection } from './direction-parser';
 
-export type CursorPaginationPayload = Record<
-  string,
-  string | number | boolean | null
->;
+export type CursorPaginationPayload = object;
+
+export type CursorPaginationPayloadValidator<
+  TPayload extends CursorPaginationPayload,
+> = (value: unknown) => value is TPayload;
 
 export type CursorPaginationQuery = {
   cursor?: unknown;
@@ -13,32 +14,35 @@ export type CursorPaginationQuery = {
   direction?: unknown;
 };
 
-export type CursorPaginationConfig = {
+export type CursorPaginationConfig<TPayload extends CursorPaginationPayload> = {
+  cursorPayloadValidator: CursorPaginationPayloadValidator<TPayload>;
   defaultTake?: number;
   maxTake?: number;
   defaultDirection?: CursorPaginationDirection;
   lookAhead?: boolean;
 };
 
-export type CursorPaginationDbArgs = {
+export type CursorPaginationDbArgs<TPayload extends CursorPaginationPayload> = {
   take: number;
   skip: number;
-  cursor?: CursorPaginationPayload;
+  cursor?: TPayload;
 };
 
-export type CursorPaginationContext = {
-  take: number;
-  direction: CursorPaginationDirection;
-  cursor: string | null;
-  cursorPayload: CursorPaginationPayload | null;
-  lookAhead: boolean;
-};
+export type CursorPaginationContext<TPayload extends CursorPaginationPayload> =
+  {
+    take: number;
+    direction: CursorPaginationDirection;
+    cursor: string | null;
+    cursorPayload: TPayload | null;
+    lookAhead: boolean;
+  };
 
-export type PreparedCursorPagination = {
-  strategy: PaginationStrategy.CURSOR;
-  dbArgs: CursorPaginationDbArgs;
-  context: CursorPaginationContext;
-};
+export type PreparedCursorPagination<TPayload extends CursorPaginationPayload> =
+  {
+    strategy: PaginationStrategy.CURSOR;
+    dbArgs: CursorPaginationDbArgs<TPayload>;
+    context: CursorPaginationContext<TPayload>;
+  };
 
 export type CursorPaginationMeta = {
   type: PaginationStrategy.CURSOR;
@@ -54,8 +58,11 @@ export type CursorPaginatedResponse<TData> = PaginatedResponse<
   CursorPaginationMeta
 >;
 
-export type BuildCursorPaginatedResponseInput<TData> = {
+export type BuildCursorPaginatedResponseInput<
+  TData,
+  TPayload extends CursorPaginationPayload,
+> = {
   data: TData[];
-  context: CursorPaginationContext;
-  getCursorPayload: (item: TData) => CursorPaginationPayload;
+  context: CursorPaginationContext<TPayload>;
+  getCursorPayload: (item: TData) => TPayload;
 };

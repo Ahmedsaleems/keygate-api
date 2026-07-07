@@ -30,11 +30,12 @@ export function prepareOffsetPagination(
     maxValue: config.maxLimit ?? DEFAULT_MAX_LIMIT,
     errorFactory: (value) => new InvalidPaginationLimitError(value),
   });
+  const skip = calculateOffsetSkip(page, limit, query.page ?? page);
 
   return {
     strategy: PaginationStrategy.OFFSET,
     dbArgs: {
-      skip: (page - 1) * limit,
+      skip,
       take: limit,
     },
     context: {
@@ -44,14 +45,27 @@ export function prepareOffsetPagination(
   };
 }
 
+function calculateOffsetSkip(
+  page: number,
+  limit: number,
+  rawPage: unknown,
+): number {
+  const skip = (page - 1) * limit;
+
+  if (!Number.isSafeInteger(skip)) {
+    throw new InvalidPaginationPageError(rawPage);
+  }
+
+  return skip;
+}
+
 export function buildOffsetPaginatedResponse<TData>(
   input: BuildOffsetPaginatedResponseInput<TData>,
 ): OffsetPaginatedResponse<TData> {
   const itemCount = input.data.length;
   const totalItems = input.totalItems;
-  const totalPages = totalItems === 0
-    ? 0
-    : Math.ceil(totalItems / input.context.limit);
+  const totalPages =
+    totalItems === 0 ? 0 : Math.ceil(totalItems / input.context.limit);
 
   return {
     data: [...input.data],
@@ -63,8 +77,7 @@ export function buildOffsetPaginatedResponse<TData>(
       totalPages,
       currentPage: input.context.page,
       hasPreviousPage: input.context.page > 1,
-      hasNextPage:
-        totalPages > 0 && input.context.page < totalPages,
+      hasNextPage: totalPages > 0 && input.context.page < totalPages,
     },
   };
 }

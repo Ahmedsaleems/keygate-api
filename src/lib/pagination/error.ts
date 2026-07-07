@@ -4,7 +4,17 @@ export class InvalidPaginationStrategyError extends ApplicationError {
   readonly code = 'INVALID_PAGINATION_STRATEGY';
 
   constructor() {
-    super('Invalid pagination strategy. Offset and cursor pagination parameters cannot be mixed.');
+    super(
+      'Invalid pagination strategy. Offset and cursor pagination parameters cannot be mixed.',
+    );
+  }
+}
+
+export class UnsupportedCursorPaginationError extends ApplicationError {
+  readonly code = 'UNSUPPORTED_CURSOR_PAGINATION';
+
+  constructor() {
+    super('Cursor pagination is not supported for this request.');
   }
 }
 
@@ -31,7 +41,6 @@ export class InvalidPaginationPageError extends ApplicationError {
     super('Invalid pagination page.', { value });
   }
 }
-
 
 export class InvalidPaginationCursorError extends ApplicationError {
   readonly code = 'INVALID_PAGINATION_CURSOR';

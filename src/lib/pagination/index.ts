@@ -4,6 +4,7 @@ export type { RawPaginationQuery } from './common/types';
 
 export {
   preparePagination,
+  type PreparePaginationConfig,
   type PreparedPagination,
 } from './pagination';
 
@@ -41,6 +42,7 @@ export type {
   CursorPaginationConfig,
   CursorPaginationContext,
   CursorPaginationPayload,
+  CursorPaginationPayloadValidator,
   CursorPaginationDbArgs,
   CursorPaginationMeta,
   CursorPaginationQuery,
@@ -48,6 +50,7 @@ export type {
 } from './cursor/types';
 
 export { InvalidPaginationStrategyError } from './error';
+export { UnsupportedCursorPaginationError } from './error';
 export { InvalidPaginationLimitError } from './error';
 export { InvalidPaginationTakeError } from './error';
 export { InvalidPaginationPageError } from './error';

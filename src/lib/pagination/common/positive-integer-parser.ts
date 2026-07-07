@@ -10,6 +10,16 @@ export function parsePositiveInteger(
 ): number {
   const { value, defaultValue, maxValue, errorFactory } = options;
 
+  assertPositiveSafeInteger(defaultValue, errorFactory);
+
+  if (maxValue !== undefined) {
+    assertPositiveSafeInteger(maxValue, errorFactory);
+
+    if (defaultValue > maxValue) {
+      throw errorFactory(defaultValue);
+    }
+  }
+
   if (value === undefined || value === null) {
     return defaultValue;
   }
@@ -32,7 +42,7 @@ function parseInteger(
   errorFactory: (value: unknown) => Error,
 ): number {
   if (typeof value === 'number') {
-    if (!Number.isInteger(value)) {
+    if (!Number.isSafeInteger(value)) {
       throw errorFactory(value);
     }
 
@@ -56,4 +66,13 @@ function parseInteger(
   }
 
   return parsed;
+}
+
+function assertPositiveSafeInteger(
+  value: number,
+  errorFactory: (value: unknown) => Error,
+): void {
+  if (!Number.isSafeInteger(value) || value < 1) {
+    throw errorFactory(value);
+  }
 }

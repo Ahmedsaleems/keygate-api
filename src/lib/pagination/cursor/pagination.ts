@@ -12,6 +12,7 @@ import {
   CursorPaginatedResponse,
   CursorPaginationConfig,
   CursorPaginationPayload,
+  CursorPaginationPayloadValidator,
   CursorPaginationQuery,
   PreparedCursorPagination,
 } from './types';
@@ -19,10 +20,12 @@ import {
 const DEFAULT_TAKE = 10;
 const DEFAULT_MAX_TAKE = 100;
 
-export function prepareCursorPagination(
+export function prepareCursorPagination<
+  TPayload extends CursorPaginationPayload,
+>(
   query: CursorPaginationQuery,
-  config: CursorPaginationConfig = {},
-): PreparedCursorPagination {
+  config: CursorPaginationConfig<TPayload>,
+): PreparedCursorPagination<TPayload> {
   const take = parsePositiveInteger({
     value: query.take,
     defaultValue: config.defaultTake ?? DEFAULT_TAKE,
@@ -35,9 +38,24 @@ export function prepareCursorPagination(
     config.defaultDirection ?? CursorPaginationDirection.AFTER,
   );
 
-  const cursorPayload = parseCursor(query.cursor);
+  const cursorPayload = parseCursor(
+    query.cursor,
+    config.cursorPayloadValidator,
+  );
+
+  if (
+    direction === CursorPaginationDirection.BEFORE &&
+    cursorPayload === null
+  ) {
+    throw new InvalidPaginationCursorError();
+  }
+
   const lookAhead = config.lookAhead ?? true;
-  const dbTake = lookAhead ? take + 1 : take;
+  const requestedDbTake = lookAhead ? take + 1 : take;
+  const dbTake =
+    direction === CursorPaginationDirection.BEFORE
+      ? -requestedDbTake
+      : requestedDbTake;
 
   return {
     strategy: PaginationStrategy.CURSOR,
@@ -59,15 +77,20 @@ export function prepareCursorPagination(
   };
 }
 
-export function buildCursorPaginatedResponse<TData>(
-  input: BuildCursorPaginatedResponseInput<TData>,
+export function buildCursorPaginatedResponse<
+  TData,
+  TPayload extends CursorPaginationPayload,
+>(
+  input: BuildCursorPaginatedResponseInput<TData, TPayload>,
 ): CursorPaginatedResponse<TData> {
   const hasLookAheadItem =
     input.context.lookAhead && input.data.length > input.context.take;
 
-  const data = hasLookAheadItem
-    ? input.data.slice(0, input.context.take)
-    : [...input.data];
+  const data = !hasLookAheadItem
+    ? [...input.data]
+    : input.context.direction === CursorPaginationDirection.BEFORE
+      ? input.data.slice(-input.context.take)
+      : input.data.slice(0, input.context.take);
 
   const firstItem = data.at(0);
   const lastItem = data.at(-1);
@@ -97,9 +120,10 @@ export function buildCursorPaginatedResponse<TData>(
   };
 }
 
-function parseCursor(
+function parseCursor<TPayload extends CursorPaginationPayload>(
   value: unknown,
-): CursorPaginationPayload | null {
+  cursorPayloadValidator: CursorPaginationPayloadValidator<TPayload>,
+): TPayload | null {
   if (value === undefined || value === null) {
     return null;
   }
@@ -114,7 +138,13 @@ function parseCursor(
     throw new InvalidPaginationCursorError();
   }
 
-  return CursorPaginationCodec.decode(trimmed);
+  const decoded = CursorPaginationCodec.decode(trimmed);
+
+  if (!cursorPayloadValidator(decoded)) {
+    throw new InvalidPaginationCursorError();
+  }
+
+  return decoded;
 }
 
 function calculateHasPreviousPage(
