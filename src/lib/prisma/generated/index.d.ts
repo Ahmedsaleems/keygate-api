@@ -38,6 +38,11 @@ export type ApiKey = $Result.DefaultSelection<Prisma.$ApiKeyPayload>
  * 
  */
 export type ApiKeyEndpointPermission = $Result.DefaultSelection<Prisma.$ApiKeyEndpointPermissionPayload>
+/**
+ * Model UsageLog
+ * 
+ */
+export type UsageLog = $Result.DefaultSelection<Prisma.$UsageLogPayload>
 
 /**
  * Enums
@@ -69,6 +74,22 @@ export const ApiKeyStatus: {
 
 export type ApiKeyStatus = (typeof ApiKeyStatus)[keyof typeof ApiKeyStatus]
 
+
+export const UsageLogOutcome: {
+  SUCCESS: 'SUCCESS',
+  API_KEY_MISSING: 'API_KEY_MISSING',
+  API_KEY_INVALID: 'API_KEY_INVALID',
+  API_KEY_REVOKED: 'API_KEY_REVOKED',
+  ENDPOINT_NOT_FOUND: 'ENDPOINT_NOT_FOUND',
+  ENDPOINT_DISABLED: 'ENDPOINT_DISABLED',
+  PERMISSION_DENIED: 'PERMISSION_DENIED',
+  UPSTREAM_ERROR: 'UPSTREAM_ERROR',
+  GATEWAY_VALIDATION_ERROR: 'GATEWAY_VALIDATION_ERROR',
+  UNKNOWN_ERROR: 'UNKNOWN_ERROR'
+};
+
+export type UsageLogOutcome = (typeof UsageLogOutcome)[keyof typeof UsageLogOutcome]
+
 }
 
 export type EndpointMethod = $Enums.EndpointMethod
@@ -82,6 +103,10 @@ export const EndpointStatus: typeof $Enums.EndpointStatus
 export type ApiKeyStatus = $Enums.ApiKeyStatus
 
 export const ApiKeyStatus: typeof $Enums.ApiKeyStatus
+
+export type UsageLogOutcome = $Enums.UsageLogOutcome
+
+export const UsageLogOutcome: typeof $Enums.UsageLogOutcome
 
 /**
  * ##  Prisma Client ʲˢ
@@ -250,6 +275,16 @@ export class PrismaClient<
     * ```
     */
   get apiKeyEndpointPermission(): Prisma.ApiKeyEndpointPermissionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.usageLog`: Exposes CRUD operations for the **UsageLog** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UsageLogs
+    * const usageLogs = await prisma.usageLog.findMany()
+    * ```
+    */
+  get usageLog(): Prisma.UsageLogDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -695,7 +730,8 @@ export namespace Prisma {
     Project: 'Project',
     ProjectEndpoint: 'ProjectEndpoint',
     ApiKey: 'ApiKey',
-    ApiKeyEndpointPermission: 'ApiKeyEndpointPermission'
+    ApiKeyEndpointPermission: 'ApiKeyEndpointPermission',
+    UsageLog: 'UsageLog'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -714,7 +750,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "project" | "projectEndpoint" | "apiKey" | "apiKeyEndpointPermission"
+      modelProps: "user" | "project" | "projectEndpoint" | "apiKey" | "apiKeyEndpointPermission" | "usageLog"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1088,6 +1124,80 @@ export namespace Prisma {
           }
         }
       }
+      UsageLog: {
+        payload: Prisma.$UsageLogPayload<ExtArgs>
+        fields: Prisma.UsageLogFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UsageLogFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UsageLogPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UsageLogFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UsageLogPayload>
+          }
+          findFirst: {
+            args: Prisma.UsageLogFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UsageLogPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UsageLogFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UsageLogPayload>
+          }
+          findMany: {
+            args: Prisma.UsageLogFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UsageLogPayload>[]
+          }
+          create: {
+            args: Prisma.UsageLogCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UsageLogPayload>
+          }
+          createMany: {
+            args: Prisma.UsageLogCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UsageLogCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UsageLogPayload>[]
+          }
+          delete: {
+            args: Prisma.UsageLogDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UsageLogPayload>
+          }
+          update: {
+            args: Prisma.UsageLogUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UsageLogPayload>
+          }
+          deleteMany: {
+            args: Prisma.UsageLogDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UsageLogUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UsageLogUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UsageLogPayload>[]
+          }
+          upsert: {
+            args: Prisma.UsageLogUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UsageLogPayload>
+          }
+          aggregate: {
+            args: Prisma.UsageLogAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUsageLog>
+          }
+          groupBy: {
+            args: Prisma.UsageLogGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UsageLogGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UsageLogCountArgs<ExtArgs>
+            result: $Utils.Optional<UsageLogCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1189,6 +1299,7 @@ export namespace Prisma {
     projectEndpoint?: ProjectEndpointOmit
     apiKey?: ApiKeyOmit
     apiKeyEndpointPermission?: ApiKeyEndpointPermissionOmit
+    usageLog?: UsageLogOmit
   }
 
   /* Types for Logging */
@@ -1303,12 +1414,14 @@ export namespace Prisma {
     endpoints: number
     apiKeys: number
     apiKeyEndpointPermissions: number
+    usageLogs: number
   }
 
   export type ProjectCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     endpoints?: boolean | ProjectCountOutputTypeCountEndpointsArgs
     apiKeys?: boolean | ProjectCountOutputTypeCountApiKeysArgs
     apiKeyEndpointPermissions?: boolean | ProjectCountOutputTypeCountApiKeyEndpointPermissionsArgs
+    usageLogs?: boolean | ProjectCountOutputTypeCountUsageLogsArgs
   }
 
   // Custom InputTypes
@@ -1343,6 +1456,13 @@ export namespace Prisma {
     where?: ApiKeyEndpointPermissionWhereInput
   }
 
+  /**
+   * ProjectCountOutputType without action
+   */
+  export type ProjectCountOutputTypeCountUsageLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UsageLogWhereInput
+  }
+
 
   /**
    * Count Type ProjectEndpointCountOutputType
@@ -1350,10 +1470,12 @@ export namespace Prisma {
 
   export type ProjectEndpointCountOutputType = {
     apiKeyPermissions: number
+    usageLogs: number
   }
 
   export type ProjectEndpointCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     apiKeyPermissions?: boolean | ProjectEndpointCountOutputTypeCountApiKeyPermissionsArgs
+    usageLogs?: boolean | ProjectEndpointCountOutputTypeCountUsageLogsArgs
   }
 
   // Custom InputTypes
@@ -1374,6 +1496,13 @@ export namespace Prisma {
     where?: ApiKeyEndpointPermissionWhereInput
   }
 
+  /**
+   * ProjectEndpointCountOutputType without action
+   */
+  export type ProjectEndpointCountOutputTypeCountUsageLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UsageLogWhereInput
+  }
+
 
   /**
    * Count Type ApiKeyCountOutputType
@@ -1381,10 +1510,12 @@ export namespace Prisma {
 
   export type ApiKeyCountOutputType = {
     permissions: number
+    usageLogs: number
   }
 
   export type ApiKeyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     permissions?: boolean | ApiKeyCountOutputTypeCountPermissionsArgs
+    usageLogs?: boolean | ApiKeyCountOutputTypeCountUsageLogsArgs
   }
 
   // Custom InputTypes
@@ -1403,6 +1534,13 @@ export namespace Prisma {
    */
   export type ApiKeyCountOutputTypeCountPermissionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ApiKeyEndpointPermissionWhereInput
+  }
+
+  /**
+   * ApiKeyCountOutputType without action
+   */
+  export type ApiKeyCountOutputTypeCountUsageLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UsageLogWhereInput
   }
 
 
@@ -2656,6 +2794,7 @@ export namespace Prisma {
     endpoints?: boolean | Project$endpointsArgs<ExtArgs>
     apiKeys?: boolean | Project$apiKeysArgs<ExtArgs>
     apiKeyEndpointPermissions?: boolean | Project$apiKeyEndpointPermissionsArgs<ExtArgs>
+    usageLogs?: boolean | Project$usageLogsArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["project"]>
 
@@ -2694,6 +2833,7 @@ export namespace Prisma {
     endpoints?: boolean | Project$endpointsArgs<ExtArgs>
     apiKeys?: boolean | Project$apiKeysArgs<ExtArgs>
     apiKeyEndpointPermissions?: boolean | Project$apiKeyEndpointPermissionsArgs<ExtArgs>
+    usageLogs?: boolean | Project$usageLogsArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2710,6 +2850,7 @@ export namespace Prisma {
       endpoints: Prisma.$ProjectEndpointPayload<ExtArgs>[]
       apiKeys: Prisma.$ApiKeyPayload<ExtArgs>[]
       apiKeyEndpointPermissions: Prisma.$ApiKeyEndpointPermissionPayload<ExtArgs>[]
+      usageLogs: Prisma.$UsageLogPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3116,6 +3257,7 @@ export namespace Prisma {
     endpoints<T extends Project$endpointsArgs<ExtArgs> = {}>(args?: Subset<T, Project$endpointsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectEndpointPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     apiKeys<T extends Project$apiKeysArgs<ExtArgs> = {}>(args?: Subset<T, Project$apiKeysArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     apiKeyEndpointPermissions<T extends Project$apiKeyEndpointPermissionsArgs<ExtArgs> = {}>(args?: Subset<T, Project$apiKeyEndpointPermissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApiKeyEndpointPermissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    usageLogs<T extends Project$usageLogsArgs<ExtArgs> = {}>(args?: Subset<T, Project$usageLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UsageLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3619,6 +3761,30 @@ export namespace Prisma {
   }
 
   /**
+   * Project.usageLogs
+   */
+  export type Project$usageLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UsageLog
+     */
+    select?: UsageLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UsageLog
+     */
+    omit?: UsageLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsageLogInclude<ExtArgs> | null
+    where?: UsageLogWhereInput
+    orderBy?: UsageLogOrderByWithRelationInput | UsageLogOrderByWithRelationInput[]
+    cursor?: UsageLogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UsageLogScalarFieldEnum | UsageLogScalarFieldEnum[]
+  }
+
+  /**
    * Project without action
    */
   export type ProjectDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3835,6 +4001,7 @@ export namespace Prisma {
     updatedAt?: boolean
     project?: boolean | ProjectDefaultArgs<ExtArgs>
     apiKeyPermissions?: boolean | ProjectEndpoint$apiKeyPermissionsArgs<ExtArgs>
+    usageLogs?: boolean | ProjectEndpoint$usageLogsArgs<ExtArgs>
     _count?: boolean | ProjectEndpointCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["projectEndpoint"]>
 
@@ -3880,6 +4047,7 @@ export namespace Prisma {
   export type ProjectEndpointInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     project?: boolean | ProjectDefaultArgs<ExtArgs>
     apiKeyPermissions?: boolean | ProjectEndpoint$apiKeyPermissionsArgs<ExtArgs>
+    usageLogs?: boolean | ProjectEndpoint$usageLogsArgs<ExtArgs>
     _count?: boolean | ProjectEndpointCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProjectEndpointIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3894,6 +4062,7 @@ export namespace Prisma {
     objects: {
       project: Prisma.$ProjectPayload<ExtArgs>
       apiKeyPermissions: Prisma.$ApiKeyEndpointPermissionPayload<ExtArgs>[]
+      usageLogs: Prisma.$UsageLogPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4301,6 +4470,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     project<T extends ProjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProjectDefaultArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     apiKeyPermissions<T extends ProjectEndpoint$apiKeyPermissionsArgs<ExtArgs> = {}>(args?: Subset<T, ProjectEndpoint$apiKeyPermissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApiKeyEndpointPermissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    usageLogs<T extends ProjectEndpoint$usageLogsArgs<ExtArgs> = {}>(args?: Subset<T, ProjectEndpoint$usageLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UsageLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4759,6 +4929,30 @@ export namespace Prisma {
   }
 
   /**
+   * ProjectEndpoint.usageLogs
+   */
+  export type ProjectEndpoint$usageLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UsageLog
+     */
+    select?: UsageLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UsageLog
+     */
+    omit?: UsageLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsageLogInclude<ExtArgs> | null
+    where?: UsageLogWhereInput
+    orderBy?: UsageLogOrderByWithRelationInput | UsageLogOrderByWithRelationInput[]
+    cursor?: UsageLogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UsageLogScalarFieldEnum | UsageLogScalarFieldEnum[]
+  }
+
+  /**
    * ProjectEndpoint without action
    */
   export type ProjectEndpointDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4975,6 +5169,7 @@ export namespace Prisma {
     updatedAt?: boolean
     project?: boolean | ProjectDefaultArgs<ExtArgs>
     permissions?: boolean | ApiKey$permissionsArgs<ExtArgs>
+    usageLogs?: boolean | ApiKey$usageLogsArgs<ExtArgs>
     _count?: boolean | ApiKeyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["apiKey"]>
 
@@ -5020,6 +5215,7 @@ export namespace Prisma {
   export type ApiKeyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     project?: boolean | ProjectDefaultArgs<ExtArgs>
     permissions?: boolean | ApiKey$permissionsArgs<ExtArgs>
+    usageLogs?: boolean | ApiKey$usageLogsArgs<ExtArgs>
     _count?: boolean | ApiKeyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ApiKeyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5034,6 +5230,7 @@ export namespace Prisma {
     objects: {
       project: Prisma.$ProjectPayload<ExtArgs>
       permissions: Prisma.$ApiKeyEndpointPermissionPayload<ExtArgs>[]
+      usageLogs: Prisma.$UsageLogPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5441,6 +5638,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     project<T extends ProjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProjectDefaultArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     permissions<T extends ApiKey$permissionsArgs<ExtArgs> = {}>(args?: Subset<T, ApiKey$permissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApiKeyEndpointPermissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    usageLogs<T extends ApiKey$usageLogsArgs<ExtArgs> = {}>(args?: Subset<T, ApiKey$usageLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UsageLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5896,6 +6094,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ApiKeyEndpointPermissionScalarFieldEnum | ApiKeyEndpointPermissionScalarFieldEnum[]
+  }
+
+  /**
+   * ApiKey.usageLogs
+   */
+  export type ApiKey$usageLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UsageLog
+     */
+    select?: UsageLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UsageLog
+     */
+    omit?: UsageLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsageLogInclude<ExtArgs> | null
+    where?: UsageLogWhereInput
+    orderBy?: UsageLogOrderByWithRelationInput | UsageLogOrderByWithRelationInput[]
+    cursor?: UsageLogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UsageLogScalarFieldEnum | UsageLogScalarFieldEnum[]
   }
 
   /**
@@ -6992,6 +7214,1309 @@ export namespace Prisma {
 
 
   /**
+   * Model UsageLog
+   */
+
+  export type AggregateUsageLog = {
+    _count: UsageLogCountAggregateOutputType | null
+    _avg: UsageLogAvgAggregateOutputType | null
+    _sum: UsageLogSumAggregateOutputType | null
+    _min: UsageLogMinAggregateOutputType | null
+    _max: UsageLogMaxAggregateOutputType | null
+  }
+
+  export type UsageLogAvgAggregateOutputType = {
+    gatewayStatusCode: number | null
+    upstreamStatusCode: number | null
+    durationMs: number | null
+  }
+
+  export type UsageLogSumAggregateOutputType = {
+    gatewayStatusCode: number | null
+    upstreamStatusCode: number | null
+    durationMs: number | null
+  }
+
+  export type UsageLogMinAggregateOutputType = {
+    id: string | null
+    projectId: string | null
+    apiKeyId: string | null
+    endpointId: string | null
+    requestMethod: $Enums.EndpointMethod | null
+    requestPath: string | null
+    queryString: string | null
+    outcome: $Enums.UsageLogOutcome | null
+    gatewayStatusCode: number | null
+    upstreamStatusCode: number | null
+    errorCode: string | null
+    durationMs: number | null
+    clientIp: string | null
+    userAgent: string | null
+    createdAt: Date | null
+  }
+
+  export type UsageLogMaxAggregateOutputType = {
+    id: string | null
+    projectId: string | null
+    apiKeyId: string | null
+    endpointId: string | null
+    requestMethod: $Enums.EndpointMethod | null
+    requestPath: string | null
+    queryString: string | null
+    outcome: $Enums.UsageLogOutcome | null
+    gatewayStatusCode: number | null
+    upstreamStatusCode: number | null
+    errorCode: string | null
+    durationMs: number | null
+    clientIp: string | null
+    userAgent: string | null
+    createdAt: Date | null
+  }
+
+  export type UsageLogCountAggregateOutputType = {
+    id: number
+    projectId: number
+    apiKeyId: number
+    endpointId: number
+    requestMethod: number
+    requestPath: number
+    queryString: number
+    outcome: number
+    gatewayStatusCode: number
+    upstreamStatusCode: number
+    errorCode: number
+    durationMs: number
+    clientIp: number
+    userAgent: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type UsageLogAvgAggregateInputType = {
+    gatewayStatusCode?: true
+    upstreamStatusCode?: true
+    durationMs?: true
+  }
+
+  export type UsageLogSumAggregateInputType = {
+    gatewayStatusCode?: true
+    upstreamStatusCode?: true
+    durationMs?: true
+  }
+
+  export type UsageLogMinAggregateInputType = {
+    id?: true
+    projectId?: true
+    apiKeyId?: true
+    endpointId?: true
+    requestMethod?: true
+    requestPath?: true
+    queryString?: true
+    outcome?: true
+    gatewayStatusCode?: true
+    upstreamStatusCode?: true
+    errorCode?: true
+    durationMs?: true
+    clientIp?: true
+    userAgent?: true
+    createdAt?: true
+  }
+
+  export type UsageLogMaxAggregateInputType = {
+    id?: true
+    projectId?: true
+    apiKeyId?: true
+    endpointId?: true
+    requestMethod?: true
+    requestPath?: true
+    queryString?: true
+    outcome?: true
+    gatewayStatusCode?: true
+    upstreamStatusCode?: true
+    errorCode?: true
+    durationMs?: true
+    clientIp?: true
+    userAgent?: true
+    createdAt?: true
+  }
+
+  export type UsageLogCountAggregateInputType = {
+    id?: true
+    projectId?: true
+    apiKeyId?: true
+    endpointId?: true
+    requestMethod?: true
+    requestPath?: true
+    queryString?: true
+    outcome?: true
+    gatewayStatusCode?: true
+    upstreamStatusCode?: true
+    errorCode?: true
+    durationMs?: true
+    clientIp?: true
+    userAgent?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type UsageLogAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UsageLog to aggregate.
+     */
+    where?: UsageLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UsageLogs to fetch.
+     */
+    orderBy?: UsageLogOrderByWithRelationInput | UsageLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UsageLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UsageLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UsageLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UsageLogs
+    **/
+    _count?: true | UsageLogCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: UsageLogAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UsageLogSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UsageLogMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UsageLogMaxAggregateInputType
+  }
+
+  export type GetUsageLogAggregateType<T extends UsageLogAggregateArgs> = {
+        [P in keyof T & keyof AggregateUsageLog]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUsageLog[P]>
+      : GetScalarType<T[P], AggregateUsageLog[P]>
+  }
+
+
+
+
+  export type UsageLogGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UsageLogWhereInput
+    orderBy?: UsageLogOrderByWithAggregationInput | UsageLogOrderByWithAggregationInput[]
+    by: UsageLogScalarFieldEnum[] | UsageLogScalarFieldEnum
+    having?: UsageLogScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UsageLogCountAggregateInputType | true
+    _avg?: UsageLogAvgAggregateInputType
+    _sum?: UsageLogSumAggregateInputType
+    _min?: UsageLogMinAggregateInputType
+    _max?: UsageLogMaxAggregateInputType
+  }
+
+  export type UsageLogGroupByOutputType = {
+    id: string
+    projectId: string | null
+    apiKeyId: string | null
+    endpointId: string | null
+    requestMethod: $Enums.EndpointMethod
+    requestPath: string
+    queryString: string | null
+    outcome: $Enums.UsageLogOutcome
+    gatewayStatusCode: number
+    upstreamStatusCode: number | null
+    errorCode: string | null
+    durationMs: number
+    clientIp: string | null
+    userAgent: string | null
+    createdAt: Date
+    _count: UsageLogCountAggregateOutputType | null
+    _avg: UsageLogAvgAggregateOutputType | null
+    _sum: UsageLogSumAggregateOutputType | null
+    _min: UsageLogMinAggregateOutputType | null
+    _max: UsageLogMaxAggregateOutputType | null
+  }
+
+  type GetUsageLogGroupByPayload<T extends UsageLogGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UsageLogGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UsageLogGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UsageLogGroupByOutputType[P]>
+            : GetScalarType<T[P], UsageLogGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UsageLogSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    projectId?: boolean
+    apiKeyId?: boolean
+    endpointId?: boolean
+    requestMethod?: boolean
+    requestPath?: boolean
+    queryString?: boolean
+    outcome?: boolean
+    gatewayStatusCode?: boolean
+    upstreamStatusCode?: boolean
+    errorCode?: boolean
+    durationMs?: boolean
+    clientIp?: boolean
+    userAgent?: boolean
+    createdAt?: boolean
+    project?: boolean | UsageLog$projectArgs<ExtArgs>
+    apiKey?: boolean | UsageLog$apiKeyArgs<ExtArgs>
+    endpoint?: boolean | UsageLog$endpointArgs<ExtArgs>
+  }, ExtArgs["result"]["usageLog"]>
+
+  export type UsageLogSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    projectId?: boolean
+    apiKeyId?: boolean
+    endpointId?: boolean
+    requestMethod?: boolean
+    requestPath?: boolean
+    queryString?: boolean
+    outcome?: boolean
+    gatewayStatusCode?: boolean
+    upstreamStatusCode?: boolean
+    errorCode?: boolean
+    durationMs?: boolean
+    clientIp?: boolean
+    userAgent?: boolean
+    createdAt?: boolean
+    project?: boolean | UsageLog$projectArgs<ExtArgs>
+    apiKey?: boolean | UsageLog$apiKeyArgs<ExtArgs>
+    endpoint?: boolean | UsageLog$endpointArgs<ExtArgs>
+  }, ExtArgs["result"]["usageLog"]>
+
+  export type UsageLogSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    projectId?: boolean
+    apiKeyId?: boolean
+    endpointId?: boolean
+    requestMethod?: boolean
+    requestPath?: boolean
+    queryString?: boolean
+    outcome?: boolean
+    gatewayStatusCode?: boolean
+    upstreamStatusCode?: boolean
+    errorCode?: boolean
+    durationMs?: boolean
+    clientIp?: boolean
+    userAgent?: boolean
+    createdAt?: boolean
+    project?: boolean | UsageLog$projectArgs<ExtArgs>
+    apiKey?: boolean | UsageLog$apiKeyArgs<ExtArgs>
+    endpoint?: boolean | UsageLog$endpointArgs<ExtArgs>
+  }, ExtArgs["result"]["usageLog"]>
+
+  export type UsageLogSelectScalar = {
+    id?: boolean
+    projectId?: boolean
+    apiKeyId?: boolean
+    endpointId?: boolean
+    requestMethod?: boolean
+    requestPath?: boolean
+    queryString?: boolean
+    outcome?: boolean
+    gatewayStatusCode?: boolean
+    upstreamStatusCode?: boolean
+    errorCode?: boolean
+    durationMs?: boolean
+    clientIp?: boolean
+    userAgent?: boolean
+    createdAt?: boolean
+  }
+
+  export type UsageLogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "projectId" | "apiKeyId" | "endpointId" | "requestMethod" | "requestPath" | "queryString" | "outcome" | "gatewayStatusCode" | "upstreamStatusCode" | "errorCode" | "durationMs" | "clientIp" | "userAgent" | "createdAt", ExtArgs["result"]["usageLog"]>
+  export type UsageLogInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    project?: boolean | UsageLog$projectArgs<ExtArgs>
+    apiKey?: boolean | UsageLog$apiKeyArgs<ExtArgs>
+    endpoint?: boolean | UsageLog$endpointArgs<ExtArgs>
+  }
+  export type UsageLogIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    project?: boolean | UsageLog$projectArgs<ExtArgs>
+    apiKey?: boolean | UsageLog$apiKeyArgs<ExtArgs>
+    endpoint?: boolean | UsageLog$endpointArgs<ExtArgs>
+  }
+  export type UsageLogIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    project?: boolean | UsageLog$projectArgs<ExtArgs>
+    apiKey?: boolean | UsageLog$apiKeyArgs<ExtArgs>
+    endpoint?: boolean | UsageLog$endpointArgs<ExtArgs>
+  }
+
+  export type $UsageLogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UsageLog"
+    objects: {
+      project: Prisma.$ProjectPayload<ExtArgs> | null
+      apiKey: Prisma.$ApiKeyPayload<ExtArgs> | null
+      endpoint: Prisma.$ProjectEndpointPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      projectId: string | null
+      apiKeyId: string | null
+      endpointId: string | null
+      requestMethod: $Enums.EndpointMethod
+      requestPath: string
+      queryString: string | null
+      outcome: $Enums.UsageLogOutcome
+      gatewayStatusCode: number
+      upstreamStatusCode: number | null
+      errorCode: string | null
+      durationMs: number
+      clientIp: string | null
+      userAgent: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["usageLog"]>
+    composites: {}
+  }
+
+  type UsageLogGetPayload<S extends boolean | null | undefined | UsageLogDefaultArgs> = $Result.GetResult<Prisma.$UsageLogPayload, S>
+
+  type UsageLogCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UsageLogFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UsageLogCountAggregateInputType | true
+    }
+
+  export interface UsageLogDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UsageLog'], meta: { name: 'UsageLog' } }
+    /**
+     * Find zero or one UsageLog that matches the filter.
+     * @param {UsageLogFindUniqueArgs} args - Arguments to find a UsageLog
+     * @example
+     * // Get one UsageLog
+     * const usageLog = await prisma.usageLog.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UsageLogFindUniqueArgs>(args: SelectSubset<T, UsageLogFindUniqueArgs<ExtArgs>>): Prisma__UsageLogClient<$Result.GetResult<Prisma.$UsageLogPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UsageLog that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UsageLogFindUniqueOrThrowArgs} args - Arguments to find a UsageLog
+     * @example
+     * // Get one UsageLog
+     * const usageLog = await prisma.usageLog.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UsageLogFindUniqueOrThrowArgs>(args: SelectSubset<T, UsageLogFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UsageLogClient<$Result.GetResult<Prisma.$UsageLogPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UsageLog that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UsageLogFindFirstArgs} args - Arguments to find a UsageLog
+     * @example
+     * // Get one UsageLog
+     * const usageLog = await prisma.usageLog.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UsageLogFindFirstArgs>(args?: SelectSubset<T, UsageLogFindFirstArgs<ExtArgs>>): Prisma__UsageLogClient<$Result.GetResult<Prisma.$UsageLogPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UsageLog that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UsageLogFindFirstOrThrowArgs} args - Arguments to find a UsageLog
+     * @example
+     * // Get one UsageLog
+     * const usageLog = await prisma.usageLog.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UsageLogFindFirstOrThrowArgs>(args?: SelectSubset<T, UsageLogFindFirstOrThrowArgs<ExtArgs>>): Prisma__UsageLogClient<$Result.GetResult<Prisma.$UsageLogPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UsageLogs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UsageLogFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UsageLogs
+     * const usageLogs = await prisma.usageLog.findMany()
+     * 
+     * // Get first 10 UsageLogs
+     * const usageLogs = await prisma.usageLog.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const usageLogWithIdOnly = await prisma.usageLog.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UsageLogFindManyArgs>(args?: SelectSubset<T, UsageLogFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UsageLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UsageLog.
+     * @param {UsageLogCreateArgs} args - Arguments to create a UsageLog.
+     * @example
+     * // Create one UsageLog
+     * const UsageLog = await prisma.usageLog.create({
+     *   data: {
+     *     // ... data to create a UsageLog
+     *   }
+     * })
+     * 
+     */
+    create<T extends UsageLogCreateArgs>(args: SelectSubset<T, UsageLogCreateArgs<ExtArgs>>): Prisma__UsageLogClient<$Result.GetResult<Prisma.$UsageLogPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UsageLogs.
+     * @param {UsageLogCreateManyArgs} args - Arguments to create many UsageLogs.
+     * @example
+     * // Create many UsageLogs
+     * const usageLog = await prisma.usageLog.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UsageLogCreateManyArgs>(args?: SelectSubset<T, UsageLogCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UsageLogs and returns the data saved in the database.
+     * @param {UsageLogCreateManyAndReturnArgs} args - Arguments to create many UsageLogs.
+     * @example
+     * // Create many UsageLogs
+     * const usageLog = await prisma.usageLog.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UsageLogs and only return the `id`
+     * const usageLogWithIdOnly = await prisma.usageLog.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UsageLogCreateManyAndReturnArgs>(args?: SelectSubset<T, UsageLogCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UsageLogPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UsageLog.
+     * @param {UsageLogDeleteArgs} args - Arguments to delete one UsageLog.
+     * @example
+     * // Delete one UsageLog
+     * const UsageLog = await prisma.usageLog.delete({
+     *   where: {
+     *     // ... filter to delete one UsageLog
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UsageLogDeleteArgs>(args: SelectSubset<T, UsageLogDeleteArgs<ExtArgs>>): Prisma__UsageLogClient<$Result.GetResult<Prisma.$UsageLogPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UsageLog.
+     * @param {UsageLogUpdateArgs} args - Arguments to update one UsageLog.
+     * @example
+     * // Update one UsageLog
+     * const usageLog = await prisma.usageLog.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UsageLogUpdateArgs>(args: SelectSubset<T, UsageLogUpdateArgs<ExtArgs>>): Prisma__UsageLogClient<$Result.GetResult<Prisma.$UsageLogPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UsageLogs.
+     * @param {UsageLogDeleteManyArgs} args - Arguments to filter UsageLogs to delete.
+     * @example
+     * // Delete a few UsageLogs
+     * const { count } = await prisma.usageLog.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UsageLogDeleteManyArgs>(args?: SelectSubset<T, UsageLogDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UsageLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UsageLogUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UsageLogs
+     * const usageLog = await prisma.usageLog.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UsageLogUpdateManyArgs>(args: SelectSubset<T, UsageLogUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UsageLogs and returns the data updated in the database.
+     * @param {UsageLogUpdateManyAndReturnArgs} args - Arguments to update many UsageLogs.
+     * @example
+     * // Update many UsageLogs
+     * const usageLog = await prisma.usageLog.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UsageLogs and only return the `id`
+     * const usageLogWithIdOnly = await prisma.usageLog.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UsageLogUpdateManyAndReturnArgs>(args: SelectSubset<T, UsageLogUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UsageLogPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UsageLog.
+     * @param {UsageLogUpsertArgs} args - Arguments to update or create a UsageLog.
+     * @example
+     * // Update or create a UsageLog
+     * const usageLog = await prisma.usageLog.upsert({
+     *   create: {
+     *     // ... data to create a UsageLog
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UsageLog we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UsageLogUpsertArgs>(args: SelectSubset<T, UsageLogUpsertArgs<ExtArgs>>): Prisma__UsageLogClient<$Result.GetResult<Prisma.$UsageLogPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UsageLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UsageLogCountArgs} args - Arguments to filter UsageLogs to count.
+     * @example
+     * // Count the number of UsageLogs
+     * const count = await prisma.usageLog.count({
+     *   where: {
+     *     // ... the filter for the UsageLogs we want to count
+     *   }
+     * })
+    **/
+    count<T extends UsageLogCountArgs>(
+      args?: Subset<T, UsageLogCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UsageLogCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UsageLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UsageLogAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UsageLogAggregateArgs>(args: Subset<T, UsageLogAggregateArgs>): Prisma.PrismaPromise<GetUsageLogAggregateType<T>>
+
+    /**
+     * Group by UsageLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UsageLogGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UsageLogGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UsageLogGroupByArgs['orderBy'] }
+        : { orderBy?: UsageLogGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UsageLogGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUsageLogGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UsageLog model
+   */
+  readonly fields: UsageLogFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UsageLog.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UsageLogClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    project<T extends UsageLog$projectArgs<ExtArgs> = {}>(args?: Subset<T, UsageLog$projectArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    apiKey<T extends UsageLog$apiKeyArgs<ExtArgs> = {}>(args?: Subset<T, UsageLog$apiKeyArgs<ExtArgs>>): Prisma__ApiKeyClient<$Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    endpoint<T extends UsageLog$endpointArgs<ExtArgs> = {}>(args?: Subset<T, UsageLog$endpointArgs<ExtArgs>>): Prisma__ProjectEndpointClient<$Result.GetResult<Prisma.$ProjectEndpointPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UsageLog model
+   */
+  interface UsageLogFieldRefs {
+    readonly id: FieldRef<"UsageLog", 'String'>
+    readonly projectId: FieldRef<"UsageLog", 'String'>
+    readonly apiKeyId: FieldRef<"UsageLog", 'String'>
+    readonly endpointId: FieldRef<"UsageLog", 'String'>
+    readonly requestMethod: FieldRef<"UsageLog", 'EndpointMethod'>
+    readonly requestPath: FieldRef<"UsageLog", 'String'>
+    readonly queryString: FieldRef<"UsageLog", 'String'>
+    readonly outcome: FieldRef<"UsageLog", 'UsageLogOutcome'>
+    readonly gatewayStatusCode: FieldRef<"UsageLog", 'Int'>
+    readonly upstreamStatusCode: FieldRef<"UsageLog", 'Int'>
+    readonly errorCode: FieldRef<"UsageLog", 'String'>
+    readonly durationMs: FieldRef<"UsageLog", 'Int'>
+    readonly clientIp: FieldRef<"UsageLog", 'String'>
+    readonly userAgent: FieldRef<"UsageLog", 'String'>
+    readonly createdAt: FieldRef<"UsageLog", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UsageLog findUnique
+   */
+  export type UsageLogFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UsageLog
+     */
+    select?: UsageLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UsageLog
+     */
+    omit?: UsageLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsageLogInclude<ExtArgs> | null
+    /**
+     * Filter, which UsageLog to fetch.
+     */
+    where: UsageLogWhereUniqueInput
+  }
+
+  /**
+   * UsageLog findUniqueOrThrow
+   */
+  export type UsageLogFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UsageLog
+     */
+    select?: UsageLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UsageLog
+     */
+    omit?: UsageLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsageLogInclude<ExtArgs> | null
+    /**
+     * Filter, which UsageLog to fetch.
+     */
+    where: UsageLogWhereUniqueInput
+  }
+
+  /**
+   * UsageLog findFirst
+   */
+  export type UsageLogFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UsageLog
+     */
+    select?: UsageLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UsageLog
+     */
+    omit?: UsageLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsageLogInclude<ExtArgs> | null
+    /**
+     * Filter, which UsageLog to fetch.
+     */
+    where?: UsageLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UsageLogs to fetch.
+     */
+    orderBy?: UsageLogOrderByWithRelationInput | UsageLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UsageLogs.
+     */
+    cursor?: UsageLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UsageLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UsageLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UsageLogs.
+     */
+    distinct?: UsageLogScalarFieldEnum | UsageLogScalarFieldEnum[]
+  }
+
+  /**
+   * UsageLog findFirstOrThrow
+   */
+  export type UsageLogFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UsageLog
+     */
+    select?: UsageLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UsageLog
+     */
+    omit?: UsageLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsageLogInclude<ExtArgs> | null
+    /**
+     * Filter, which UsageLog to fetch.
+     */
+    where?: UsageLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UsageLogs to fetch.
+     */
+    orderBy?: UsageLogOrderByWithRelationInput | UsageLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UsageLogs.
+     */
+    cursor?: UsageLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UsageLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UsageLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UsageLogs.
+     */
+    distinct?: UsageLogScalarFieldEnum | UsageLogScalarFieldEnum[]
+  }
+
+  /**
+   * UsageLog findMany
+   */
+  export type UsageLogFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UsageLog
+     */
+    select?: UsageLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UsageLog
+     */
+    omit?: UsageLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsageLogInclude<ExtArgs> | null
+    /**
+     * Filter, which UsageLogs to fetch.
+     */
+    where?: UsageLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UsageLogs to fetch.
+     */
+    orderBy?: UsageLogOrderByWithRelationInput | UsageLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UsageLogs.
+     */
+    cursor?: UsageLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UsageLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UsageLogs.
+     */
+    skip?: number
+    distinct?: UsageLogScalarFieldEnum | UsageLogScalarFieldEnum[]
+  }
+
+  /**
+   * UsageLog create
+   */
+  export type UsageLogCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UsageLog
+     */
+    select?: UsageLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UsageLog
+     */
+    omit?: UsageLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsageLogInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UsageLog.
+     */
+    data: XOR<UsageLogCreateInput, UsageLogUncheckedCreateInput>
+  }
+
+  /**
+   * UsageLog createMany
+   */
+  export type UsageLogCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UsageLogs.
+     */
+    data: UsageLogCreateManyInput | UsageLogCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UsageLog createManyAndReturn
+   */
+  export type UsageLogCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UsageLog
+     */
+    select?: UsageLogSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UsageLog
+     */
+    omit?: UsageLogOmit<ExtArgs> | null
+    /**
+     * The data used to create many UsageLogs.
+     */
+    data: UsageLogCreateManyInput | UsageLogCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsageLogIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UsageLog update
+   */
+  export type UsageLogUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UsageLog
+     */
+    select?: UsageLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UsageLog
+     */
+    omit?: UsageLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsageLogInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UsageLog.
+     */
+    data: XOR<UsageLogUpdateInput, UsageLogUncheckedUpdateInput>
+    /**
+     * Choose, which UsageLog to update.
+     */
+    where: UsageLogWhereUniqueInput
+  }
+
+  /**
+   * UsageLog updateMany
+   */
+  export type UsageLogUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UsageLogs.
+     */
+    data: XOR<UsageLogUpdateManyMutationInput, UsageLogUncheckedUpdateManyInput>
+    /**
+     * Filter which UsageLogs to update
+     */
+    where?: UsageLogWhereInput
+    /**
+     * Limit how many UsageLogs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UsageLog updateManyAndReturn
+   */
+  export type UsageLogUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UsageLog
+     */
+    select?: UsageLogSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UsageLog
+     */
+    omit?: UsageLogOmit<ExtArgs> | null
+    /**
+     * The data used to update UsageLogs.
+     */
+    data: XOR<UsageLogUpdateManyMutationInput, UsageLogUncheckedUpdateManyInput>
+    /**
+     * Filter which UsageLogs to update
+     */
+    where?: UsageLogWhereInput
+    /**
+     * Limit how many UsageLogs to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsageLogIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UsageLog upsert
+   */
+  export type UsageLogUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UsageLog
+     */
+    select?: UsageLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UsageLog
+     */
+    omit?: UsageLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsageLogInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UsageLog to update in case it exists.
+     */
+    where: UsageLogWhereUniqueInput
+    /**
+     * In case the UsageLog found by the `where` argument doesn't exist, create a new UsageLog with this data.
+     */
+    create: XOR<UsageLogCreateInput, UsageLogUncheckedCreateInput>
+    /**
+     * In case the UsageLog was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UsageLogUpdateInput, UsageLogUncheckedUpdateInput>
+  }
+
+  /**
+   * UsageLog delete
+   */
+  export type UsageLogDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UsageLog
+     */
+    select?: UsageLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UsageLog
+     */
+    omit?: UsageLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsageLogInclude<ExtArgs> | null
+    /**
+     * Filter which UsageLog to delete.
+     */
+    where: UsageLogWhereUniqueInput
+  }
+
+  /**
+   * UsageLog deleteMany
+   */
+  export type UsageLogDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UsageLogs to delete
+     */
+    where?: UsageLogWhereInput
+    /**
+     * Limit how many UsageLogs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UsageLog.project
+   */
+  export type UsageLog$projectArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Project
+     */
+    select?: ProjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Project
+     */
+    omit?: ProjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectInclude<ExtArgs> | null
+    where?: ProjectWhereInput
+  }
+
+  /**
+   * UsageLog.apiKey
+   */
+  export type UsageLog$apiKeyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKey
+     */
+    select?: ApiKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKey
+     */
+    omit?: ApiKeyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApiKeyInclude<ExtArgs> | null
+    where?: ApiKeyWhereInput
+  }
+
+  /**
+   * UsageLog.endpoint
+   */
+  export type UsageLog$endpointArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectEndpoint
+     */
+    select?: ProjectEndpointSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectEndpoint
+     */
+    omit?: ProjectEndpointOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectEndpointInclude<ExtArgs> | null
+    where?: ProjectEndpointWhereInput
+  }
+
+  /**
+   * UsageLog without action
+   */
+  export type UsageLogDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UsageLog
+     */
+    select?: UsageLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UsageLog
+     */
+    omit?: UsageLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsageLogInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -7067,6 +8592,27 @@ export namespace Prisma {
   };
 
   export type ApiKeyEndpointPermissionScalarFieldEnum = (typeof ApiKeyEndpointPermissionScalarFieldEnum)[keyof typeof ApiKeyEndpointPermissionScalarFieldEnum]
+
+
+  export const UsageLogScalarFieldEnum: {
+    id: 'id',
+    projectId: 'projectId',
+    apiKeyId: 'apiKeyId',
+    endpointId: 'endpointId',
+    requestMethod: 'requestMethod',
+    requestPath: 'requestPath',
+    queryString: 'queryString',
+    outcome: 'outcome',
+    gatewayStatusCode: 'gatewayStatusCode',
+    upstreamStatusCode: 'upstreamStatusCode',
+    errorCode: 'errorCode',
+    durationMs: 'durationMs',
+    clientIp: 'clientIp',
+    userAgent: 'userAgent',
+    createdAt: 'createdAt'
+  };
+
+  export type UsageLogScalarFieldEnum = (typeof UsageLogScalarFieldEnum)[keyof typeof UsageLogScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -7169,6 +8715,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'UsageLogOutcome'
+   */
+  export type EnumUsageLogOutcomeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UsageLogOutcome'>
+    
+
+
+  /**
+   * Reference to a field of type 'UsageLogOutcome[]'
+   */
+  export type ListEnumUsageLogOutcomeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UsageLogOutcome[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -7179,6 +8739,20 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
   /**
    * Deep Input Types
@@ -7254,6 +8828,7 @@ export namespace Prisma {
     endpoints?: ProjectEndpointListRelationFilter
     apiKeys?: ApiKeyListRelationFilter
     apiKeyEndpointPermissions?: ApiKeyEndpointPermissionListRelationFilter
+    usageLogs?: UsageLogListRelationFilter
   }
 
   export type ProjectOrderByWithRelationInput = {
@@ -7267,6 +8842,7 @@ export namespace Prisma {
     endpoints?: ProjectEndpointOrderByRelationAggregateInput
     apiKeys?: ApiKeyOrderByRelationAggregateInput
     apiKeyEndpointPermissions?: ApiKeyEndpointPermissionOrderByRelationAggregateInput
+    usageLogs?: UsageLogOrderByRelationAggregateInput
   }
 
   export type ProjectWhereUniqueInput = Prisma.AtLeast<{
@@ -7284,6 +8860,7 @@ export namespace Prisma {
     endpoints?: ProjectEndpointListRelationFilter
     apiKeys?: ApiKeyListRelationFilter
     apiKeyEndpointPermissions?: ApiKeyEndpointPermissionListRelationFilter
+    usageLogs?: UsageLogListRelationFilter
   }, "id" | "ownerId_name">
 
   export type ProjectOrderByWithAggregationInput = {
@@ -7325,6 +8902,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"ProjectEndpoint"> | Date | string
     project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
     apiKeyPermissions?: ApiKeyEndpointPermissionListRelationFilter
+    usageLogs?: UsageLogListRelationFilter
   }
 
   export type ProjectEndpointOrderByWithRelationInput = {
@@ -7339,6 +8917,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     project?: ProjectOrderByWithRelationInput
     apiKeyPermissions?: ApiKeyEndpointPermissionOrderByRelationAggregateInput
+    usageLogs?: UsageLogOrderByRelationAggregateInput
   }
 
   export type ProjectEndpointWhereUniqueInput = Prisma.AtLeast<{
@@ -7357,6 +8936,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"ProjectEndpoint"> | Date | string
     project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
     apiKeyPermissions?: ApiKeyEndpointPermissionListRelationFilter
+    usageLogs?: UsageLogListRelationFilter
   }, "id" | "projectId_method_routeShape">
 
   export type ProjectEndpointOrderByWithAggregationInput = {
@@ -7404,6 +8984,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"ApiKey"> | Date | string
     project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
     permissions?: ApiKeyEndpointPermissionListRelationFilter
+    usageLogs?: UsageLogListRelationFilter
   }
 
   export type ApiKeyOrderByWithRelationInput = {
@@ -7418,6 +8999,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     project?: ProjectOrderByWithRelationInput
     permissions?: ApiKeyEndpointPermissionOrderByRelationAggregateInput
+    usageLogs?: UsageLogOrderByRelationAggregateInput
   }
 
   export type ApiKeyWhereUniqueInput = Prisma.AtLeast<{
@@ -7436,6 +9018,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"ApiKey"> | Date | string
     project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
     permissions?: ApiKeyEndpointPermissionListRelationFilter
+    usageLogs?: UsageLogListRelationFilter
   }, "id" | "keyHash" | "projectId_name">
 
   export type ApiKeyOrderByWithAggregationInput = {
@@ -7530,6 +9113,119 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"ApiKeyEndpointPermission"> | Date | string
   }
 
+  export type UsageLogWhereInput = {
+    AND?: UsageLogWhereInput | UsageLogWhereInput[]
+    OR?: UsageLogWhereInput[]
+    NOT?: UsageLogWhereInput | UsageLogWhereInput[]
+    id?: StringFilter<"UsageLog"> | string
+    projectId?: StringNullableFilter<"UsageLog"> | string | null
+    apiKeyId?: StringNullableFilter<"UsageLog"> | string | null
+    endpointId?: StringNullableFilter<"UsageLog"> | string | null
+    requestMethod?: EnumEndpointMethodFilter<"UsageLog"> | $Enums.EndpointMethod
+    requestPath?: StringFilter<"UsageLog"> | string
+    queryString?: StringNullableFilter<"UsageLog"> | string | null
+    outcome?: EnumUsageLogOutcomeFilter<"UsageLog"> | $Enums.UsageLogOutcome
+    gatewayStatusCode?: IntFilter<"UsageLog"> | number
+    upstreamStatusCode?: IntNullableFilter<"UsageLog"> | number | null
+    errorCode?: StringNullableFilter<"UsageLog"> | string | null
+    durationMs?: IntFilter<"UsageLog"> | number
+    clientIp?: StringNullableFilter<"UsageLog"> | string | null
+    userAgent?: StringNullableFilter<"UsageLog"> | string | null
+    createdAt?: DateTimeFilter<"UsageLog"> | Date | string
+    project?: XOR<ProjectNullableScalarRelationFilter, ProjectWhereInput> | null
+    apiKey?: XOR<ApiKeyNullableScalarRelationFilter, ApiKeyWhereInput> | null
+    endpoint?: XOR<ProjectEndpointNullableScalarRelationFilter, ProjectEndpointWhereInput> | null
+  }
+
+  export type UsageLogOrderByWithRelationInput = {
+    id?: SortOrder
+    projectId?: SortOrderInput | SortOrder
+    apiKeyId?: SortOrderInput | SortOrder
+    endpointId?: SortOrderInput | SortOrder
+    requestMethod?: SortOrder
+    requestPath?: SortOrder
+    queryString?: SortOrderInput | SortOrder
+    outcome?: SortOrder
+    gatewayStatusCode?: SortOrder
+    upstreamStatusCode?: SortOrderInput | SortOrder
+    errorCode?: SortOrderInput | SortOrder
+    durationMs?: SortOrder
+    clientIp?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    project?: ProjectOrderByWithRelationInput
+    apiKey?: ApiKeyOrderByWithRelationInput
+    endpoint?: ProjectEndpointOrderByWithRelationInput
+  }
+
+  export type UsageLogWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: UsageLogWhereInput | UsageLogWhereInput[]
+    OR?: UsageLogWhereInput[]
+    NOT?: UsageLogWhereInput | UsageLogWhereInput[]
+    projectId?: StringNullableFilter<"UsageLog"> | string | null
+    apiKeyId?: StringNullableFilter<"UsageLog"> | string | null
+    endpointId?: StringNullableFilter<"UsageLog"> | string | null
+    requestMethod?: EnumEndpointMethodFilter<"UsageLog"> | $Enums.EndpointMethod
+    requestPath?: StringFilter<"UsageLog"> | string
+    queryString?: StringNullableFilter<"UsageLog"> | string | null
+    outcome?: EnumUsageLogOutcomeFilter<"UsageLog"> | $Enums.UsageLogOutcome
+    gatewayStatusCode?: IntFilter<"UsageLog"> | number
+    upstreamStatusCode?: IntNullableFilter<"UsageLog"> | number | null
+    errorCode?: StringNullableFilter<"UsageLog"> | string | null
+    durationMs?: IntFilter<"UsageLog"> | number
+    clientIp?: StringNullableFilter<"UsageLog"> | string | null
+    userAgent?: StringNullableFilter<"UsageLog"> | string | null
+    createdAt?: DateTimeFilter<"UsageLog"> | Date | string
+    project?: XOR<ProjectNullableScalarRelationFilter, ProjectWhereInput> | null
+    apiKey?: XOR<ApiKeyNullableScalarRelationFilter, ApiKeyWhereInput> | null
+    endpoint?: XOR<ProjectEndpointNullableScalarRelationFilter, ProjectEndpointWhereInput> | null
+  }, "id">
+
+  export type UsageLogOrderByWithAggregationInput = {
+    id?: SortOrder
+    projectId?: SortOrderInput | SortOrder
+    apiKeyId?: SortOrderInput | SortOrder
+    endpointId?: SortOrderInput | SortOrder
+    requestMethod?: SortOrder
+    requestPath?: SortOrder
+    queryString?: SortOrderInput | SortOrder
+    outcome?: SortOrder
+    gatewayStatusCode?: SortOrder
+    upstreamStatusCode?: SortOrderInput | SortOrder
+    errorCode?: SortOrderInput | SortOrder
+    durationMs?: SortOrder
+    clientIp?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: UsageLogCountOrderByAggregateInput
+    _avg?: UsageLogAvgOrderByAggregateInput
+    _max?: UsageLogMaxOrderByAggregateInput
+    _min?: UsageLogMinOrderByAggregateInput
+    _sum?: UsageLogSumOrderByAggregateInput
+  }
+
+  export type UsageLogScalarWhereWithAggregatesInput = {
+    AND?: UsageLogScalarWhereWithAggregatesInput | UsageLogScalarWhereWithAggregatesInput[]
+    OR?: UsageLogScalarWhereWithAggregatesInput[]
+    NOT?: UsageLogScalarWhereWithAggregatesInput | UsageLogScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UsageLog"> | string
+    projectId?: StringNullableWithAggregatesFilter<"UsageLog"> | string | null
+    apiKeyId?: StringNullableWithAggregatesFilter<"UsageLog"> | string | null
+    endpointId?: StringNullableWithAggregatesFilter<"UsageLog"> | string | null
+    requestMethod?: EnumEndpointMethodWithAggregatesFilter<"UsageLog"> | $Enums.EndpointMethod
+    requestPath?: StringWithAggregatesFilter<"UsageLog"> | string
+    queryString?: StringNullableWithAggregatesFilter<"UsageLog"> | string | null
+    outcome?: EnumUsageLogOutcomeWithAggregatesFilter<"UsageLog"> | $Enums.UsageLogOutcome
+    gatewayStatusCode?: IntWithAggregatesFilter<"UsageLog"> | number
+    upstreamStatusCode?: IntNullableWithAggregatesFilter<"UsageLog"> | number | null
+    errorCode?: StringNullableWithAggregatesFilter<"UsageLog"> | string | null
+    durationMs?: IntWithAggregatesFilter<"UsageLog"> | number
+    clientIp?: StringNullableWithAggregatesFilter<"UsageLog"> | string | null
+    userAgent?: StringNullableWithAggregatesFilter<"UsageLog"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"UsageLog"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -7600,6 +9296,7 @@ export namespace Prisma {
     endpoints?: ProjectEndpointCreateNestedManyWithoutProjectInput
     apiKeys?: ApiKeyCreateNestedManyWithoutProjectInput
     apiKeyEndpointPermissions?: ApiKeyEndpointPermissionCreateNestedManyWithoutProjectInput
+    usageLogs?: UsageLogCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateInput = {
@@ -7612,6 +9309,7 @@ export namespace Prisma {
     endpoints?: ProjectEndpointUncheckedCreateNestedManyWithoutProjectInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutProjectInput
     apiKeyEndpointPermissions?: ApiKeyEndpointPermissionUncheckedCreateNestedManyWithoutProjectInput
+    usageLogs?: UsageLogUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUpdateInput = {
@@ -7624,6 +9322,7 @@ export namespace Prisma {
     endpoints?: ProjectEndpointUpdateManyWithoutProjectNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutProjectNestedInput
     apiKeyEndpointPermissions?: ApiKeyEndpointPermissionUpdateManyWithoutProjectNestedInput
+    usageLogs?: UsageLogUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateInput = {
@@ -7636,6 +9335,7 @@ export namespace Prisma {
     endpoints?: ProjectEndpointUncheckedUpdateManyWithoutProjectNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutProjectNestedInput
     apiKeyEndpointPermissions?: ApiKeyEndpointPermissionUncheckedUpdateManyWithoutProjectNestedInput
+    usageLogs?: UsageLogUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectCreateManyInput = {
@@ -7675,6 +9375,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     project: ProjectCreateNestedOneWithoutEndpointsInput
     apiKeyPermissions?: ApiKeyEndpointPermissionCreateNestedManyWithoutEndpointInput
+    usageLogs?: UsageLogCreateNestedManyWithoutEndpointInput
   }
 
   export type ProjectEndpointUncheckedCreateInput = {
@@ -7688,6 +9389,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     apiKeyPermissions?: ApiKeyEndpointPermissionUncheckedCreateNestedManyWithoutEndpointInput
+    usageLogs?: UsageLogUncheckedCreateNestedManyWithoutEndpointInput
   }
 
   export type ProjectEndpointUpdateInput = {
@@ -7701,6 +9403,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     project?: ProjectUpdateOneRequiredWithoutEndpointsNestedInput
     apiKeyPermissions?: ApiKeyEndpointPermissionUpdateManyWithoutEndpointNestedInput
+    usageLogs?: UsageLogUpdateManyWithoutEndpointNestedInput
   }
 
   export type ProjectEndpointUncheckedUpdateInput = {
@@ -7714,6 +9417,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     apiKeyPermissions?: ApiKeyEndpointPermissionUncheckedUpdateManyWithoutEndpointNestedInput
+    usageLogs?: UsageLogUncheckedUpdateManyWithoutEndpointNestedInput
   }
 
   export type ProjectEndpointCreateManyInput = {
@@ -7762,6 +9466,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     project: ProjectCreateNestedOneWithoutApiKeysInput
     permissions?: ApiKeyEndpointPermissionCreateNestedManyWithoutApiKeyInput
+    usageLogs?: UsageLogCreateNestedManyWithoutApiKeyInput
   }
 
   export type ApiKeyUncheckedCreateInput = {
@@ -7775,6 +9480,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     permissions?: ApiKeyEndpointPermissionUncheckedCreateNestedManyWithoutApiKeyInput
+    usageLogs?: UsageLogUncheckedCreateNestedManyWithoutApiKeyInput
   }
 
   export type ApiKeyUpdateInput = {
@@ -7788,6 +9494,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     project?: ProjectUpdateOneRequiredWithoutApiKeysNestedInput
     permissions?: ApiKeyEndpointPermissionUpdateManyWithoutApiKeyNestedInput
+    usageLogs?: UsageLogUpdateManyWithoutApiKeyNestedInput
   }
 
   export type ApiKeyUncheckedUpdateInput = {
@@ -7801,6 +9508,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     permissions?: ApiKeyEndpointPermissionUncheckedUpdateManyWithoutApiKeyNestedInput
+    usageLogs?: UsageLogUncheckedUpdateManyWithoutApiKeyNestedInput
   }
 
   export type ApiKeyCreateManyInput = {
@@ -7888,6 +9596,129 @@ export namespace Prisma {
     apiKeyId?: StringFieldUpdateOperationsInput | string
     projectId?: StringFieldUpdateOperationsInput | string
     endpointId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UsageLogCreateInput = {
+    id?: string
+    requestMethod: $Enums.EndpointMethod
+    requestPath: string
+    queryString?: string | null
+    outcome: $Enums.UsageLogOutcome
+    gatewayStatusCode: number
+    upstreamStatusCode?: number | null
+    errorCode?: string | null
+    durationMs: number
+    clientIp?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+    project?: ProjectCreateNestedOneWithoutUsageLogsInput
+    apiKey?: ApiKeyCreateNestedOneWithoutUsageLogsInput
+    endpoint?: ProjectEndpointCreateNestedOneWithoutUsageLogsInput
+  }
+
+  export type UsageLogUncheckedCreateInput = {
+    id?: string
+    projectId?: string | null
+    apiKeyId?: string | null
+    endpointId?: string | null
+    requestMethod: $Enums.EndpointMethod
+    requestPath: string
+    queryString?: string | null
+    outcome: $Enums.UsageLogOutcome
+    gatewayStatusCode: number
+    upstreamStatusCode?: number | null
+    errorCode?: string | null
+    durationMs: number
+    clientIp?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+  }
+
+  export type UsageLogUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requestMethod?: EnumEndpointMethodFieldUpdateOperationsInput | $Enums.EndpointMethod
+    requestPath?: StringFieldUpdateOperationsInput | string
+    queryString?: NullableStringFieldUpdateOperationsInput | string | null
+    outcome?: EnumUsageLogOutcomeFieldUpdateOperationsInput | $Enums.UsageLogOutcome
+    gatewayStatusCode?: IntFieldUpdateOperationsInput | number
+    upstreamStatusCode?: NullableIntFieldUpdateOperationsInput | number | null
+    errorCode?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMs?: IntFieldUpdateOperationsInput | number
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    project?: ProjectUpdateOneWithoutUsageLogsNestedInput
+    apiKey?: ApiKeyUpdateOneWithoutUsageLogsNestedInput
+    endpoint?: ProjectEndpointUpdateOneWithoutUsageLogsNestedInput
+  }
+
+  export type UsageLogUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    apiKeyId?: NullableStringFieldUpdateOperationsInput | string | null
+    endpointId?: NullableStringFieldUpdateOperationsInput | string | null
+    requestMethod?: EnumEndpointMethodFieldUpdateOperationsInput | $Enums.EndpointMethod
+    requestPath?: StringFieldUpdateOperationsInput | string
+    queryString?: NullableStringFieldUpdateOperationsInput | string | null
+    outcome?: EnumUsageLogOutcomeFieldUpdateOperationsInput | $Enums.UsageLogOutcome
+    gatewayStatusCode?: IntFieldUpdateOperationsInput | number
+    upstreamStatusCode?: NullableIntFieldUpdateOperationsInput | number | null
+    errorCode?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMs?: IntFieldUpdateOperationsInput | number
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UsageLogCreateManyInput = {
+    id?: string
+    projectId?: string | null
+    apiKeyId?: string | null
+    endpointId?: string | null
+    requestMethod: $Enums.EndpointMethod
+    requestPath: string
+    queryString?: string | null
+    outcome: $Enums.UsageLogOutcome
+    gatewayStatusCode: number
+    upstreamStatusCode?: number | null
+    errorCode?: string | null
+    durationMs: number
+    clientIp?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+  }
+
+  export type UsageLogUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requestMethod?: EnumEndpointMethodFieldUpdateOperationsInput | $Enums.EndpointMethod
+    requestPath?: StringFieldUpdateOperationsInput | string
+    queryString?: NullableStringFieldUpdateOperationsInput | string | null
+    outcome?: EnumUsageLogOutcomeFieldUpdateOperationsInput | $Enums.UsageLogOutcome
+    gatewayStatusCode?: IntFieldUpdateOperationsInput | number
+    upstreamStatusCode?: NullableIntFieldUpdateOperationsInput | number | null
+    errorCode?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMs?: IntFieldUpdateOperationsInput | number
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UsageLogUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    apiKeyId?: NullableStringFieldUpdateOperationsInput | string | null
+    endpointId?: NullableStringFieldUpdateOperationsInput | string | null
+    requestMethod?: EnumEndpointMethodFieldUpdateOperationsInput | $Enums.EndpointMethod
+    requestPath?: StringFieldUpdateOperationsInput | string
+    queryString?: NullableStringFieldUpdateOperationsInput | string | null
+    outcome?: EnumUsageLogOutcomeFieldUpdateOperationsInput | $Enums.UsageLogOutcome
+    gatewayStatusCode?: IntFieldUpdateOperationsInput | number
+    upstreamStatusCode?: NullableIntFieldUpdateOperationsInput | number | null
+    errorCode?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMs?: IntFieldUpdateOperationsInput | number
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -8021,6 +9852,12 @@ export namespace Prisma {
     none?: ApiKeyEndpointPermissionWhereInput
   }
 
+  export type UsageLogListRelationFilter = {
+    every?: UsageLogWhereInput
+    some?: UsageLogWhereInput
+    none?: UsageLogWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -8035,6 +9872,10 @@ export namespace Prisma {
   }
 
   export type ApiKeyEndpointPermissionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UsageLogOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -8291,6 +10132,158 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type EnumUsageLogOutcomeFilter<$PrismaModel = never> = {
+    equals?: $Enums.UsageLogOutcome | EnumUsageLogOutcomeFieldRefInput<$PrismaModel>
+    in?: $Enums.UsageLogOutcome[] | ListEnumUsageLogOutcomeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UsageLogOutcome[] | ListEnumUsageLogOutcomeFieldRefInput<$PrismaModel>
+    not?: NestedEnumUsageLogOutcomeFilter<$PrismaModel> | $Enums.UsageLogOutcome
+  }
+
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type ProjectNullableScalarRelationFilter = {
+    is?: ProjectWhereInput | null
+    isNot?: ProjectWhereInput | null
+  }
+
+  export type ApiKeyNullableScalarRelationFilter = {
+    is?: ApiKeyWhereInput | null
+    isNot?: ApiKeyWhereInput | null
+  }
+
+  export type ProjectEndpointNullableScalarRelationFilter = {
+    is?: ProjectEndpointWhereInput | null
+    isNot?: ProjectEndpointWhereInput | null
+  }
+
+  export type UsageLogCountOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    apiKeyId?: SortOrder
+    endpointId?: SortOrder
+    requestMethod?: SortOrder
+    requestPath?: SortOrder
+    queryString?: SortOrder
+    outcome?: SortOrder
+    gatewayStatusCode?: SortOrder
+    upstreamStatusCode?: SortOrder
+    errorCode?: SortOrder
+    durationMs?: SortOrder
+    clientIp?: SortOrder
+    userAgent?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type UsageLogAvgOrderByAggregateInput = {
+    gatewayStatusCode?: SortOrder
+    upstreamStatusCode?: SortOrder
+    durationMs?: SortOrder
+  }
+
+  export type UsageLogMaxOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    apiKeyId?: SortOrder
+    endpointId?: SortOrder
+    requestMethod?: SortOrder
+    requestPath?: SortOrder
+    queryString?: SortOrder
+    outcome?: SortOrder
+    gatewayStatusCode?: SortOrder
+    upstreamStatusCode?: SortOrder
+    errorCode?: SortOrder
+    durationMs?: SortOrder
+    clientIp?: SortOrder
+    userAgent?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type UsageLogMinOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    apiKeyId?: SortOrder
+    endpointId?: SortOrder
+    requestMethod?: SortOrder
+    requestPath?: SortOrder
+    queryString?: SortOrder
+    outcome?: SortOrder
+    gatewayStatusCode?: SortOrder
+    upstreamStatusCode?: SortOrder
+    errorCode?: SortOrder
+    durationMs?: SortOrder
+    clientIp?: SortOrder
+    userAgent?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type UsageLogSumOrderByAggregateInput = {
+    gatewayStatusCode?: SortOrder
+    upstreamStatusCode?: SortOrder
+    durationMs?: SortOrder
+  }
+
+  export type EnumUsageLogOutcomeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.UsageLogOutcome | EnumUsageLogOutcomeFieldRefInput<$PrismaModel>
+    in?: $Enums.UsageLogOutcome[] | ListEnumUsageLogOutcomeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UsageLogOutcome[] | ListEnumUsageLogOutcomeFieldRefInput<$PrismaModel>
+    not?: NestedEnumUsageLogOutcomeWithAggregatesFilter<$PrismaModel> | $Enums.UsageLogOutcome
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumUsageLogOutcomeFilter<$PrismaModel>
+    _max?: NestedEnumUsageLogOutcomeFilter<$PrismaModel>
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
   export type ProjectCreateNestedManyWithoutOwnerInput = {
     create?: XOR<ProjectCreateWithoutOwnerInput, ProjectUncheckedCreateWithoutOwnerInput> | ProjectCreateWithoutOwnerInput[] | ProjectUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: ProjectCreateOrConnectWithoutOwnerInput | ProjectCreateOrConnectWithoutOwnerInput[]
@@ -8368,6 +10361,13 @@ export namespace Prisma {
     connect?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
   }
 
+  export type UsageLogCreateNestedManyWithoutProjectInput = {
+    create?: XOR<UsageLogCreateWithoutProjectInput, UsageLogUncheckedCreateWithoutProjectInput> | UsageLogCreateWithoutProjectInput[] | UsageLogUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: UsageLogCreateOrConnectWithoutProjectInput | UsageLogCreateOrConnectWithoutProjectInput[]
+    createMany?: UsageLogCreateManyProjectInputEnvelope
+    connect?: UsageLogWhereUniqueInput | UsageLogWhereUniqueInput[]
+  }
+
   export type ProjectEndpointUncheckedCreateNestedManyWithoutProjectInput = {
     create?: XOR<ProjectEndpointCreateWithoutProjectInput, ProjectEndpointUncheckedCreateWithoutProjectInput> | ProjectEndpointCreateWithoutProjectInput[] | ProjectEndpointUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: ProjectEndpointCreateOrConnectWithoutProjectInput | ProjectEndpointCreateOrConnectWithoutProjectInput[]
@@ -8387,6 +10387,13 @@ export namespace Prisma {
     connectOrCreate?: ApiKeyEndpointPermissionCreateOrConnectWithoutProjectInput | ApiKeyEndpointPermissionCreateOrConnectWithoutProjectInput[]
     createMany?: ApiKeyEndpointPermissionCreateManyProjectInputEnvelope
     connect?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
+  }
+
+  export type UsageLogUncheckedCreateNestedManyWithoutProjectInput = {
+    create?: XOR<UsageLogCreateWithoutProjectInput, UsageLogUncheckedCreateWithoutProjectInput> | UsageLogCreateWithoutProjectInput[] | UsageLogUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: UsageLogCreateOrConnectWithoutProjectInput | UsageLogCreateOrConnectWithoutProjectInput[]
+    createMany?: UsageLogCreateManyProjectInputEnvelope
+    connect?: UsageLogWhereUniqueInput | UsageLogWhereUniqueInput[]
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -8443,6 +10450,20 @@ export namespace Prisma {
     deleteMany?: ApiKeyEndpointPermissionScalarWhereInput | ApiKeyEndpointPermissionScalarWhereInput[]
   }
 
+  export type UsageLogUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<UsageLogCreateWithoutProjectInput, UsageLogUncheckedCreateWithoutProjectInput> | UsageLogCreateWithoutProjectInput[] | UsageLogUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: UsageLogCreateOrConnectWithoutProjectInput | UsageLogCreateOrConnectWithoutProjectInput[]
+    upsert?: UsageLogUpsertWithWhereUniqueWithoutProjectInput | UsageLogUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: UsageLogCreateManyProjectInputEnvelope
+    set?: UsageLogWhereUniqueInput | UsageLogWhereUniqueInput[]
+    disconnect?: UsageLogWhereUniqueInput | UsageLogWhereUniqueInput[]
+    delete?: UsageLogWhereUniqueInput | UsageLogWhereUniqueInput[]
+    connect?: UsageLogWhereUniqueInput | UsageLogWhereUniqueInput[]
+    update?: UsageLogUpdateWithWhereUniqueWithoutProjectInput | UsageLogUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: UsageLogUpdateManyWithWhereWithoutProjectInput | UsageLogUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: UsageLogScalarWhereInput | UsageLogScalarWhereInput[]
+  }
+
   export type ProjectEndpointUncheckedUpdateManyWithoutProjectNestedInput = {
     create?: XOR<ProjectEndpointCreateWithoutProjectInput, ProjectEndpointUncheckedCreateWithoutProjectInput> | ProjectEndpointCreateWithoutProjectInput[] | ProjectEndpointUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: ProjectEndpointCreateOrConnectWithoutProjectInput | ProjectEndpointCreateOrConnectWithoutProjectInput[]
@@ -8485,6 +10506,20 @@ export namespace Prisma {
     deleteMany?: ApiKeyEndpointPermissionScalarWhereInput | ApiKeyEndpointPermissionScalarWhereInput[]
   }
 
+  export type UsageLogUncheckedUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<UsageLogCreateWithoutProjectInput, UsageLogUncheckedCreateWithoutProjectInput> | UsageLogCreateWithoutProjectInput[] | UsageLogUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: UsageLogCreateOrConnectWithoutProjectInput | UsageLogCreateOrConnectWithoutProjectInput[]
+    upsert?: UsageLogUpsertWithWhereUniqueWithoutProjectInput | UsageLogUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: UsageLogCreateManyProjectInputEnvelope
+    set?: UsageLogWhereUniqueInput | UsageLogWhereUniqueInput[]
+    disconnect?: UsageLogWhereUniqueInput | UsageLogWhereUniqueInput[]
+    delete?: UsageLogWhereUniqueInput | UsageLogWhereUniqueInput[]
+    connect?: UsageLogWhereUniqueInput | UsageLogWhereUniqueInput[]
+    update?: UsageLogUpdateWithWhereUniqueWithoutProjectInput | UsageLogUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: UsageLogUpdateManyWithWhereWithoutProjectInput | UsageLogUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: UsageLogScalarWhereInput | UsageLogScalarWhereInput[]
+  }
+
   export type ProjectCreateNestedOneWithoutEndpointsInput = {
     create?: XOR<ProjectCreateWithoutEndpointsInput, ProjectUncheckedCreateWithoutEndpointsInput>
     connectOrCreate?: ProjectCreateOrConnectWithoutEndpointsInput
@@ -8498,11 +10533,25 @@ export namespace Prisma {
     connect?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
   }
 
+  export type UsageLogCreateNestedManyWithoutEndpointInput = {
+    create?: XOR<UsageLogCreateWithoutEndpointInput, UsageLogUncheckedCreateWithoutEndpointInput> | UsageLogCreateWithoutEndpointInput[] | UsageLogUncheckedCreateWithoutEndpointInput[]
+    connectOrCreate?: UsageLogCreateOrConnectWithoutEndpointInput | UsageLogCreateOrConnectWithoutEndpointInput[]
+    createMany?: UsageLogCreateManyEndpointInputEnvelope
+    connect?: UsageLogWhereUniqueInput | UsageLogWhereUniqueInput[]
+  }
+
   export type ApiKeyEndpointPermissionUncheckedCreateNestedManyWithoutEndpointInput = {
     create?: XOR<ApiKeyEndpointPermissionCreateWithoutEndpointInput, ApiKeyEndpointPermissionUncheckedCreateWithoutEndpointInput> | ApiKeyEndpointPermissionCreateWithoutEndpointInput[] | ApiKeyEndpointPermissionUncheckedCreateWithoutEndpointInput[]
     connectOrCreate?: ApiKeyEndpointPermissionCreateOrConnectWithoutEndpointInput | ApiKeyEndpointPermissionCreateOrConnectWithoutEndpointInput[]
     createMany?: ApiKeyEndpointPermissionCreateManyEndpointInputEnvelope
     connect?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
+  }
+
+  export type UsageLogUncheckedCreateNestedManyWithoutEndpointInput = {
+    create?: XOR<UsageLogCreateWithoutEndpointInput, UsageLogUncheckedCreateWithoutEndpointInput> | UsageLogCreateWithoutEndpointInput[] | UsageLogUncheckedCreateWithoutEndpointInput[]
+    connectOrCreate?: UsageLogCreateOrConnectWithoutEndpointInput | UsageLogCreateOrConnectWithoutEndpointInput[]
+    createMany?: UsageLogCreateManyEndpointInputEnvelope
+    connect?: UsageLogWhereUniqueInput | UsageLogWhereUniqueInput[]
   }
 
   export type EnumEndpointMethodFieldUpdateOperationsInput = {
@@ -8535,6 +10584,20 @@ export namespace Prisma {
     deleteMany?: ApiKeyEndpointPermissionScalarWhereInput | ApiKeyEndpointPermissionScalarWhereInput[]
   }
 
+  export type UsageLogUpdateManyWithoutEndpointNestedInput = {
+    create?: XOR<UsageLogCreateWithoutEndpointInput, UsageLogUncheckedCreateWithoutEndpointInput> | UsageLogCreateWithoutEndpointInput[] | UsageLogUncheckedCreateWithoutEndpointInput[]
+    connectOrCreate?: UsageLogCreateOrConnectWithoutEndpointInput | UsageLogCreateOrConnectWithoutEndpointInput[]
+    upsert?: UsageLogUpsertWithWhereUniqueWithoutEndpointInput | UsageLogUpsertWithWhereUniqueWithoutEndpointInput[]
+    createMany?: UsageLogCreateManyEndpointInputEnvelope
+    set?: UsageLogWhereUniqueInput | UsageLogWhereUniqueInput[]
+    disconnect?: UsageLogWhereUniqueInput | UsageLogWhereUniqueInput[]
+    delete?: UsageLogWhereUniqueInput | UsageLogWhereUniqueInput[]
+    connect?: UsageLogWhereUniqueInput | UsageLogWhereUniqueInput[]
+    update?: UsageLogUpdateWithWhereUniqueWithoutEndpointInput | UsageLogUpdateWithWhereUniqueWithoutEndpointInput[]
+    updateMany?: UsageLogUpdateManyWithWhereWithoutEndpointInput | UsageLogUpdateManyWithWhereWithoutEndpointInput[]
+    deleteMany?: UsageLogScalarWhereInput | UsageLogScalarWhereInput[]
+  }
+
   export type ApiKeyEndpointPermissionUncheckedUpdateManyWithoutEndpointNestedInput = {
     create?: XOR<ApiKeyEndpointPermissionCreateWithoutEndpointInput, ApiKeyEndpointPermissionUncheckedCreateWithoutEndpointInput> | ApiKeyEndpointPermissionCreateWithoutEndpointInput[] | ApiKeyEndpointPermissionUncheckedCreateWithoutEndpointInput[]
     connectOrCreate?: ApiKeyEndpointPermissionCreateOrConnectWithoutEndpointInput | ApiKeyEndpointPermissionCreateOrConnectWithoutEndpointInput[]
@@ -8547,6 +10610,20 @@ export namespace Prisma {
     update?: ApiKeyEndpointPermissionUpdateWithWhereUniqueWithoutEndpointInput | ApiKeyEndpointPermissionUpdateWithWhereUniqueWithoutEndpointInput[]
     updateMany?: ApiKeyEndpointPermissionUpdateManyWithWhereWithoutEndpointInput | ApiKeyEndpointPermissionUpdateManyWithWhereWithoutEndpointInput[]
     deleteMany?: ApiKeyEndpointPermissionScalarWhereInput | ApiKeyEndpointPermissionScalarWhereInput[]
+  }
+
+  export type UsageLogUncheckedUpdateManyWithoutEndpointNestedInput = {
+    create?: XOR<UsageLogCreateWithoutEndpointInput, UsageLogUncheckedCreateWithoutEndpointInput> | UsageLogCreateWithoutEndpointInput[] | UsageLogUncheckedCreateWithoutEndpointInput[]
+    connectOrCreate?: UsageLogCreateOrConnectWithoutEndpointInput | UsageLogCreateOrConnectWithoutEndpointInput[]
+    upsert?: UsageLogUpsertWithWhereUniqueWithoutEndpointInput | UsageLogUpsertWithWhereUniqueWithoutEndpointInput[]
+    createMany?: UsageLogCreateManyEndpointInputEnvelope
+    set?: UsageLogWhereUniqueInput | UsageLogWhereUniqueInput[]
+    disconnect?: UsageLogWhereUniqueInput | UsageLogWhereUniqueInput[]
+    delete?: UsageLogWhereUniqueInput | UsageLogWhereUniqueInput[]
+    connect?: UsageLogWhereUniqueInput | UsageLogWhereUniqueInput[]
+    update?: UsageLogUpdateWithWhereUniqueWithoutEndpointInput | UsageLogUpdateWithWhereUniqueWithoutEndpointInput[]
+    updateMany?: UsageLogUpdateManyWithWhereWithoutEndpointInput | UsageLogUpdateManyWithWhereWithoutEndpointInput[]
+    deleteMany?: UsageLogScalarWhereInput | UsageLogScalarWhereInput[]
   }
 
   export type ProjectCreateNestedOneWithoutApiKeysInput = {
@@ -8562,11 +10639,25 @@ export namespace Prisma {
     connect?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
   }
 
+  export type UsageLogCreateNestedManyWithoutApiKeyInput = {
+    create?: XOR<UsageLogCreateWithoutApiKeyInput, UsageLogUncheckedCreateWithoutApiKeyInput> | UsageLogCreateWithoutApiKeyInput[] | UsageLogUncheckedCreateWithoutApiKeyInput[]
+    connectOrCreate?: UsageLogCreateOrConnectWithoutApiKeyInput | UsageLogCreateOrConnectWithoutApiKeyInput[]
+    createMany?: UsageLogCreateManyApiKeyInputEnvelope
+    connect?: UsageLogWhereUniqueInput | UsageLogWhereUniqueInput[]
+  }
+
   export type ApiKeyEndpointPermissionUncheckedCreateNestedManyWithoutApiKeyInput = {
     create?: XOR<ApiKeyEndpointPermissionCreateWithoutApiKeyInput, ApiKeyEndpointPermissionUncheckedCreateWithoutApiKeyInput> | ApiKeyEndpointPermissionCreateWithoutApiKeyInput[] | ApiKeyEndpointPermissionUncheckedCreateWithoutApiKeyInput[]
     connectOrCreate?: ApiKeyEndpointPermissionCreateOrConnectWithoutApiKeyInput | ApiKeyEndpointPermissionCreateOrConnectWithoutApiKeyInput[]
     createMany?: ApiKeyEndpointPermissionCreateManyApiKeyInputEnvelope
     connect?: ApiKeyEndpointPermissionWhereUniqueInput | ApiKeyEndpointPermissionWhereUniqueInput[]
+  }
+
+  export type UsageLogUncheckedCreateNestedManyWithoutApiKeyInput = {
+    create?: XOR<UsageLogCreateWithoutApiKeyInput, UsageLogUncheckedCreateWithoutApiKeyInput> | UsageLogCreateWithoutApiKeyInput[] | UsageLogUncheckedCreateWithoutApiKeyInput[]
+    connectOrCreate?: UsageLogCreateOrConnectWithoutApiKeyInput | UsageLogCreateOrConnectWithoutApiKeyInput[]
+    createMany?: UsageLogCreateManyApiKeyInputEnvelope
+    connect?: UsageLogWhereUniqueInput | UsageLogWhereUniqueInput[]
   }
 
   export type EnumApiKeyStatusFieldUpdateOperationsInput = {
@@ -8599,6 +10690,20 @@ export namespace Prisma {
     deleteMany?: ApiKeyEndpointPermissionScalarWhereInput | ApiKeyEndpointPermissionScalarWhereInput[]
   }
 
+  export type UsageLogUpdateManyWithoutApiKeyNestedInput = {
+    create?: XOR<UsageLogCreateWithoutApiKeyInput, UsageLogUncheckedCreateWithoutApiKeyInput> | UsageLogCreateWithoutApiKeyInput[] | UsageLogUncheckedCreateWithoutApiKeyInput[]
+    connectOrCreate?: UsageLogCreateOrConnectWithoutApiKeyInput | UsageLogCreateOrConnectWithoutApiKeyInput[]
+    upsert?: UsageLogUpsertWithWhereUniqueWithoutApiKeyInput | UsageLogUpsertWithWhereUniqueWithoutApiKeyInput[]
+    createMany?: UsageLogCreateManyApiKeyInputEnvelope
+    set?: UsageLogWhereUniqueInput | UsageLogWhereUniqueInput[]
+    disconnect?: UsageLogWhereUniqueInput | UsageLogWhereUniqueInput[]
+    delete?: UsageLogWhereUniqueInput | UsageLogWhereUniqueInput[]
+    connect?: UsageLogWhereUniqueInput | UsageLogWhereUniqueInput[]
+    update?: UsageLogUpdateWithWhereUniqueWithoutApiKeyInput | UsageLogUpdateWithWhereUniqueWithoutApiKeyInput[]
+    updateMany?: UsageLogUpdateManyWithWhereWithoutApiKeyInput | UsageLogUpdateManyWithWhereWithoutApiKeyInput[]
+    deleteMany?: UsageLogScalarWhereInput | UsageLogScalarWhereInput[]
+  }
+
   export type ApiKeyEndpointPermissionUncheckedUpdateManyWithoutApiKeyNestedInput = {
     create?: XOR<ApiKeyEndpointPermissionCreateWithoutApiKeyInput, ApiKeyEndpointPermissionUncheckedCreateWithoutApiKeyInput> | ApiKeyEndpointPermissionCreateWithoutApiKeyInput[] | ApiKeyEndpointPermissionUncheckedCreateWithoutApiKeyInput[]
     connectOrCreate?: ApiKeyEndpointPermissionCreateOrConnectWithoutApiKeyInput | ApiKeyEndpointPermissionCreateOrConnectWithoutApiKeyInput[]
@@ -8611,6 +10716,20 @@ export namespace Prisma {
     update?: ApiKeyEndpointPermissionUpdateWithWhereUniqueWithoutApiKeyInput | ApiKeyEndpointPermissionUpdateWithWhereUniqueWithoutApiKeyInput[]
     updateMany?: ApiKeyEndpointPermissionUpdateManyWithWhereWithoutApiKeyInput | ApiKeyEndpointPermissionUpdateManyWithWhereWithoutApiKeyInput[]
     deleteMany?: ApiKeyEndpointPermissionScalarWhereInput | ApiKeyEndpointPermissionScalarWhereInput[]
+  }
+
+  export type UsageLogUncheckedUpdateManyWithoutApiKeyNestedInput = {
+    create?: XOR<UsageLogCreateWithoutApiKeyInput, UsageLogUncheckedCreateWithoutApiKeyInput> | UsageLogCreateWithoutApiKeyInput[] | UsageLogUncheckedCreateWithoutApiKeyInput[]
+    connectOrCreate?: UsageLogCreateOrConnectWithoutApiKeyInput | UsageLogCreateOrConnectWithoutApiKeyInput[]
+    upsert?: UsageLogUpsertWithWhereUniqueWithoutApiKeyInput | UsageLogUpsertWithWhereUniqueWithoutApiKeyInput[]
+    createMany?: UsageLogCreateManyApiKeyInputEnvelope
+    set?: UsageLogWhereUniqueInput | UsageLogWhereUniqueInput[]
+    disconnect?: UsageLogWhereUniqueInput | UsageLogWhereUniqueInput[]
+    delete?: UsageLogWhereUniqueInput | UsageLogWhereUniqueInput[]
+    connect?: UsageLogWhereUniqueInput | UsageLogWhereUniqueInput[]
+    update?: UsageLogUpdateWithWhereUniqueWithoutApiKeyInput | UsageLogUpdateWithWhereUniqueWithoutApiKeyInput[]
+    updateMany?: UsageLogUpdateManyWithWhereWithoutApiKeyInput | UsageLogUpdateManyWithWhereWithoutApiKeyInput[]
+    deleteMany?: UsageLogScalarWhereInput | UsageLogScalarWhereInput[]
   }
 
   export type ApiKeyCreateNestedOneWithoutPermissionsInput = {
@@ -8653,6 +10772,74 @@ export namespace Prisma {
     upsert?: ProjectEndpointUpsertWithoutApiKeyPermissionsInput
     connect?: ProjectEndpointWhereUniqueInput
     update?: XOR<XOR<ProjectEndpointUpdateToOneWithWhereWithoutApiKeyPermissionsInput, ProjectEndpointUpdateWithoutApiKeyPermissionsInput>, ProjectEndpointUncheckedUpdateWithoutApiKeyPermissionsInput>
+  }
+
+  export type ProjectCreateNestedOneWithoutUsageLogsInput = {
+    create?: XOR<ProjectCreateWithoutUsageLogsInput, ProjectUncheckedCreateWithoutUsageLogsInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutUsageLogsInput
+    connect?: ProjectWhereUniqueInput
+  }
+
+  export type ApiKeyCreateNestedOneWithoutUsageLogsInput = {
+    create?: XOR<ApiKeyCreateWithoutUsageLogsInput, ApiKeyUncheckedCreateWithoutUsageLogsInput>
+    connectOrCreate?: ApiKeyCreateOrConnectWithoutUsageLogsInput
+    connect?: ApiKeyWhereUniqueInput
+  }
+
+  export type ProjectEndpointCreateNestedOneWithoutUsageLogsInput = {
+    create?: XOR<ProjectEndpointCreateWithoutUsageLogsInput, ProjectEndpointUncheckedCreateWithoutUsageLogsInput>
+    connectOrCreate?: ProjectEndpointCreateOrConnectWithoutUsageLogsInput
+    connect?: ProjectEndpointWhereUniqueInput
+  }
+
+  export type EnumUsageLogOutcomeFieldUpdateOperationsInput = {
+    set?: $Enums.UsageLogOutcome
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type ProjectUpdateOneWithoutUsageLogsNestedInput = {
+    create?: XOR<ProjectCreateWithoutUsageLogsInput, ProjectUncheckedCreateWithoutUsageLogsInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutUsageLogsInput
+    upsert?: ProjectUpsertWithoutUsageLogsInput
+    disconnect?: ProjectWhereInput | boolean
+    delete?: ProjectWhereInput | boolean
+    connect?: ProjectWhereUniqueInput
+    update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutUsageLogsInput, ProjectUpdateWithoutUsageLogsInput>, ProjectUncheckedUpdateWithoutUsageLogsInput>
+  }
+
+  export type ApiKeyUpdateOneWithoutUsageLogsNestedInput = {
+    create?: XOR<ApiKeyCreateWithoutUsageLogsInput, ApiKeyUncheckedCreateWithoutUsageLogsInput>
+    connectOrCreate?: ApiKeyCreateOrConnectWithoutUsageLogsInput
+    upsert?: ApiKeyUpsertWithoutUsageLogsInput
+    disconnect?: ApiKeyWhereInput | boolean
+    delete?: ApiKeyWhereInput | boolean
+    connect?: ApiKeyWhereUniqueInput
+    update?: XOR<XOR<ApiKeyUpdateToOneWithWhereWithoutUsageLogsInput, ApiKeyUpdateWithoutUsageLogsInput>, ApiKeyUncheckedUpdateWithoutUsageLogsInput>
+  }
+
+  export type ProjectEndpointUpdateOneWithoutUsageLogsNestedInput = {
+    create?: XOR<ProjectEndpointCreateWithoutUsageLogsInput, ProjectEndpointUncheckedCreateWithoutUsageLogsInput>
+    connectOrCreate?: ProjectEndpointCreateOrConnectWithoutUsageLogsInput
+    upsert?: ProjectEndpointUpsertWithoutUsageLogsInput
+    disconnect?: ProjectEndpointWhereInput | boolean
+    delete?: ProjectEndpointWhereInput | boolean
+    connect?: ProjectEndpointWhereUniqueInput
+    update?: XOR<XOR<ProjectEndpointUpdateToOneWithWhereWithoutUsageLogsInput, ProjectEndpointUpdateWithoutUsageLogsInput>, ProjectEndpointUncheckedUpdateWithoutUsageLogsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -8840,6 +11027,77 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type NestedEnumUsageLogOutcomeFilter<$PrismaModel = never> = {
+    equals?: $Enums.UsageLogOutcome | EnumUsageLogOutcomeFieldRefInput<$PrismaModel>
+    in?: $Enums.UsageLogOutcome[] | ListEnumUsageLogOutcomeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UsageLogOutcome[] | ListEnumUsageLogOutcomeFieldRefInput<$PrismaModel>
+    not?: NestedEnumUsageLogOutcomeFilter<$PrismaModel> | $Enums.UsageLogOutcome
+  }
+
+  export type NestedEnumUsageLogOutcomeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.UsageLogOutcome | EnumUsageLogOutcomeFieldRefInput<$PrismaModel>
+    in?: $Enums.UsageLogOutcome[] | ListEnumUsageLogOutcomeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UsageLogOutcome[] | ListEnumUsageLogOutcomeFieldRefInput<$PrismaModel>
+    not?: NestedEnumUsageLogOutcomeWithAggregatesFilter<$PrismaModel> | $Enums.UsageLogOutcome
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumUsageLogOutcomeFilter<$PrismaModel>
+    _max?: NestedEnumUsageLogOutcomeFilter<$PrismaModel>
+  }
+
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type ProjectCreateWithoutOwnerInput = {
     id?: string
     name: string
@@ -8849,6 +11107,7 @@ export namespace Prisma {
     endpoints?: ProjectEndpointCreateNestedManyWithoutProjectInput
     apiKeys?: ApiKeyCreateNestedManyWithoutProjectInput
     apiKeyEndpointPermissions?: ApiKeyEndpointPermissionCreateNestedManyWithoutProjectInput
+    usageLogs?: UsageLogCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutOwnerInput = {
@@ -8860,6 +11119,7 @@ export namespace Prisma {
     endpoints?: ProjectEndpointUncheckedCreateNestedManyWithoutProjectInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutProjectInput
     apiKeyEndpointPermissions?: ApiKeyEndpointPermissionUncheckedCreateNestedManyWithoutProjectInput
+    usageLogs?: UsageLogUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutOwnerInput = {
@@ -8931,6 +11191,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     apiKeyPermissions?: ApiKeyEndpointPermissionCreateNestedManyWithoutEndpointInput
+    usageLogs?: UsageLogCreateNestedManyWithoutEndpointInput
   }
 
   export type ProjectEndpointUncheckedCreateWithoutProjectInput = {
@@ -8943,6 +11204,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     apiKeyPermissions?: ApiKeyEndpointPermissionUncheckedCreateNestedManyWithoutEndpointInput
+    usageLogs?: UsageLogUncheckedCreateNestedManyWithoutEndpointInput
   }
 
   export type ProjectEndpointCreateOrConnectWithoutProjectInput = {
@@ -8965,6 +11227,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     permissions?: ApiKeyEndpointPermissionCreateNestedManyWithoutApiKeyInput
+    usageLogs?: UsageLogCreateNestedManyWithoutApiKeyInput
   }
 
   export type ApiKeyUncheckedCreateWithoutProjectInput = {
@@ -8977,6 +11240,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     permissions?: ApiKeyEndpointPermissionUncheckedCreateNestedManyWithoutApiKeyInput
+    usageLogs?: UsageLogUncheckedCreateNestedManyWithoutApiKeyInput
   }
 
   export type ApiKeyCreateOrConnectWithoutProjectInput = {
@@ -9010,6 +11274,50 @@ export namespace Prisma {
 
   export type ApiKeyEndpointPermissionCreateManyProjectInputEnvelope = {
     data: ApiKeyEndpointPermissionCreateManyProjectInput | ApiKeyEndpointPermissionCreateManyProjectInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UsageLogCreateWithoutProjectInput = {
+    id?: string
+    requestMethod: $Enums.EndpointMethod
+    requestPath: string
+    queryString?: string | null
+    outcome: $Enums.UsageLogOutcome
+    gatewayStatusCode: number
+    upstreamStatusCode?: number | null
+    errorCode?: string | null
+    durationMs: number
+    clientIp?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+    apiKey?: ApiKeyCreateNestedOneWithoutUsageLogsInput
+    endpoint?: ProjectEndpointCreateNestedOneWithoutUsageLogsInput
+  }
+
+  export type UsageLogUncheckedCreateWithoutProjectInput = {
+    id?: string
+    apiKeyId?: string | null
+    endpointId?: string | null
+    requestMethod: $Enums.EndpointMethod
+    requestPath: string
+    queryString?: string | null
+    outcome: $Enums.UsageLogOutcome
+    gatewayStatusCode: number
+    upstreamStatusCode?: number | null
+    errorCode?: string | null
+    durationMs: number
+    clientIp?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+  }
+
+  export type UsageLogCreateOrConnectWithoutProjectInput = {
+    where: UsageLogWhereUniqueInput
+    create: XOR<UsageLogCreateWithoutProjectInput, UsageLogUncheckedCreateWithoutProjectInput>
+  }
+
+  export type UsageLogCreateManyProjectInputEnvelope = {
+    data: UsageLogCreateManyProjectInput | UsageLogCreateManyProjectInput[]
     skipDuplicates?: boolean
   }
 
@@ -9129,6 +11437,43 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"ApiKeyEndpointPermission"> | Date | string
   }
 
+  export type UsageLogUpsertWithWhereUniqueWithoutProjectInput = {
+    where: UsageLogWhereUniqueInput
+    update: XOR<UsageLogUpdateWithoutProjectInput, UsageLogUncheckedUpdateWithoutProjectInput>
+    create: XOR<UsageLogCreateWithoutProjectInput, UsageLogUncheckedCreateWithoutProjectInput>
+  }
+
+  export type UsageLogUpdateWithWhereUniqueWithoutProjectInput = {
+    where: UsageLogWhereUniqueInput
+    data: XOR<UsageLogUpdateWithoutProjectInput, UsageLogUncheckedUpdateWithoutProjectInput>
+  }
+
+  export type UsageLogUpdateManyWithWhereWithoutProjectInput = {
+    where: UsageLogScalarWhereInput
+    data: XOR<UsageLogUpdateManyMutationInput, UsageLogUncheckedUpdateManyWithoutProjectInput>
+  }
+
+  export type UsageLogScalarWhereInput = {
+    AND?: UsageLogScalarWhereInput | UsageLogScalarWhereInput[]
+    OR?: UsageLogScalarWhereInput[]
+    NOT?: UsageLogScalarWhereInput | UsageLogScalarWhereInput[]
+    id?: StringFilter<"UsageLog"> | string
+    projectId?: StringNullableFilter<"UsageLog"> | string | null
+    apiKeyId?: StringNullableFilter<"UsageLog"> | string | null
+    endpointId?: StringNullableFilter<"UsageLog"> | string | null
+    requestMethod?: EnumEndpointMethodFilter<"UsageLog"> | $Enums.EndpointMethod
+    requestPath?: StringFilter<"UsageLog"> | string
+    queryString?: StringNullableFilter<"UsageLog"> | string | null
+    outcome?: EnumUsageLogOutcomeFilter<"UsageLog"> | $Enums.UsageLogOutcome
+    gatewayStatusCode?: IntFilter<"UsageLog"> | number
+    upstreamStatusCode?: IntNullableFilter<"UsageLog"> | number | null
+    errorCode?: StringNullableFilter<"UsageLog"> | string | null
+    durationMs?: IntFilter<"UsageLog"> | number
+    clientIp?: StringNullableFilter<"UsageLog"> | string | null
+    userAgent?: StringNullableFilter<"UsageLog"> | string | null
+    createdAt?: DateTimeFilter<"UsageLog"> | Date | string
+  }
+
   export type ProjectCreateWithoutEndpointsInput = {
     id?: string
     name: string
@@ -9138,6 +11483,7 @@ export namespace Prisma {
     owner: UserCreateNestedOneWithoutProjectsInput
     apiKeys?: ApiKeyCreateNestedManyWithoutProjectInput
     apiKeyEndpointPermissions?: ApiKeyEndpointPermissionCreateNestedManyWithoutProjectInput
+    usageLogs?: UsageLogCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutEndpointsInput = {
@@ -9149,6 +11495,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutProjectInput
     apiKeyEndpointPermissions?: ApiKeyEndpointPermissionUncheckedCreateNestedManyWithoutProjectInput
+    usageLogs?: UsageLogUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutEndpointsInput = {
@@ -9180,6 +11527,50 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type UsageLogCreateWithoutEndpointInput = {
+    id?: string
+    requestMethod: $Enums.EndpointMethod
+    requestPath: string
+    queryString?: string | null
+    outcome: $Enums.UsageLogOutcome
+    gatewayStatusCode: number
+    upstreamStatusCode?: number | null
+    errorCode?: string | null
+    durationMs: number
+    clientIp?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+    project?: ProjectCreateNestedOneWithoutUsageLogsInput
+    apiKey?: ApiKeyCreateNestedOneWithoutUsageLogsInput
+  }
+
+  export type UsageLogUncheckedCreateWithoutEndpointInput = {
+    id?: string
+    projectId?: string | null
+    apiKeyId?: string | null
+    requestMethod: $Enums.EndpointMethod
+    requestPath: string
+    queryString?: string | null
+    outcome: $Enums.UsageLogOutcome
+    gatewayStatusCode: number
+    upstreamStatusCode?: number | null
+    errorCode?: string | null
+    durationMs: number
+    clientIp?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+  }
+
+  export type UsageLogCreateOrConnectWithoutEndpointInput = {
+    where: UsageLogWhereUniqueInput
+    create: XOR<UsageLogCreateWithoutEndpointInput, UsageLogUncheckedCreateWithoutEndpointInput>
+  }
+
+  export type UsageLogCreateManyEndpointInputEnvelope = {
+    data: UsageLogCreateManyEndpointInput | UsageLogCreateManyEndpointInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ProjectUpsertWithoutEndpointsInput = {
     update: XOR<ProjectUpdateWithoutEndpointsInput, ProjectUncheckedUpdateWithoutEndpointsInput>
     create: XOR<ProjectCreateWithoutEndpointsInput, ProjectUncheckedCreateWithoutEndpointsInput>
@@ -9200,6 +11591,7 @@ export namespace Prisma {
     owner?: UserUpdateOneRequiredWithoutProjectsNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutProjectNestedInput
     apiKeyEndpointPermissions?: ApiKeyEndpointPermissionUpdateManyWithoutProjectNestedInput
+    usageLogs?: UsageLogUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutEndpointsInput = {
@@ -9211,6 +11603,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutProjectNestedInput
     apiKeyEndpointPermissions?: ApiKeyEndpointPermissionUncheckedUpdateManyWithoutProjectNestedInput
+    usageLogs?: UsageLogUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ApiKeyEndpointPermissionUpsertWithWhereUniqueWithoutEndpointInput = {
@@ -9229,6 +11622,22 @@ export namespace Prisma {
     data: XOR<ApiKeyEndpointPermissionUpdateManyMutationInput, ApiKeyEndpointPermissionUncheckedUpdateManyWithoutEndpointInput>
   }
 
+  export type UsageLogUpsertWithWhereUniqueWithoutEndpointInput = {
+    where: UsageLogWhereUniqueInput
+    update: XOR<UsageLogUpdateWithoutEndpointInput, UsageLogUncheckedUpdateWithoutEndpointInput>
+    create: XOR<UsageLogCreateWithoutEndpointInput, UsageLogUncheckedCreateWithoutEndpointInput>
+  }
+
+  export type UsageLogUpdateWithWhereUniqueWithoutEndpointInput = {
+    where: UsageLogWhereUniqueInput
+    data: XOR<UsageLogUpdateWithoutEndpointInput, UsageLogUncheckedUpdateWithoutEndpointInput>
+  }
+
+  export type UsageLogUpdateManyWithWhereWithoutEndpointInput = {
+    where: UsageLogScalarWhereInput
+    data: XOR<UsageLogUpdateManyMutationInput, UsageLogUncheckedUpdateManyWithoutEndpointInput>
+  }
+
   export type ProjectCreateWithoutApiKeysInput = {
     id?: string
     name: string
@@ -9238,6 +11647,7 @@ export namespace Prisma {
     owner: UserCreateNestedOneWithoutProjectsInput
     endpoints?: ProjectEndpointCreateNestedManyWithoutProjectInput
     apiKeyEndpointPermissions?: ApiKeyEndpointPermissionCreateNestedManyWithoutProjectInput
+    usageLogs?: UsageLogCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutApiKeysInput = {
@@ -9249,6 +11659,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     endpoints?: ProjectEndpointUncheckedCreateNestedManyWithoutProjectInput
     apiKeyEndpointPermissions?: ApiKeyEndpointPermissionUncheckedCreateNestedManyWithoutProjectInput
+    usageLogs?: UsageLogUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutApiKeysInput = {
@@ -9280,6 +11691,50 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type UsageLogCreateWithoutApiKeyInput = {
+    id?: string
+    requestMethod: $Enums.EndpointMethod
+    requestPath: string
+    queryString?: string | null
+    outcome: $Enums.UsageLogOutcome
+    gatewayStatusCode: number
+    upstreamStatusCode?: number | null
+    errorCode?: string | null
+    durationMs: number
+    clientIp?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+    project?: ProjectCreateNestedOneWithoutUsageLogsInput
+    endpoint?: ProjectEndpointCreateNestedOneWithoutUsageLogsInput
+  }
+
+  export type UsageLogUncheckedCreateWithoutApiKeyInput = {
+    id?: string
+    projectId?: string | null
+    endpointId?: string | null
+    requestMethod: $Enums.EndpointMethod
+    requestPath: string
+    queryString?: string | null
+    outcome: $Enums.UsageLogOutcome
+    gatewayStatusCode: number
+    upstreamStatusCode?: number | null
+    errorCode?: string | null
+    durationMs: number
+    clientIp?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+  }
+
+  export type UsageLogCreateOrConnectWithoutApiKeyInput = {
+    where: UsageLogWhereUniqueInput
+    create: XOR<UsageLogCreateWithoutApiKeyInput, UsageLogUncheckedCreateWithoutApiKeyInput>
+  }
+
+  export type UsageLogCreateManyApiKeyInputEnvelope = {
+    data: UsageLogCreateManyApiKeyInput | UsageLogCreateManyApiKeyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ProjectUpsertWithoutApiKeysInput = {
     update: XOR<ProjectUpdateWithoutApiKeysInput, ProjectUncheckedUpdateWithoutApiKeysInput>
     create: XOR<ProjectCreateWithoutApiKeysInput, ProjectUncheckedCreateWithoutApiKeysInput>
@@ -9300,6 +11755,7 @@ export namespace Prisma {
     owner?: UserUpdateOneRequiredWithoutProjectsNestedInput
     endpoints?: ProjectEndpointUpdateManyWithoutProjectNestedInput
     apiKeyEndpointPermissions?: ApiKeyEndpointPermissionUpdateManyWithoutProjectNestedInput
+    usageLogs?: UsageLogUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutApiKeysInput = {
@@ -9311,6 +11767,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endpoints?: ProjectEndpointUncheckedUpdateManyWithoutProjectNestedInput
     apiKeyEndpointPermissions?: ApiKeyEndpointPermissionUncheckedUpdateManyWithoutProjectNestedInput
+    usageLogs?: UsageLogUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ApiKeyEndpointPermissionUpsertWithWhereUniqueWithoutApiKeyInput = {
@@ -9329,6 +11786,22 @@ export namespace Prisma {
     data: XOR<ApiKeyEndpointPermissionUpdateManyMutationInput, ApiKeyEndpointPermissionUncheckedUpdateManyWithoutApiKeyInput>
   }
 
+  export type UsageLogUpsertWithWhereUniqueWithoutApiKeyInput = {
+    where: UsageLogWhereUniqueInput
+    update: XOR<UsageLogUpdateWithoutApiKeyInput, UsageLogUncheckedUpdateWithoutApiKeyInput>
+    create: XOR<UsageLogCreateWithoutApiKeyInput, UsageLogUncheckedCreateWithoutApiKeyInput>
+  }
+
+  export type UsageLogUpdateWithWhereUniqueWithoutApiKeyInput = {
+    where: UsageLogWhereUniqueInput
+    data: XOR<UsageLogUpdateWithoutApiKeyInput, UsageLogUncheckedUpdateWithoutApiKeyInput>
+  }
+
+  export type UsageLogUpdateManyWithWhereWithoutApiKeyInput = {
+    where: UsageLogScalarWhereInput
+    data: XOR<UsageLogUpdateManyMutationInput, UsageLogUncheckedUpdateManyWithoutApiKeyInput>
+  }
+
   export type ApiKeyCreateWithoutPermissionsInput = {
     id?: string
     name: string
@@ -9339,6 +11812,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     project: ProjectCreateNestedOneWithoutApiKeysInput
+    usageLogs?: UsageLogCreateNestedManyWithoutApiKeyInput
   }
 
   export type ApiKeyUncheckedCreateWithoutPermissionsInput = {
@@ -9351,6 +11825,7 @@ export namespace Prisma {
     revokedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    usageLogs?: UsageLogUncheckedCreateNestedManyWithoutApiKeyInput
   }
 
   export type ApiKeyCreateOrConnectWithoutPermissionsInput = {
@@ -9367,6 +11842,7 @@ export namespace Prisma {
     owner: UserCreateNestedOneWithoutProjectsInput
     endpoints?: ProjectEndpointCreateNestedManyWithoutProjectInput
     apiKeys?: ApiKeyCreateNestedManyWithoutProjectInput
+    usageLogs?: UsageLogCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutApiKeyEndpointPermissionsInput = {
@@ -9378,6 +11854,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     endpoints?: ProjectEndpointUncheckedCreateNestedManyWithoutProjectInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutProjectInput
+    usageLogs?: UsageLogUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutApiKeyEndpointPermissionsInput = {
@@ -9395,6 +11872,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     project: ProjectCreateNestedOneWithoutEndpointsInput
+    usageLogs?: UsageLogCreateNestedManyWithoutEndpointInput
   }
 
   export type ProjectEndpointUncheckedCreateWithoutApiKeyPermissionsInput = {
@@ -9407,6 +11885,7 @@ export namespace Prisma {
     status?: $Enums.EndpointStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    usageLogs?: UsageLogUncheckedCreateNestedManyWithoutEndpointInput
   }
 
   export type ProjectEndpointCreateOrConnectWithoutApiKeyPermissionsInput = {
@@ -9435,6 +11914,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     project?: ProjectUpdateOneRequiredWithoutApiKeysNestedInput
+    usageLogs?: UsageLogUpdateManyWithoutApiKeyNestedInput
   }
 
   export type ApiKeyUncheckedUpdateWithoutPermissionsInput = {
@@ -9447,6 +11927,7 @@ export namespace Prisma {
     revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usageLogs?: UsageLogUncheckedUpdateManyWithoutApiKeyNestedInput
   }
 
   export type ProjectUpsertWithoutApiKeyEndpointPermissionsInput = {
@@ -9469,6 +11950,7 @@ export namespace Prisma {
     owner?: UserUpdateOneRequiredWithoutProjectsNestedInput
     endpoints?: ProjectEndpointUpdateManyWithoutProjectNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutProjectNestedInput
+    usageLogs?: UsageLogUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutApiKeyEndpointPermissionsInput = {
@@ -9480,6 +11962,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endpoints?: ProjectEndpointUncheckedUpdateManyWithoutProjectNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutProjectNestedInput
+    usageLogs?: UsageLogUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectEndpointUpsertWithoutApiKeyPermissionsInput = {
@@ -9503,6 +11986,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     project?: ProjectUpdateOneRequiredWithoutEndpointsNestedInput
+    usageLogs?: UsageLogUpdateManyWithoutEndpointNestedInput
   }
 
   export type ProjectEndpointUncheckedUpdateWithoutApiKeyPermissionsInput = {
@@ -9515,6 +11999,207 @@ export namespace Prisma {
     status?: EnumEndpointStatusFieldUpdateOperationsInput | $Enums.EndpointStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usageLogs?: UsageLogUncheckedUpdateManyWithoutEndpointNestedInput
+  }
+
+  export type ProjectCreateWithoutUsageLogsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    owner: UserCreateNestedOneWithoutProjectsInput
+    endpoints?: ProjectEndpointCreateNestedManyWithoutProjectInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutProjectInput
+    apiKeyEndpointPermissions?: ApiKeyEndpointPermissionCreateNestedManyWithoutProjectInput
+  }
+
+  export type ProjectUncheckedCreateWithoutUsageLogsInput = {
+    id?: string
+    ownerId: string
+    name: string
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    endpoints?: ProjectEndpointUncheckedCreateNestedManyWithoutProjectInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutProjectInput
+    apiKeyEndpointPermissions?: ApiKeyEndpointPermissionUncheckedCreateNestedManyWithoutProjectInput
+  }
+
+  export type ProjectCreateOrConnectWithoutUsageLogsInput = {
+    where: ProjectWhereUniqueInput
+    create: XOR<ProjectCreateWithoutUsageLogsInput, ProjectUncheckedCreateWithoutUsageLogsInput>
+  }
+
+  export type ApiKeyCreateWithoutUsageLogsInput = {
+    id?: string
+    name: string
+    prefix: string
+    keyHash: string
+    status?: $Enums.ApiKeyStatus
+    revokedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    project: ProjectCreateNestedOneWithoutApiKeysInput
+    permissions?: ApiKeyEndpointPermissionCreateNestedManyWithoutApiKeyInput
+  }
+
+  export type ApiKeyUncheckedCreateWithoutUsageLogsInput = {
+    id?: string
+    projectId: string
+    name: string
+    prefix: string
+    keyHash: string
+    status?: $Enums.ApiKeyStatus
+    revokedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    permissions?: ApiKeyEndpointPermissionUncheckedCreateNestedManyWithoutApiKeyInput
+  }
+
+  export type ApiKeyCreateOrConnectWithoutUsageLogsInput = {
+    where: ApiKeyWhereUniqueInput
+    create: XOR<ApiKeyCreateWithoutUsageLogsInput, ApiKeyUncheckedCreateWithoutUsageLogsInput>
+  }
+
+  export type ProjectEndpointCreateWithoutUsageLogsInput = {
+    id?: string
+    method: $Enums.EndpointMethod
+    path: string
+    routeShape: string
+    upstreamUrl: string
+    status?: $Enums.EndpointStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    project: ProjectCreateNestedOneWithoutEndpointsInput
+    apiKeyPermissions?: ApiKeyEndpointPermissionCreateNestedManyWithoutEndpointInput
+  }
+
+  export type ProjectEndpointUncheckedCreateWithoutUsageLogsInput = {
+    id?: string
+    projectId: string
+    method: $Enums.EndpointMethod
+    path: string
+    routeShape: string
+    upstreamUrl: string
+    status?: $Enums.EndpointStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    apiKeyPermissions?: ApiKeyEndpointPermissionUncheckedCreateNestedManyWithoutEndpointInput
+  }
+
+  export type ProjectEndpointCreateOrConnectWithoutUsageLogsInput = {
+    where: ProjectEndpointWhereUniqueInput
+    create: XOR<ProjectEndpointCreateWithoutUsageLogsInput, ProjectEndpointUncheckedCreateWithoutUsageLogsInput>
+  }
+
+  export type ProjectUpsertWithoutUsageLogsInput = {
+    update: XOR<ProjectUpdateWithoutUsageLogsInput, ProjectUncheckedUpdateWithoutUsageLogsInput>
+    create: XOR<ProjectCreateWithoutUsageLogsInput, ProjectUncheckedCreateWithoutUsageLogsInput>
+    where?: ProjectWhereInput
+  }
+
+  export type ProjectUpdateToOneWithWhereWithoutUsageLogsInput = {
+    where?: ProjectWhereInput
+    data: XOR<ProjectUpdateWithoutUsageLogsInput, ProjectUncheckedUpdateWithoutUsageLogsInput>
+  }
+
+  export type ProjectUpdateWithoutUsageLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutProjectsNestedInput
+    endpoints?: ProjectEndpointUpdateManyWithoutProjectNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutProjectNestedInput
+    apiKeyEndpointPermissions?: ApiKeyEndpointPermissionUpdateManyWithoutProjectNestedInput
+  }
+
+  export type ProjectUncheckedUpdateWithoutUsageLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endpoints?: ProjectEndpointUncheckedUpdateManyWithoutProjectNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutProjectNestedInput
+    apiKeyEndpointPermissions?: ApiKeyEndpointPermissionUncheckedUpdateManyWithoutProjectNestedInput
+  }
+
+  export type ApiKeyUpsertWithoutUsageLogsInput = {
+    update: XOR<ApiKeyUpdateWithoutUsageLogsInput, ApiKeyUncheckedUpdateWithoutUsageLogsInput>
+    create: XOR<ApiKeyCreateWithoutUsageLogsInput, ApiKeyUncheckedCreateWithoutUsageLogsInput>
+    where?: ApiKeyWhereInput
+  }
+
+  export type ApiKeyUpdateToOneWithWhereWithoutUsageLogsInput = {
+    where?: ApiKeyWhereInput
+    data: XOR<ApiKeyUpdateWithoutUsageLogsInput, ApiKeyUncheckedUpdateWithoutUsageLogsInput>
+  }
+
+  export type ApiKeyUpdateWithoutUsageLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    prefix?: StringFieldUpdateOperationsInput | string
+    keyHash?: StringFieldUpdateOperationsInput | string
+    status?: EnumApiKeyStatusFieldUpdateOperationsInput | $Enums.ApiKeyStatus
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    project?: ProjectUpdateOneRequiredWithoutApiKeysNestedInput
+    permissions?: ApiKeyEndpointPermissionUpdateManyWithoutApiKeyNestedInput
+  }
+
+  export type ApiKeyUncheckedUpdateWithoutUsageLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    prefix?: StringFieldUpdateOperationsInput | string
+    keyHash?: StringFieldUpdateOperationsInput | string
+    status?: EnumApiKeyStatusFieldUpdateOperationsInput | $Enums.ApiKeyStatus
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    permissions?: ApiKeyEndpointPermissionUncheckedUpdateManyWithoutApiKeyNestedInput
+  }
+
+  export type ProjectEndpointUpsertWithoutUsageLogsInput = {
+    update: XOR<ProjectEndpointUpdateWithoutUsageLogsInput, ProjectEndpointUncheckedUpdateWithoutUsageLogsInput>
+    create: XOR<ProjectEndpointCreateWithoutUsageLogsInput, ProjectEndpointUncheckedCreateWithoutUsageLogsInput>
+    where?: ProjectEndpointWhereInput
+  }
+
+  export type ProjectEndpointUpdateToOneWithWhereWithoutUsageLogsInput = {
+    where?: ProjectEndpointWhereInput
+    data: XOR<ProjectEndpointUpdateWithoutUsageLogsInput, ProjectEndpointUncheckedUpdateWithoutUsageLogsInput>
+  }
+
+  export type ProjectEndpointUpdateWithoutUsageLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    method?: EnumEndpointMethodFieldUpdateOperationsInput | $Enums.EndpointMethod
+    path?: StringFieldUpdateOperationsInput | string
+    routeShape?: StringFieldUpdateOperationsInput | string
+    upstreamUrl?: StringFieldUpdateOperationsInput | string
+    status?: EnumEndpointStatusFieldUpdateOperationsInput | $Enums.EndpointStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    project?: ProjectUpdateOneRequiredWithoutEndpointsNestedInput
+    apiKeyPermissions?: ApiKeyEndpointPermissionUpdateManyWithoutEndpointNestedInput
+  }
+
+  export type ProjectEndpointUncheckedUpdateWithoutUsageLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    method?: EnumEndpointMethodFieldUpdateOperationsInput | $Enums.EndpointMethod
+    path?: StringFieldUpdateOperationsInput | string
+    routeShape?: StringFieldUpdateOperationsInput | string
+    upstreamUrl?: StringFieldUpdateOperationsInput | string
+    status?: EnumEndpointStatusFieldUpdateOperationsInput | $Enums.EndpointStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    apiKeyPermissions?: ApiKeyEndpointPermissionUncheckedUpdateManyWithoutEndpointNestedInput
   }
 
   export type ProjectCreateManyOwnerInput = {
@@ -9534,6 +12219,7 @@ export namespace Prisma {
     endpoints?: ProjectEndpointUpdateManyWithoutProjectNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutProjectNestedInput
     apiKeyEndpointPermissions?: ApiKeyEndpointPermissionUpdateManyWithoutProjectNestedInput
+    usageLogs?: UsageLogUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutOwnerInput = {
@@ -9545,6 +12231,7 @@ export namespace Prisma {
     endpoints?: ProjectEndpointUncheckedUpdateManyWithoutProjectNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutProjectNestedInput
     apiKeyEndpointPermissions?: ApiKeyEndpointPermissionUncheckedUpdateManyWithoutProjectNestedInput
+    usageLogs?: UsageLogUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateManyWithoutOwnerInput = {
@@ -9584,6 +12271,23 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type UsageLogCreateManyProjectInput = {
+    id?: string
+    apiKeyId?: string | null
+    endpointId?: string | null
+    requestMethod: $Enums.EndpointMethod
+    requestPath: string
+    queryString?: string | null
+    outcome: $Enums.UsageLogOutcome
+    gatewayStatusCode: number
+    upstreamStatusCode?: number | null
+    errorCode?: string | null
+    durationMs: number
+    clientIp?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+  }
+
   export type ProjectEndpointUpdateWithoutProjectInput = {
     id?: StringFieldUpdateOperationsInput | string
     method?: EnumEndpointMethodFieldUpdateOperationsInput | $Enums.EndpointMethod
@@ -9594,6 +12298,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     apiKeyPermissions?: ApiKeyEndpointPermissionUpdateManyWithoutEndpointNestedInput
+    usageLogs?: UsageLogUpdateManyWithoutEndpointNestedInput
   }
 
   export type ProjectEndpointUncheckedUpdateWithoutProjectInput = {
@@ -9606,6 +12311,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     apiKeyPermissions?: ApiKeyEndpointPermissionUncheckedUpdateManyWithoutEndpointNestedInput
+    usageLogs?: UsageLogUncheckedUpdateManyWithoutEndpointNestedInput
   }
 
   export type ProjectEndpointUncheckedUpdateManyWithoutProjectInput = {
@@ -9629,6 +12335,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     permissions?: ApiKeyEndpointPermissionUpdateManyWithoutApiKeyNestedInput
+    usageLogs?: UsageLogUpdateManyWithoutApiKeyNestedInput
   }
 
   export type ApiKeyUncheckedUpdateWithoutProjectInput = {
@@ -9641,6 +12348,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     permissions?: ApiKeyEndpointPermissionUncheckedUpdateManyWithoutApiKeyNestedInput
+    usageLogs?: UsageLogUncheckedUpdateManyWithoutApiKeyNestedInput
   }
 
   export type ApiKeyUncheckedUpdateManyWithoutProjectInput = {
@@ -9675,10 +12383,78 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type UsageLogUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requestMethod?: EnumEndpointMethodFieldUpdateOperationsInput | $Enums.EndpointMethod
+    requestPath?: StringFieldUpdateOperationsInput | string
+    queryString?: NullableStringFieldUpdateOperationsInput | string | null
+    outcome?: EnumUsageLogOutcomeFieldUpdateOperationsInput | $Enums.UsageLogOutcome
+    gatewayStatusCode?: IntFieldUpdateOperationsInput | number
+    upstreamStatusCode?: NullableIntFieldUpdateOperationsInput | number | null
+    errorCode?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMs?: IntFieldUpdateOperationsInput | number
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    apiKey?: ApiKeyUpdateOneWithoutUsageLogsNestedInput
+    endpoint?: ProjectEndpointUpdateOneWithoutUsageLogsNestedInput
+  }
+
+  export type UsageLogUncheckedUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    apiKeyId?: NullableStringFieldUpdateOperationsInput | string | null
+    endpointId?: NullableStringFieldUpdateOperationsInput | string | null
+    requestMethod?: EnumEndpointMethodFieldUpdateOperationsInput | $Enums.EndpointMethod
+    requestPath?: StringFieldUpdateOperationsInput | string
+    queryString?: NullableStringFieldUpdateOperationsInput | string | null
+    outcome?: EnumUsageLogOutcomeFieldUpdateOperationsInput | $Enums.UsageLogOutcome
+    gatewayStatusCode?: IntFieldUpdateOperationsInput | number
+    upstreamStatusCode?: NullableIntFieldUpdateOperationsInput | number | null
+    errorCode?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMs?: IntFieldUpdateOperationsInput | number
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UsageLogUncheckedUpdateManyWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    apiKeyId?: NullableStringFieldUpdateOperationsInput | string | null
+    endpointId?: NullableStringFieldUpdateOperationsInput | string | null
+    requestMethod?: EnumEndpointMethodFieldUpdateOperationsInput | $Enums.EndpointMethod
+    requestPath?: StringFieldUpdateOperationsInput | string
+    queryString?: NullableStringFieldUpdateOperationsInput | string | null
+    outcome?: EnumUsageLogOutcomeFieldUpdateOperationsInput | $Enums.UsageLogOutcome
+    gatewayStatusCode?: IntFieldUpdateOperationsInput | number
+    upstreamStatusCode?: NullableIntFieldUpdateOperationsInput | number | null
+    errorCode?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMs?: IntFieldUpdateOperationsInput | number
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ApiKeyEndpointPermissionCreateManyEndpointInput = {
     id?: string
     apiKeyId: string
     projectId: string
+    createdAt?: Date | string
+  }
+
+  export type UsageLogCreateManyEndpointInput = {
+    id?: string
+    projectId?: string | null
+    apiKeyId?: string | null
+    requestMethod: $Enums.EndpointMethod
+    requestPath: string
+    queryString?: string | null
+    outcome: $Enums.UsageLogOutcome
+    gatewayStatusCode: number
+    upstreamStatusCode?: number | null
+    errorCode?: string | null
+    durationMs: number
+    clientIp?: string | null
+    userAgent?: string | null
     createdAt?: Date | string
   }
 
@@ -9703,10 +12479,78 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type UsageLogUpdateWithoutEndpointInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requestMethod?: EnumEndpointMethodFieldUpdateOperationsInput | $Enums.EndpointMethod
+    requestPath?: StringFieldUpdateOperationsInput | string
+    queryString?: NullableStringFieldUpdateOperationsInput | string | null
+    outcome?: EnumUsageLogOutcomeFieldUpdateOperationsInput | $Enums.UsageLogOutcome
+    gatewayStatusCode?: IntFieldUpdateOperationsInput | number
+    upstreamStatusCode?: NullableIntFieldUpdateOperationsInput | number | null
+    errorCode?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMs?: IntFieldUpdateOperationsInput | number
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    project?: ProjectUpdateOneWithoutUsageLogsNestedInput
+    apiKey?: ApiKeyUpdateOneWithoutUsageLogsNestedInput
+  }
+
+  export type UsageLogUncheckedUpdateWithoutEndpointInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    apiKeyId?: NullableStringFieldUpdateOperationsInput | string | null
+    requestMethod?: EnumEndpointMethodFieldUpdateOperationsInput | $Enums.EndpointMethod
+    requestPath?: StringFieldUpdateOperationsInput | string
+    queryString?: NullableStringFieldUpdateOperationsInput | string | null
+    outcome?: EnumUsageLogOutcomeFieldUpdateOperationsInput | $Enums.UsageLogOutcome
+    gatewayStatusCode?: IntFieldUpdateOperationsInput | number
+    upstreamStatusCode?: NullableIntFieldUpdateOperationsInput | number | null
+    errorCode?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMs?: IntFieldUpdateOperationsInput | number
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UsageLogUncheckedUpdateManyWithoutEndpointInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    apiKeyId?: NullableStringFieldUpdateOperationsInput | string | null
+    requestMethod?: EnumEndpointMethodFieldUpdateOperationsInput | $Enums.EndpointMethod
+    requestPath?: StringFieldUpdateOperationsInput | string
+    queryString?: NullableStringFieldUpdateOperationsInput | string | null
+    outcome?: EnumUsageLogOutcomeFieldUpdateOperationsInput | $Enums.UsageLogOutcome
+    gatewayStatusCode?: IntFieldUpdateOperationsInput | number
+    upstreamStatusCode?: NullableIntFieldUpdateOperationsInput | number | null
+    errorCode?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMs?: IntFieldUpdateOperationsInput | number
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ApiKeyEndpointPermissionCreateManyApiKeyInput = {
     id?: string
     projectId: string
     endpointId: string
+    createdAt?: Date | string
+  }
+
+  export type UsageLogCreateManyApiKeyInput = {
+    id?: string
+    projectId?: string | null
+    endpointId?: string | null
+    requestMethod: $Enums.EndpointMethod
+    requestPath: string
+    queryString?: string | null
+    outcome: $Enums.UsageLogOutcome
+    gatewayStatusCode: number
+    upstreamStatusCode?: number | null
+    errorCode?: string | null
+    durationMs: number
+    clientIp?: string | null
+    userAgent?: string | null
     createdAt?: Date | string
   }
 
@@ -9728,6 +12572,57 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     projectId?: StringFieldUpdateOperationsInput | string
     endpointId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UsageLogUpdateWithoutApiKeyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requestMethod?: EnumEndpointMethodFieldUpdateOperationsInput | $Enums.EndpointMethod
+    requestPath?: StringFieldUpdateOperationsInput | string
+    queryString?: NullableStringFieldUpdateOperationsInput | string | null
+    outcome?: EnumUsageLogOutcomeFieldUpdateOperationsInput | $Enums.UsageLogOutcome
+    gatewayStatusCode?: IntFieldUpdateOperationsInput | number
+    upstreamStatusCode?: NullableIntFieldUpdateOperationsInput | number | null
+    errorCode?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMs?: IntFieldUpdateOperationsInput | number
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    project?: ProjectUpdateOneWithoutUsageLogsNestedInput
+    endpoint?: ProjectEndpointUpdateOneWithoutUsageLogsNestedInput
+  }
+
+  export type UsageLogUncheckedUpdateWithoutApiKeyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    endpointId?: NullableStringFieldUpdateOperationsInput | string | null
+    requestMethod?: EnumEndpointMethodFieldUpdateOperationsInput | $Enums.EndpointMethod
+    requestPath?: StringFieldUpdateOperationsInput | string
+    queryString?: NullableStringFieldUpdateOperationsInput | string | null
+    outcome?: EnumUsageLogOutcomeFieldUpdateOperationsInput | $Enums.UsageLogOutcome
+    gatewayStatusCode?: IntFieldUpdateOperationsInput | number
+    upstreamStatusCode?: NullableIntFieldUpdateOperationsInput | number | null
+    errorCode?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMs?: IntFieldUpdateOperationsInput | number
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UsageLogUncheckedUpdateManyWithoutApiKeyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    endpointId?: NullableStringFieldUpdateOperationsInput | string | null
+    requestMethod?: EnumEndpointMethodFieldUpdateOperationsInput | $Enums.EndpointMethod
+    requestPath?: StringFieldUpdateOperationsInput | string
+    queryString?: NullableStringFieldUpdateOperationsInput | string | null
+    outcome?: EnumUsageLogOutcomeFieldUpdateOperationsInput | $Enums.UsageLogOutcome
+    gatewayStatusCode?: IntFieldUpdateOperationsInput | number
+    upstreamStatusCode?: NullableIntFieldUpdateOperationsInput | number | null
+    errorCode?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMs?: IntFieldUpdateOperationsInput | number
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

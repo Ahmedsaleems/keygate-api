@@ -170,6 +170,24 @@ exports.Prisma.ApiKeyEndpointPermissionScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.UsageLogScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  apiKeyId: 'apiKeyId',
+  endpointId: 'endpointId',
+  requestMethod: 'requestMethod',
+  requestPath: 'requestPath',
+  queryString: 'queryString',
+  outcome: 'outcome',
+  gatewayStatusCode: 'gatewayStatusCode',
+  upstreamStatusCode: 'upstreamStatusCode',
+  errorCode: 'errorCode',
+  durationMs: 'durationMs',
+  clientIp: 'clientIp',
+  userAgent: 'userAgent',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -202,12 +220,26 @@ exports.ApiKeyStatus = exports.$Enums.ApiKeyStatus = {
   REVOKED: 'REVOKED'
 };
 
+exports.UsageLogOutcome = exports.$Enums.UsageLogOutcome = {
+  SUCCESS: 'SUCCESS',
+  API_KEY_MISSING: 'API_KEY_MISSING',
+  API_KEY_INVALID: 'API_KEY_INVALID',
+  API_KEY_REVOKED: 'API_KEY_REVOKED',
+  ENDPOINT_NOT_FOUND: 'ENDPOINT_NOT_FOUND',
+  ENDPOINT_DISABLED: 'ENDPOINT_DISABLED',
+  PERMISSION_DENIED: 'PERMISSION_DENIED',
+  UPSTREAM_ERROR: 'UPSTREAM_ERROR',
+  GATEWAY_VALIDATION_ERROR: 'GATEWAY_VALIDATION_ERROR',
+  UNKNOWN_ERROR: 'UNKNOWN_ERROR'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Project: 'Project',
   ProjectEndpoint: 'ProjectEndpoint',
   ApiKey: 'ApiKey',
-  ApiKeyEndpointPermission: 'ApiKeyEndpointPermission'
+  ApiKeyEndpointPermission: 'ApiKeyEndpointPermission',
+  UsageLog: 'UsageLog'
 };
 
 /**
