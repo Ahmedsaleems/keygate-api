@@ -124,11 +124,11 @@ model UsageLog {
   apiKey   ApiKey?          @relation(fields: [apiKeyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   endpoint ProjectEndpoint? @relation(fields: [endpointId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
+  @@unique([createdAt, id])
   @@index([projectId, createdAt, id])
   @@index([apiKeyId, createdAt])
   @@index([endpointId, createdAt])
   @@index([projectId, outcome, createdAt])
-  @@index([createdAt, id])
   @@map("usage_logs")
 }
 

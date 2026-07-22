@@ -9160,6 +9160,7 @@ export namespace Prisma {
 
   export type UsageLogWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    createdAt_id?: UsageLogCreatedAtIdCompoundUniqueInput
     AND?: UsageLogWhereInput | UsageLogWhereInput[]
     OR?: UsageLogWhereInput[]
     NOT?: UsageLogWhereInput | UsageLogWhereInput[]
@@ -9180,7 +9181,7 @@ export namespace Prisma {
     project?: XOR<ProjectNullableScalarRelationFilter, ProjectWhereInput> | null
     apiKey?: XOR<ApiKeyNullableScalarRelationFilter, ApiKeyWhereInput> | null
     endpoint?: XOR<ProjectEndpointNullableScalarRelationFilter, ProjectEndpointWhereInput> | null
-  }, "id">
+  }, "id" | "createdAt_id">
 
   export type UsageLogOrderByWithAggregationInput = {
     id?: SortOrder
@@ -10174,6 +10175,11 @@ export namespace Prisma {
   export type ProjectEndpointNullableScalarRelationFilter = {
     is?: ProjectEndpointWhereInput | null
     isNot?: ProjectEndpointWhereInput | null
+  }
+
+  export type UsageLogCreatedAtIdCompoundUniqueInput = {
+    createdAt: Date | string
+    id: string
   }
 
   export type UsageLogCountOrderByAggregateInput = {
